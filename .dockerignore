@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+**/.git/
+**/.DS_Store
+data/
+OptiDrive.Web/App_Data/
+node_modules/
+.next/

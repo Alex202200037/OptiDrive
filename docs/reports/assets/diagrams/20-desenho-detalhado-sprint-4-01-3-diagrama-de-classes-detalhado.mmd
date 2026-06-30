@@ -1,0 +1,37 @@
+classDiagram
+    class SocialController {
+        Index()
+        SaveProfile()
+        SendMessage()
+        AddContact()
+        CreateTrip()
+        StartTrip()
+    }
+    class SocialProfile {
+        Guid UserId
+        string DisplayName
+        string Bio
+        string Location
+        bool IsOnline
+    }
+    class TrustedContact {
+        Guid OwnerUserId
+        Guid ContactUserId
+        string TrustLevel
+    }
+    class DirectMessage {
+        Guid SenderId
+        Guid ReceiverId
+        string Body
+        DateTime SentAt
+    }
+    class CollaborativeTrip {
+        string Name
+        string Participants
+        string Status
+        decimal SplitAmount
+    }
+    SocialController --> SocialProfile
+    SocialController --> TrustedContact
+    SocialController --> DirectMessage
+    SocialController --> CollaborativeTrip

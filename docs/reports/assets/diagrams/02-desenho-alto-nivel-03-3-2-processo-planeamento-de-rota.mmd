@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor C as Condutor
+    participant UI as Planning View
+    participant PC as PlanningController
+    participant G as GoogleDirectionsService
+    participant S as SmartSaveService
+    participant A as AppStateService
+    C->>UI: Introduz origem, destino e veículo
+    UI->>PC: Submete pedido
+    PC->>G: Calcula rota e instruções
+    PC->>S: Calcula consumo, reforços e custo
+    S->>A: Consulta veículo e postos
+    A-->>S: Dados de garagem/postos
+    S-->>PC: Plano Smart Save
+    PC-->>UI: Rota visual, custo e recomendação

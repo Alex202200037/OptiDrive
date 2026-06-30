@@ -1,0 +1,295 @@
+@using OptiDrive.Web.Models
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Planeamento";
+    var googleMapsApiKey = (string)(ViewBag.GoogleMapsApiKey ?? string.Empty);
+    var selectedRoute = Model.Routes.FirstOrDefault(route => route.Id == Model.SelectedRouteId) ?? Model.Routes.FirstOrDefault();
+    var selectedVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == selectedRoute?.VehicleId);
+    var routeUnit = selectedVehicle?.FuelKind == FuelKind.Electric ? "kWh" : "L";
+    var adjustedConsumption = (selectedRoute?.AdjustedConsumptionPer100 ?? 0) > 0 ? selectedRoute!.AdjustedConsumptionPer100 : selectedVehicle?.AverageConsumption ?? 0;
+    var averageSpeed = (selectedRoute?.AverageSpeedKmh ?? 0) > 0 ? selectedRoute!.AverageSpeedKmh : Model.RouteInput.AverageSpeed;
+    var consumptionFactor = (selectedRoute?.ConsumptionSpeedFactor ?? 0) > 0 ? selectedRoute!.ConsumptionSpeedFactor : 1;
+    var minimumArrivalPercent = (selectedRoute?.MinimumArrivalLevelPercent ?? 0) > 0 ? selectedRoute!.MinimumArrivalLevelPercent : selectedVehicle?.FuelKind == FuelKind.Electric ? 12 : 8;
+}
+
+<section class="page-hero">
+    <div>
+        <p class="eyebrow">Planeamento</p>
+        <h1>Mapa, postos e itinerário num só cockpit</h1>
+        <p class="text-soft">Calcula, guarda e aplica rotas ao veículo certo. Quando assumires a viagem, o combustível/carga baixa e isso entra no histórico do carro.</p>
+    </div>
+    <div class="hero-actions">
+        <span class="mini-pill">Mapa: @(string.IsNullOrWhiteSpace(googleMapsApiKey) ? "Fallback Leaflet" : "Google Maps ativo")</span>
+        <span class="mini-pill">@Model.Routes.Count rota(s) guardada(s)</span>
+    </div>
+</section>
+
+<section class="planning-layout">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Nova rota</p>
+                <h2>Planeador inteligente</h2>
+            </div>
+        </div>
+        @if (TempData["PlanningSuccess"] is string planningSuccess)
+        {
+            <div class="alert alert-success mt-3">@planningSuccess</div>
+        }
+        @if (TempData["PlanningError"] is string planningError)
+        {
+            <div class="alert alert-danger mt-3">@planningError</div>
+        }
+        <form asp-controller="Planning" asp-action="PlanRoute" method="post" class="row g-3 mt-1" data-place-search-url="/api/planning/search-places">
+            <div class="col-md-6">
+                <label asp-for="RouteInput.VehicleId" class="form-label">Veículo</label>
+                <select asp-for="RouteInput.VehicleId" id="route-vehicle" class="form-select app-control app-control--light">
+                    @foreach (var vehicle in Model.Vehicles)
+                    {
+                        <option value="@vehicle.Id" data-fuel-kind="@vehicle.FuelKind">@vehicle.Nickname</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.AverageSpeed" class="form-label">Velocidade média</label>
+                <input asp-for="RouteInput.AverageSpeed" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.Origin" class="form-label">Origem</label>
+                <input asp-for="RouteInput.Origin" class="form-control app-control app-control--light place-search-input" placeholder="Ex: Rua Augusta, Lisboa" autocomplete="off" data-google-place-input="origin" />
+                <div class="place-suggestions"></div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.Destination" class="form-label">Destino</label>
+                <input asp-for="RouteInput.Destination" class="form-control app-control app-control--light place-search-input" placeholder="Ex: Avenida da Liberdade, Lisboa" autocomplete="off" data-google-place-input="destination" />
+                <div class="place-suggestions"></div>
+            </div>
+            <div class="col-12">
+                <label asp-for="RouteInput.Waypoints" class="form-label">Pontos intermédios (opcional)</label>
+                <input asp-for="RouteInput.Waypoints" class="form-control app-control app-control--light" placeholder="Ex: Palmela, Alcacer do Sal, Grandola" />
+                <small class="form-text text-muted">Podes deixar este campo vazio se quiseres só origem e destino.</small>
+            </div>
+            <div class="col-12">
+                <div class="form-check route-toggle">
+                    <input asp-for="RouteInput.AvoidTolls" class="form-check-input" />
+                    <label asp-for="RouteInput.AvoidTolls" class="form-check-label">Evitar portagens</label>
+                </div>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+                <button type="submit" class="btn btn-brand">Calcular e guardar rota</button>
+                <span class="form-text text-muted">As rotas calculadas ficam guardadas automaticamente na lista abaixo.</span>
+            </div>
+        </form>
+
+        @if (selectedRoute is not null)
+        {
+            <div class="route-summary route-summary--planning">
+                <div class="summary-card">
+                    <p class="eyebrow">Resumo</p>
+                    <h3>@selectedRoute.Origin → @selectedRoute.Destination</h3>
+                    <p>@selectedRoute.DistanceKm km · ETA @selectedRoute.EtaMinutes min</p>
+                    <p>Portagens @selectedRoute.TollCost.ToString("0.00") EUR · Score @selectedRoute.SavingsScore/10</p>
+                    @if (selectedVehicle is not null)
+                    {
+                        <p class="mt-2">Ligada a <strong>@selectedVehicle.Nickname</strong> · @selectedVehicle.FuelKind</p>
+                    }
+                </div>
+                <div class="summary-card summary-card--accent">
+                    <p class="eyebrow">Smart Save</p>
+                    <h3>@selectedRoute.RecommendedStationName</h3>
+                    <p>@selectedRoute.Recommendation</p>
+                    <p class="mt-2">@selectedRoute.CriticalAlert</p>
+                    <p class="mt-2">Ao assumir a viagem, o nível do veículo desce e o histórico da garagem fica atualizado.</p>
+                    @if (Model.LatestRouteStops.Count > 0)
+                    {
+                        <div class="route-stop-stack mt-3">
+                            @for (var index = 0; index < Model.LatestRouteStops.Count; index++)
+                            {
+                                var stop = Model.LatestRouteStops[index];
+                                <div class="route-stop-card">
+                                    <span class="route-stop-index">Paragem @(index + 1)</span>
+                                    <strong>@stop.StationName</strong>
+                                    <p>@stop.Brand · @stop.City · km @stop.ProgressKm.ToString("0")</p>
+                                    <p>
+                                        @if (stop.Price > 0)
+                                        {
+                                            <span>@stop.Price.ToString("0.000") EUR · </span>
+                                        }
+                                        else
+                                        {
+                                            <span>Preço por confirmar · </span>
+                                        }
+                                        <span>Repor @stop.SuggestedAmount.ToString("0.0") @(stop.FuelKind == FuelKind.Electric ? "kWh" : "L")</span>
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    }
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        @if (!selectedRoute.IsAppliedToVehicle)
+                        {
+                            <form asp-controller="Planning" asp-action="ApplyRoute" method="post">
+                                <input type="hidden" name="id" value="@selectedRoute.Id" />
+                                <button type="submit" class="btn btn-brand">Assumir viagem neste veículo</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="mini-pill mini-pill--accent">Viagem já assumida</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="route-impact-grid">
+                <article class="summary-card">
+                    <p class="eyebrow">Consumo previsto</p>
+                    <h3>@selectedRoute.EstimatedConsumptionAmount.ToString("0.0") @routeUnit</h3>
+                    <p>@adjustedConsumption.ToString("0.0") @routeUnit/100 km ajustado a @averageSpeed km/h</p>
+                    <p>@(selectedVehicle is null ? "Sem veículo ligado" : $"Nível atual {selectedVehicle.CurrentLevelPercent}% · fator velocidade {(consumptionFactor * 100).ToString("0")}%")</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Chegada estimada</p>
+                    <h3>@selectedRoute.EstimatedArrivalLevelPercent%</h3>
+                    <p>Sem paragens ficaria em ~@selectedRoute.EstimatedDirectArrivalLevelPercent%</p>
+                    <p>Margem mínima Smart Save: @minimumArrivalPercent%</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Reforço planeado</p>
+                    <h3>@selectedRoute.TotalSuggestedReplenishmentAmount.ToString("0.0") @routeUnit</h3>
+                    <p>@selectedRoute.SuggestedStopCount paragem(ns) sugerida(s)</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Impacto ambiental</p>
+                    <h3>@selectedRoute.CarbonKg.ToString("0.0") kg</h3>
+                    <p>@(selectedVehicle?.FuelKind == FuelKind.Electric ? "Estimativa equivalente elétrica" : "Emissões estimadas da viagem")</p>
+                </article>
+            </div>
+
+            <section class="route-timeline-panel">
+                <div class="garage-history-head">
+                    <div>
+                        <p class="eyebrow">Linha da rota</p>
+                        <h4>Itinerário operacional</h4>
+                    </div>
+                    <span class="garage-history-note">Origem, paragens Smart Save e destino</span>
+                </div>
+                <div class="route-timeline">
+                    <article class="route-timeline-item">
+                        <span class="route-timeline-dot is-origin"></span>
+                        <div>
+                            <strong>Origem</strong>
+                            <p>@selectedRoute.Origin</p>
+                        </div>
+                    </article>
+                    @for (var index = 0; index < Model.LatestRouteStops.Count; index++)
+                    {
+                        var stop = Model.LatestRouteStops[index];
+                        <article class="route-timeline-item">
+                            <span class="route-timeline-dot is-stop">@(index + 1)</span>
+                            <div>
+                                <strong>@stop.StationName</strong>
+                                <p>@stop.Brand · @stop.City · km @stop.ProgressKm.ToString("0") · repor @stop.SuggestedAmount.ToString("0.0") @routeUnit</p>
+                            </div>
+                        </article>
+                    }
+                    <article class="route-timeline-item">
+                        <span class="route-timeline-dot is-destination"></span>
+                        <div>
+                            <strong>Destino</strong>
+                            <p>@selectedRoute.Destination · chegada estimada ~@selectedRoute.EstimatedArrivalLevelPercent%</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        }
+
+        <section class="route-library-panel">
+            <div class="panel-top route-library-head">
+                <div>
+                    <p class="eyebrow">Rotas guardadas</p>
+                    <h3>@Model.Routes.Count rota(s)</h3>
+                </div>
+            </div>
+            @if (Model.Routes.Count == 0)
+            {
+                <div class="garage-history-empty">Ainda não tens rotas guardadas.</div>
+            }
+            else
+            {
+                <div class="route-library-list">
+                    @foreach (var route in Model.Routes.Take(8))
+                    {
+                        var routeVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == route.VehicleId);
+                        var isSelected = selectedRoute?.Id == route.Id;
+                        <article class="route-library-card @(isSelected ? "is-selected" : string.Empty)">
+                            <div class="route-library-card__head">
+                                <div>
+                                    <strong>@route.Origin → @route.Destination</strong>
+                                    <p>@route.DistanceKm km · ETA @route.EtaMinutes min · @route.CreatedAt.ToLocalTime().ToString("dd/MM HH:mm")</p>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 justify-content-end">
+                                    @if (routeVehicle is not null)
+                                    {
+                                        <span class="mini-pill">@routeVehicle.Nickname</span>
+                                    }
+                                    <span class="mini-pill @(route.IsAppliedToVehicle ? "mini-pill--ok" : "mini-pill--muted")">@(route.IsAppliedToVehicle ? "Aplicada" : "Guardada")</span>
+                                </div>
+                            </div>
+                            <div class="route-library-card__foot">
+                                <span>Custo @route.CheapestCost.ToString("0.00") EUR</span>
+                                <span>Portagens @route.TollCost.ToString("0.00") EUR</span>
+                                <span>Consumo @route.EstimatedConsumptionAmount.ToString("0.0") @(routeVehicle?.FuelKind == FuelKind.Electric ? "kWh" : "L")</span>
+                                <span>@(route.AverageSpeedKmh > 0 ? $"{route.AverageSpeedKmh} km/h" : "Velocidade por defeito")</span>
+                                <span>Chegada ~@route.EstimatedArrivalLevelPercent%</span>
+                                <span>@(route.SuggestedStopCount == 0 ? "Sem paragens extra" : $"{route.SuggestedStopCount} paragem(ns) planeada(s)")</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <a class="btn btn-ghost-dark btn-sm" asp-controller="Planning" asp-action="Index" asp-route-routeId="@route.Id">Abrir rota</a>
+                                @if (!route.IsAppliedToVehicle)
+                                {
+                                    <form asp-controller="Planning" asp-action="ApplyRoute" method="post">
+                                        <input type="hidden" name="id" value="@route.Id" />
+                                        <button type="submit" class="btn btn-brand btn-sm">Aplicar ao veículo</button>
+                                    </form>
+                                }
+                            </div>
+                        </article>
+                    }
+                </div>
+            }
+        </section>
+    </article>
+
+    <article class="panel-card map-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Mapa vivo</p>
+                <h2>Postos e rota</h2>
+            </div>
+        </div>
+        <div class="map-toolbar">
+            <button type="button" class="map-filter-chip active" data-fuel-filter="">Todos</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Diesel">Gasóleo</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Gasoline95">Gasolina 95</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="GPL">GPL</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Electric">Elétricos</button>
+            <select id="brand-filter" class="form-select app-control app-control--light brand-filter">
+                <option value="">Todas as marcas</option>
+            </select>
+        </div>
+        <div id="planner-map"
+             class="planner-map"
+             data-google-key="@googleMapsApiKey"
+             data-map-endpoint="/api/planning/map-data"
+             data-route-id="@(selectedRoute?.Id.ToString() ?? string.Empty)">
+        </div>
+        <div id="planner-cost-summary" class="planner-cost-summary"></div>
+        <div id="planner-directions" class="planner-directions"></div>
+    </article>
+</section>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="~/js/planning-map.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,87 @@
+﻿@inject OptiDrive.Web.Services.AppStateService AppState
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OptiDrive</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        (() => {
+            const theme = localStorage.getItem("optidrive-theme") || "light";
+            const language = localStorage.getItem("optidrive-language") || "pt";
+            document.documentElement.dataset.theme = theme;
+            document.documentElement.lang = language === "en" ? "en" : "pt-PT";
+        })();
+    </script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OptiDrive.Web.styles.css" asp-append-version="true" />
+</head>
+<body class="app-shell">
+    @{
+        var currentUserId = Context.Session.GetCurrentUserId();
+        var isAuthenticated = currentUserId is not null;
+        var isAdmin = AppState.IsAdmin(currentUserId);
+        var currentController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty).ToLowerInvariant();
+    }
+    <div class="orb orb-left"></div>
+    <div class="orb orb-right"></div>
+    <header class="site-header">
+        <div class="container-xxl d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <a class="brandmark" asp-controller="Home" asp-action="Index">OptiDrive</a>
+            <div class="shell-nav-stack">
+                <nav class="d-flex flex-wrap align-items-center gap-2">
+                    @if (isAuthenticated)
+                    {
+                        <a class="nav-chip @(currentController == "profile" ? "nav-chip--active" : "")" asp-controller="Profile" asp-action="Index">Perfil</a>
+                        @if (!isAdmin)
+                        {
+                            <a class="nav-chip @(currentController == "garage" ? "nav-chip--active" : "")" asp-controller="Garage" asp-action="Index">Garagem</a>
+                            <a class="nav-chip @(currentController == "planning" ? "nav-chip--active" : "")" asp-controller="Planning" asp-action="Index">Planeamento</a>
+                        }
+                        <a class="nav-chip @(currentController == "social" ? "nav-chip--active" : "")" asp-controller="Social" asp-action="Index">Social</a>
+                        @if (isAdmin)
+                        {
+                            <a class="nav-chip nav-chip--admin @(currentController == "admin" ? "nav-chip--active" : "")" asp-controller="Admin" asp-action="Index">Backoffice</a>
+                        }
+                    }
+                    else
+                    {
+                        <a class="nav-chip @(currentController == "home" ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="nav-chip @(currentController == "home" && (ViewContext.RouteData.Values["action"]?.ToString() == "Login") ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Login">Entrar</a>
+                        <a class="nav-chip @(currentController == "home" && (ViewContext.RouteData.Values["action"]?.ToString() == "Register") ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Register">Criar conta</a>
+                    }
+                </nav>
+                <div class="shell-tools" aria-label="Preferências da interface">
+                    <button type="button" class="nav-chip nav-chip--button" data-theme-toggle>
+                        <span data-theme-label>Modo escuro</span>
+                    </button>
+                    <div class="language-switch" aria-label="Idioma">
+                        <button type="button" data-language-option="pt">PT</button>
+                        <button type="button" data-language-option="en">EN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-xxl pb-5">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="site-footer">
+        <div class="container-xxl d-flex flex-wrap justify-content-between gap-2">
+            <span>OptiDrive 2026</span>
+            <span>Planeamento inteligente de viagens, custos e energia.</span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

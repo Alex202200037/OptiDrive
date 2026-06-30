@@ -1,0 +1,5 @@
+flowchart LR
+    Dev[MacBook] --> Docker[Docker Compose]
+    Docker --> Web[optidrive-web:8080]
+    Web --> Volume[data/optidrive.db]
+    Browser[127.0.0.1:5080] --> Web

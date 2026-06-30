@@ -1,0 +1,455 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Social";
+    var activeTrip = Model.CollaborativeTrips.FirstOrDefault(trip => trip.Status == CollaborativeTripStatus.Active);
+    var routeOptions = Model.Routes.Take(8).ToList();
+    var directory = Model.SocialDirectory.ToList();
+    var connectedPeople = directory.Where(member => member.AccessState == "Connected").ToList();
+    var selectablePeople = connectedPeople.Count > 0 ? connectedPeople : directory;
+    var onlineMembers = directory.Count(member => member.IsOnline);
+    var memberNames = Model.SocialMembers.ToDictionary(
+        member => member.Email,
+        member => directory.FirstOrDefault(card => card.UserId == member.Id)?.DisplayName ?? member.Name,
+        StringComparer.OrdinalIgnoreCase);
+    memberNames[Model.User.Email] = string.IsNullOrWhiteSpace(Model.SocialProfile.DisplayName) ? Model.User.Name : Model.SocialProfile.DisplayName;
+
+    string TripStatusLabel(CollaborativeTripStatus status) => status switch
+    {
+        CollaborativeTripStatus.Planned => "Planeada",
+        CollaborativeTripStatus.Scheduled => "Agendada",
+        CollaborativeTripStatus.Active => "Ativa",
+        CollaborativeTripStatus.Completed => "Concluída",
+        CollaborativeTripStatus.Cancelled => "Cancelada",
+        _ => "Planeada"
+    };
+
+    string ConnectionLabel(string state) => state switch
+    {
+        "Connected" => "No teu círculo",
+        "PendingSent" => "Pedido enviado",
+        "PendingReceived" => "Quer ligar-se a ti",
+        _ => "Descobrir"
+    };
+
+    string PresenceLabel(SocialMemberCardViewModel member)
+        => member.IsOnline ? "Online agora" : "Visto recentemente";
+
+    string MemberName(string internalEmail)
+        => memberNames.TryGetValue(internalEmail, out var name) ? name : "Participante";
+}
+
+<section class="page-hero social-hero">
+    <div>
+        <p class="eyebrow">Comunidade</p>
+        <h1>Viaja com a tua rede, sem expor dados privados.</h1>
+        <p class="text-soft">Procura pessoas por nome, pede acesso ao perfil social, combina boleias e inicia viagens em grupo com presença em tempo real.</p>
+    </div>
+    <div class="hero-actions">
+        <span class="mini-pill">@connectedPeople.Count no círculo</span>
+        <span class="mini-pill">@Model.CollaborativeTrips.Count viagens sociais</span>
+        <span class="mini-pill" id="socialPulseStatus">@onlineMembers online</span>
+    </div>
+</section>
+
+@if (TempData["Success"] is string success)
+{
+    <div class="alert alert-success mt-4">@success</div>
+}
+
+<section class="social-network-shell">
+    <aside class="panel-card social-profile-card social-profile-card--compact">
+        <div class="social-profile-cover"></div>
+        <div class="social-profile-main">
+            @if (!string.IsNullOrWhiteSpace(Model.User.AvatarUrl))
+            {
+                <img class="social-avatar social-avatar--xl" src="@Model.User.AvatarUrl" alt="@Model.SocialProfile.DisplayName" />
+            }
+            else
+            {
+                <span class="social-avatar social-avatar--xl">@string.Concat((Model.SocialProfile.DisplayName ?? Model.User.Name).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(part => part[0]).Take(2)).ToUpperInvariant()</span>
+            }
+            <p class="eyebrow">Perfil visível</p>
+            <h2>@Model.SocialProfile.DisplayName</h2>
+            <p class="text-soft">@Model.SocialProfile.Bio</p>
+            <div class="profile-stats profile-stats--social mt-3">
+                <div><span>Cidade</span><strong>@(string.IsNullOrWhiteSpace(Model.SocialProfile.HomeCity) ? "N/D" : Model.SocialProfile.HomeCity)</strong></div>
+                <div><span>Estilo</span><strong>@Model.SocialProfile.DrivingStyle</strong></div>
+                <div><span>Boleias</span><strong>@(Model.SocialProfile.IsOpenToCarpool ? "Aberto" : "Fechado")</strong></div>
+            </div>
+        </div>
+        <form asp-controller="Social" asp-action="UpdateProfile" method="post" class="mini-panel social-edit-panel mt-4">
+            <input asp-for="SocialProfileInput.DisplayName" class="form-control app-control app-control--light" placeholder="Nome público" />
+            <input asp-for="SocialProfileInput.HomeCity" class="form-control app-control app-control--light mt-3" placeholder="Cidade base" />
+            <select asp-for="SocialProfileInput.DrivingStyle" class="form-select app-control app-control--light mt-3">
+                <option>Económico</option>
+                <option>Equilibrado</option>
+                <option>Rápido</option>
+                <option>Eco EV</option>
+            </select>
+            <input asp-for="SocialProfileInput.PreferredFuelBrands" class="form-control app-control app-control--light mt-3" placeholder="Marcas preferidas" />
+            <textarea asp-for="SocialProfileInput.Bio" class="form-control app-control app-control--light mt-3" rows="3" placeholder="Bio pública"></textarea>
+            <div class="social-toggle-row">
+                <label><input asp-for="SocialProfileInput.IsOpenToCarpool" /> Disponível para boleias</label>
+                <label><input asp-for="SocialProfileInput.ShareLiveTripStatus" /> Partilhar estado de viagem</label>
+            </div>
+            <button type="submit" class="btn btn-brand mt-3">Guardar perfil</button>
+        </form>
+    </aside>
+
+    <main class="social-main-feed">
+        <article class="panel-card social-active-trip" data-social-pulse-url="@Url.Action("Pulse", "Social")">
+            <div>
+                <p class="eyebrow">Viagem em curso</p>
+                @if (activeTrip is null)
+                {
+                    <h2 id="activeTripName">Nenhuma viagem ativa</h2>
+                    <p class="text-soft">Cria uma viagem colaborativa ou inicia uma já agendada para coordenar todos em tempo real.</p>
+                }
+                else
+                {
+                    <h2 id="activeTripName">@activeTrip.Name</h2>
+                    <p id="activeTripRoute">@activeTrip.Origin → @activeTrip.Destination</p>
+                    <div class="route-timeline mt-3">
+                        <div><strong>Encontro</strong><span>@activeTrip.MeetingPoint</span></div>
+                        <div><strong>Participantes</strong><span id="activeTripMembers">@activeTrip.Members.Count pessoas</span></div>
+                        <div><strong>Split</strong><span>@activeTrip.EstimatedSplitAmount.ToString("0.00") EUR</span></div>
+                    </div>
+                }
+            </div>
+        </article>
+
+        <article class="panel-card social-stories-card mt-4">
+            <div class="panel-top">
+                <div>
+                    <p class="eyebrow">Online agora</p>
+                    <h2>Presença da comunidade</h2>
+                </div>
+                <span class="mini-pill">Privado por defeito</span>
+            </div>
+            <div class="social-stories" aria-label="Pessoas online">
+                @foreach (var member in directory.Take(8))
+                {
+                    <div class="story-avatar" title="@member.DisplayName">
+                        @if (!string.IsNullOrWhiteSpace(member.AvatarUrl))
+                        {
+                            <img src="@member.AvatarUrl" alt="@member.DisplayName" />
+                        }
+                        else
+                        {
+                            <span>@member.Initials</span>
+                        }
+                        <small>@member.DisplayName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()</small>
+                    </div>
+                }
+            </div>
+        </article>
+
+        <article class="panel-card social-discovery-card mt-4">
+            <div class="panel-top social-search-head">
+                <div>
+                    <p class="eyebrow">Descobrir pessoas</p>
+                    <h2>Pesquisar e pedir acesso</h2>
+                </div>
+                <input class="form-control app-control app-control--light social-search-input" type="search" placeholder="Pesquisar por nome, cidade ou estilo" data-social-search />
+            </div>
+
+            @if (Model.IncomingAccessRequests.Count > 0)
+            {
+                <div class="access-request-strip mt-3">
+                    @foreach (var request in Model.IncomingAccessRequests)
+                    {
+                        <div class="access-request-card">
+                            <div class="social-person-mini">
+                                @if (!string.IsNullOrWhiteSpace(request.AvatarUrl))
+                                {
+                                    <img src="@request.AvatarUrl" alt="@request.DisplayName" />
+                                }
+                                else
+                                {
+                                    <span>@request.Initials</span>
+                                }
+                                <div>
+                                    <strong>@request.DisplayName</strong>
+                                    <small>pediu acesso ao teu perfil</small>
+                                </div>
+                            </div>
+                            <div class="access-actions">
+                                <form asp-controller="Social" asp-action="AcceptAccess" method="post">
+                                    <input type="hidden" name="requestId" value="@request.RequestId" />
+                                    <button type="submit" class="btn btn-brand btn-sm">Aceitar</button>
+                                </form>
+                                <form asp-controller="Social" asp-action="DeclineAccess" method="post">
+                                    <input type="hidden" name="requestId" value="@request.RequestId" />
+                                    <button type="submit" class="btn btn-ghost-dark btn-sm">Agora não</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="social-directory-grid mt-4">
+                @foreach (var member in directory)
+                {
+                    <article class="social-person-card" data-social-card data-search="@($"{member.DisplayName} {member.HomeCity} {member.DrivingStyle} {member.PreferredFuelBrands}".ToLowerInvariant())">
+                        <div class="social-person-top">
+                            @if (!string.IsNullOrWhiteSpace(member.AvatarUrl))
+                            {
+                                <img class="social-avatar" src="@member.AvatarUrl" alt="@member.DisplayName" />
+                            }
+                            else
+                            {
+                                <span class="social-avatar">@member.Initials</span>
+                            }
+                            <div>
+                                <strong>@member.DisplayName</strong>
+                                <small>@PresenceLabel(member)</small>
+                            </div>
+                        </div>
+                        <p>@member.Bio</p>
+                        <div class="social-tags">
+                            @if (!string.IsNullOrWhiteSpace(member.HomeCity))
+                            {
+                                <span>@member.HomeCity</span>
+                            }
+                            <span>@member.DrivingStyle</span>
+                            <span>@(member.IsOpenToCarpool ? "Aceita boleias" : "Perfil reservado")</span>
+                        </div>
+                        <div class="social-person-metrics">
+                            <div><strong>@member.VehicleCount</strong><span>veículos</span></div>
+                            <div><strong>@member.SharedTripCount</strong><span>viagens</span></div>
+                        </div>
+                        <div class="social-person-actions">
+                            <span class="mini-pill">@ConnectionLabel(member.AccessState)</span>
+                            @if (member.AccessState == "None")
+                            {
+                                <form asp-controller="Social" asp-action="RequestAccess" method="post">
+                                    <input type="hidden" name="targetUserId" value="@member.UserId" />
+                                    <button type="submit" class="btn btn-brand btn-sm">Pedir acesso</button>
+                                </form>
+                            }
+                            else if (member.AccessState == "PendingReceived")
+                            {
+                                <form asp-controller="Social" asp-action="AcceptAccess" method="post">
+                                    <input type="hidden" name="requestId" value="@member.RequestId" />
+                                    <button type="submit" class="btn btn-brand btn-sm">Aceitar</button>
+                                </form>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+        </article>
+    </main>
+</section>
+
+<section class="social-workbench social-workbench--network">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Mensagens</p>
+                <h2>Conversas privadas</h2>
+            </div>
+        </div>
+        <form asp-controller="Social" asp-action="SendMessage" method="post" class="mini-panel mt-3">
+            <select asp-for="MessageInput.RecipientUserId" class="form-select app-control app-control--light">
+                <option value="">Escolher pessoa</option>
+                @foreach (var member in selectablePeople)
+                {
+                    <option value="@member.UserId">@member.DisplayName</option>
+                }
+            </select>
+            <textarea asp-for="MessageInput.Body" class="form-control app-control app-control--light mt-3" rows="3" placeholder="Escreve uma mensagem"></textarea>
+            <button type="submit" class="btn btn-brand mt-3">Enviar mensagem</button>
+        </form>
+        <div class="message-thread mt-4" id="socialPulseMessages">
+            @foreach (var message in Model.DirectMessages.Take(8))
+            {
+                var mine = message.SenderUserId == Model.User.Id;
+                <div class="message-bubble @(mine ? "message-bubble--mine" : "")">
+                    <strong>@message.SenderName</strong>
+                    <p>@message.Body</p>
+                    <small>@message.SentAtUtc.ToLocalTime().ToString("g")</small>
+                </div>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Viagens colaborativas</p>
+                <h2>Planear em grupo</h2>
+            </div>
+        </div>
+        <form asp-controller="Social" asp-action="CreateTrip" method="post" class="mini-panel mt-3">
+            <input asp-for="CollaborativeTripInput.Name" class="form-control app-control app-control--light" placeholder="Nome da viagem" />
+            <select asp-for="CollaborativeTripInput.RouteId" class="form-select app-control app-control--light mt-3">
+                <option value="">Sem rota associada</option>
+                @foreach (var route in routeOptions)
+                {
+                    <option value="@route.Id">@route.Origin → @route.Destination · @route.DistanceKm.ToString("0.#") km</option>
+                }
+            </select>
+            <select asp-for="CollaborativeTripInput.VehicleId" class="form-select app-control app-control--light mt-3">
+                <option value="">Sem veículo fixo</option>
+                @foreach (var vehicle in Model.Vehicles)
+                {
+                    <option value="@vehicle.Id">@vehicle.Nickname · @vehicle.Brand @vehicle.Model</option>
+                }
+            </select>
+            <div class="split-grid mt-3">
+                <input asp-for="CollaborativeTripInput.Origin" class="form-control app-control app-control--light" placeholder="Origem" />
+                <input asp-for="CollaborativeTripInput.Destination" class="form-control app-control app-control--light" placeholder="Destino" />
+            </div>
+            <input asp-for="CollaborativeTripInput.MeetingPoint" class="form-control app-control app-control--light mt-3" placeholder="Ponto de encontro" />
+            <input asp-for="CollaborativeTripInput.StartsAtLocal" class="form-control app-control app-control--light mt-3" type="datetime-local" />
+            <div class="people-picker mt-3">
+                <strong>Convidar pessoas</strong>
+                <div>
+                    @foreach (var member in selectablePeople.Take(8))
+                    {
+                        <label>
+                            <input type="checkbox" name="CollaborativeTripInput.MemberUserIds" value="@member.UserId" />
+                            <span>@member.DisplayName</span>
+                        </label>
+                    }
+                </div>
+            </div>
+            <input asp-for="CollaborativeTripInput.EstimatedSplitAmount" class="form-control app-control app-control--light mt-3" placeholder="Split estimado" />
+            <textarea asp-for="CollaborativeTripInput.Notes" class="form-control app-control app-control--light mt-3" rows="3" placeholder="Notas da viagem"></textarea>
+            <button type="submit" class="btn btn-brand mt-3">Criar viagem conjunta</button>
+        </form>
+    </article>
+</section>
+
+<section class="social-layout mt-4">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Círculo</p>
+                <h2>Pessoas com acesso</h2>
+            </div>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var member in connectedPeople)
+            {
+                <div class="list-card social-person-mini">
+                    @if (!string.IsNullOrWhiteSpace(member.AvatarUrl))
+                    {
+                        <img src="@member.AvatarUrl" alt="@member.DisplayName" />
+                    }
+                    else
+                    {
+                        <span>@member.Initials</span>
+                    }
+                    <div>
+                        <h3>@member.DisplayName</h3>
+                        <p>@PresenceLabel(member) · @member.DrivingStyle</p>
+                    </div>
+                    <span class="mini-pill">Confiança</span>
+                </div>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Partilha</p>
+                <h2>Veículos partilhados</h2>
+            </div>
+        </div>
+        <form asp-controller="Social" asp-action="ShareVehicle" method="post" class="mini-panel mt-3">
+            <select asp-for="ShareInput.VehicleId" class="form-select app-control app-control--light">
+                @foreach (var vehicle in Model.Vehicles)
+                {
+                    <option value="@vehicle.Id">@vehicle.Nickname</option>
+                }
+            </select>
+            <select asp-for="ShareInput.TargetUserId" class="form-select app-control app-control--light mt-3">
+                <option value="">Escolher pessoa</option>
+                @foreach (var member in selectablePeople)
+                {
+                    <option value="@member.UserId">@member.DisplayName</option>
+                }
+            </select>
+            <div class="form-check mt-3">
+                <input asp-for="ShareInput.CanEdit" class="form-check-input" />
+                <label asp-for="ShareInput.CanEdit" class="form-check-label">Permitir edição</label>
+            </div>
+            <button type="submit" class="btn btn-brand mt-3">Guardar partilha</button>
+        </form>
+        <div class="stack-list mt-4">
+            @foreach (var share in Model.SharedVehicles)
+            {
+                var shareName = MemberName(share.TargetEmail);
+                <div class="list-card">
+                    <div>
+                        <h3>@shareName</h3>
+                        <p>@(share.CanEdit ? "Pode editar" : "Apenas leitura")</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="panel-card mt-4">
+    <div class="panel-top">
+        <div>
+            <p class="eyebrow">Agenda social</p>
+            <h2>Viagens com participantes</h2>
+        </div>
+    </div>
+    <div class="trip-grid mt-3">
+        @foreach (var trip in Model.CollaborativeTrips)
+        {
+            <article class="trip-card">
+                <div class="panel-top">
+                    <div>
+                        <span class="mini-pill">@TripStatusLabel(trip.Status)</span>
+                        <h3>@trip.Name</h3>
+                    </div>
+                    <strong>@trip.EstimatedSplitAmount.ToString("0.00") EUR</strong>
+                </div>
+                <p>@trip.Origin → @trip.Destination</p>
+                <p class="text-soft">@trip.Notes</p>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    @foreach (var member in trip.Members)
+                    {
+                        <span class="mini-pill">@MemberName(member)</span>
+                    }
+                </div>
+                <div class="trip-actions mt-3">
+                    <form asp-controller="Social" asp-action="JoinTrip" method="post">
+                        <input type="hidden" name="id" value="@trip.Id" />
+                        <button type="submit" class="btn btn-ghost-dark">Entrar</button>
+                    </form>
+                    <form asp-controller="Social" asp-action="StartTrip" method="post">
+                        <input type="hidden" name="id" value="@trip.Id" />
+                        <button type="submit" class="btn btn-brand">Iniciar viagem</button>
+                    </form>
+                </div>
+            </article>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/social-live.js" asp-append-version="true"></script>
+    <script>
+        (() => {
+            const search = document.querySelector('[data-social-search]');
+            const cards = [...document.querySelectorAll('[data-social-card]')];
+            if (!search) return;
+            search.addEventListener('input', () => {
+                const value = search.value.trim().toLowerCase();
+                cards.forEach(card => {
+                    const haystack = card.getAttribute('data-search') || '';
+                    card.classList.toggle('is-hidden', value.length > 0 && !haystack.includes(value));
+                });
+            });
+        })();
+    </script>
+}

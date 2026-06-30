@@ -1,0 +1,54 @@
+classDiagram
+    class UserAccount {
+        Guid Id
+        string Name
+        string Email
+        string AuthProvider
+        bool TwoFactorEnabled
+    }
+    class VehicleProfile {
+        Guid Id
+        string Brand
+        string Model
+        FuelKind FuelKind
+        double AverageConsumption
+        int CurrentLevelPercent
+    }
+    class PlannedRoute {
+        Guid Id
+        Guid VehicleId
+        string Origin
+        string Destination
+        double DistanceKm
+        decimal EstimatedTotalCost
+    }
+    class FuelStation {
+        Guid Id
+        string Brand
+        FuelKind FuelKind
+        decimal Price
+        double Latitude
+        double Longitude
+    }
+    class SocialProfile {
+        Guid UserId
+        string DisplayName
+        string HomeCity
+        bool IsOpenToCarpool
+    }
+    class DirectMessage {
+        Guid SenderId
+        Guid RecipientId
+        string Body
+    }
+    class CollaborativeTrip {
+        Guid OwnerId
+        string Name
+        string Participants
+        decimal SplitAmount
+    }
+    UserAccount "1" --> "*" VehicleProfile
+    UserAccount "1" --> "1" SocialProfile
+    VehicleProfile "1" --> "*" PlannedRoute
+    UserAccount "1" --> "*" DirectMessage
+    UserAccount "1" --> "*" CollaborativeTrip

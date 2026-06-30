@@ -1,0 +1,49 @@
+{
+  "issues": [
+    {
+      "ref": "AUTH-1",
+      "type": "Task",
+      "summary": "Endurecer login local com password hashing e lockout",
+      "description": "Implementar protecao real para login local: PasswordHash PBKDF2-SHA256, migracao de passwords antigas, contador de tentativas falhadas, bloqueio temporario e registo de ultimo login.",
+      "priority": "High",
+      "labels": ["optidrive", "seguranca", "auth", "produto-final"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "AUTH-2",
+      "type": "Task",
+      "summary": "Implementar MFA compativel com Microsoft Authenticator",
+      "description": "Adicionar autenticacao em dois passos baseada em TOTP: segredo Base32, URI otpauth, QR code, validacao de codigos, codigos de recuperacao, reset e desativacao controlada.",
+      "priority": "High",
+      "labels": ["optidrive", "mfa", "microsoft-authenticator", "seguranca"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "AUTH-3",
+      "type": "Task",
+      "summary": "Preparar login federado Google e Microsoft",
+      "description": "Configurar providers externos Google OAuth, Microsoft Account OAuth e Apple OAuth, com criacao/associacao de contas internas e variaveis Docker para credenciais reais.",
+      "priority": "High",
+      "labels": ["optidrive", "oauth", "google", "microsoft"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "SOC-1",
+      "type": "Task",
+      "summary": "Melhorar modulo social com presenca e live pulse",
+      "description": "Evoluir o social para experiencia mais real: comunidade com presenca recente, endpoint Social/Pulse, atualizacao periodica de mensagens, viagem ativa e membros online.",
+      "priority": "High",
+      "labels": ["optidrive", "social", "online", "produto-final"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "QA-1",
+      "type": "Task",
+      "summary": "Validar autenticacao social em build, testes e Docker",
+      "description": "Executar build, testes automatizados, docker compose build/up e validacoes HTTP do login, perfil de seguranca, QR code MFA e Social/Pulse.",
+      "priority": "Medium",
+      "labels": ["optidrive", "qa", "docker", "validacao"],
+      "dueDate": "2026-06-17"
+    }
+  ]
+}

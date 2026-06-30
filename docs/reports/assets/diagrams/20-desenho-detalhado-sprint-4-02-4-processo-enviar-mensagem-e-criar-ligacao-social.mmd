@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor U as Utilizador
+    participant S as SocialController
+    participant A as AppStateService
+    participant D as Base de Dados
+    U->>S: Abre área Social
+    S->>A: Carrega perfil, contactos e mensagens
+    A->>D: Consulta dados persistidos
+    D-->>A: Estado social atual
+    A-->>S: ViewModel social
+    U->>S: Envia mensagem/contacto
+    S->>A: Guarda interação social
+    A->>D: Persiste mensagem ou contacto
+    S-->>U: Atualiza mural social

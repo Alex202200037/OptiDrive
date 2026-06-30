@@ -1,0 +1,25 @@
+%%{init: {"theme": "base", "gantt": {"titleTopMargin": 24, "barHeight": 26, "barGap": 11, "topPadding": 58, "leftPadding": 185, "gridLineStartPadding": 32, "fontSize": 14, "sectionFontSize": 14, "numberSectionStyles": 4}, "themeCSS": ".titleText,.sectionTitle{fill:#0f172a!important;font-weight:700;} .today{stroke:#dc2626!important;stroke-width:3px!important;} .grid .tick text{fill:#334155!important;}", "themeVariables": {"fontFamily": "Aptos, Arial, sans-serif", "background": "#ffffff", "primaryColor": "#0f766e", "primaryTextColor": "#0f172a", "primaryBorderColor": "#064e3b", "lineColor": "#64748b", "textColor": "#0f172a", "mainBkg": "#0f766e", "secondBkg": "#14b8a6", "taskBkgColor": "#0f766e", "taskTextColor": "#ffffff", "taskTextOutsideColor": "#0f172a", "doneTaskBkgColor": "#0f766e", "doneTaskBorderColor": "#064e3b", "activeTaskBkgColor": "#f59e0b", "activeTaskBorderColor": "#b45309", "critBkgColor": "#dc2626", "critBorderColor": "#991b1b", "gridColor": "#d9e6e1", "sectionBkgColor": "#ecfdf5", "sectionBkgColor2": "#f8fafc", "sectionBkgColor3": "#fff7ed", "sectionBkgColor4": "#eff6ff"}}}%%
+gantt
+    title OptiDrive - Cronograma Executivo da Entrega Final (11/05/2026 - 30/06/2026)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d/%m
+    tickInterval 1week
+
+    section Arranque
+    Analise enviada ao docente             :milestone, m0, 2026-05-11, 0d
+    Planeamento e backlog inicial          :done, p0, 2026-05-11, 2026-05-16
+
+    section Sprints de Desenvolvimento
+    S1 - Identidade e Garagem              :done, s1, 2026-05-11, 2026-05-20
+    S2 - Mapas e Energia                   :done, s2, 2026-05-21, 2026-05-30
+    S3 - Smart Save e Planeamento          :done, s3, 2026-06-01, 2026-06-08
+    S4 - Social e OAuth                    :done, s4, 2026-06-09, 2026-06-16
+    S5 - Polimento e Entrega Final         :done, s5, 2026-06-17, 2026-06-30
+
+    section Documentacao e Gestao
+    Relatorios, atas e retrospetivas       :done, d1, 2026-05-19, 2026-06-30
+    Jira, Confluence e metricas finais     :done, d2, 2026-06-23, 2026-06-30
+
+    section Validacao Final
+    Correcao de bugs e ensaio da demo      :crit, done, f1, 2026-06-28, 2026-06-30
+    Entrega final consolidada              :milestone, m1, 2026-06-30, 0d

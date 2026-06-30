@@ -1,0 +1,219 @@
+{
+  "issues": [
+    {
+      "ref": "DOC-1",
+      "type": "Task",
+      "summary": "Corrigir Analise e Especificacao de Requisitos apos feedback do stor",
+      "description": "Atualizar o documento de Analise e Especificacao de Requisitos com base no feedback recebido.\n\nPontos principais:\n- completar a secao 3.5 com tarefas mais elaboradas\n- acrescentar mapa de Gantt coerente\n- normalizar modulos com IDs formais\n- reescrever requisitos no formato 'O sistema devera...'\n- substituir atores com nomes proprios por papeis\n- garantir IDs unicos para todos os use cases\n- refazer a matriz de rastreabilidade geral RF x UC\n- incluir legenda de prioridades MoSCoW",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "relatorio",
+        "feedback-stor"
+      ],
+      "dueDate": "2026-06-10",
+      "parentKey": "OP-1"
+    },
+    {
+      "ref": "DOC-2",
+      "type": "Task",
+      "summary": "Completar planeamento 3.5 e Gantt do projeto OptiDrive",
+      "description": "Consolidar a tabela de planeamento de alto nivel, com tarefas detalhadas, duracoes, dependencias, sprint associada e representacao em Gantt.",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "gantt",
+        "planeamento"
+      ],
+      "dueDate": "2026-06-09",
+      "parentKey": "OP-1"
+    },
+    {
+      "ref": "DOC-3",
+      "type": "Task",
+      "summary": "Normalizar modulos, atores, requisitos e use cases com IDs unicos",
+      "description": "Reestruturar a secao funcional do documento para garantir IDs por modulo, IDs por requisito, IDs por use case e atores representados por papeis funcionais.",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "modelacao",
+        "rastreabilidade"
+      ],
+      "dueDate": "2026-06-11",
+      "parentKey": "OP-1"
+    },
+    {
+      "ref": "DOC-4",
+      "type": "Task",
+      "summary": "Elaborar desenho de alto nivel do OptiDrive",
+      "description": "Produzir o relatorio de desenho de alto nivel com arquitetura geral, arquitetura logica, persistencia, arquitetura fisica, navegacao, processos de negocio e integracoes externas.",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-alto-nivel"
+      ],
+      "dueDate": "2026-06-12",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-5",
+      "type": "Task",
+      "summary": "Elaborar desenho detalhado - Sprint 1",
+      "description": "Documentar o desenho detalhado da Sprint 1 com foco em autenticacao, perfil, garagem e estrutura funcional inicial.\n\nModulos sugeridos:\n- M01 Gestao de Utilizadores e Seguranca\n- M02 Gestao de Garagem e Veiculos",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-detalhado",
+        "sprint-1"
+      ],
+      "dueDate": "2026-06-13",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-6",
+      "type": "Task",
+      "summary": "Redigir ata - Sprint 1",
+      "description": "Preparar a ata da Sprint 1 com objetivos, trabalho realizado, decisoes tomadas, impedimentos, backlog residual e proximos passos.\n\nBase sugerida:\n- requisitos e modelacao\n- autenticacao e seguranca\n- garagem e perfis de veiculo",
+      "priority": "Medium",
+      "labels": [
+        "optidrive",
+        "esa",
+        "ata",
+        "sprint-1"
+      ],
+      "dueDate": "2026-06-13",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-7",
+      "type": "Task",
+      "summary": "Elaborar desenho detalhado - Sprint 2",
+      "description": "Documentar o desenho detalhado da Sprint 2 com foco em dados de combustivel, mapa, filtragem visual, planeamento base, postos e portagens.\n\nModulos sugeridos:\n- M03 Gestao de Postos e Carregadores\n- M04 Planeamento de Rotas e Portagens",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-detalhado",
+        "sprint-2"
+      ],
+      "dueDate": "2026-06-15",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-8",
+      "type": "Task",
+      "summary": "Redigir ata - Sprint 2",
+      "description": "Preparar a ata da Sprint 2 com resumo do trabalho realizado no mapa, integracoes externas, filtros, planeamento de rota e decisoes tecnicas.",
+      "priority": "Medium",
+      "labels": [
+        "optidrive",
+        "esa",
+        "ata",
+        "sprint-2"
+      ],
+      "dueDate": "2026-06-15",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-9",
+      "type": "Task",
+      "summary": "Elaborar desenho detalhado - Sprint 3",
+      "description": "Documentar o desenho detalhado da Sprint 3 com foco em Smart Save, autonomia, paragens inteligentes, aplicação de viagens ao veículo e histórico operacional.\n\nMódulos sugeridos:\n- M05 Otimização Smart Save\n- M02 Garagem e Veículos\n- M04 Postos e Energia",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-detalhado",
+        "sprint-3"
+      ],
+      "dueDate": "2026-06-17",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-10",
+      "type": "Task",
+      "summary": "Redigir ata - Sprint 3",
+      "description": "Preparar a ata da Sprint 3 com o trabalho relativo a Smart Save, autonomia EV, reforços durante a rota, histórico da garagem e validação funcional.",
+      "priority": "Medium",
+      "labels": [
+        "optidrive",
+        "esa",
+        "ata",
+        "sprint-3"
+      ],
+      "dueDate": "2026-06-17",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-11",
+      "type": "Task",
+      "summary": "Elaborar desenho detalhado - Sprint 4",
+      "description": "Documentar o desenho detalhado da Sprint 4 com foco em componente social, perfis, contactos, mensagens, viagens colaborativas, OAuth Google/Microsoft e fallback Apple.\n\nMódulos sugeridos:\n- M06 Social e Viagens Colaborativas\n- M01 Identidade e Segurança",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-detalhado",
+        "sprint-4",
+        "social",
+        "oauth"
+      ],
+      "dueDate": "2026-06-20",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-12",
+      "type": "Task",
+      "summary": "Redigir ata - Sprint 4",
+      "description": "Preparar a ata da Sprint 4 com decisões relativas à parte social, autenticação externa, contactos, mensagens, viagens colaborativas e próximos passos para readiness.",
+      "priority": "Medium",
+      "labels": [
+        "optidrive",
+        "esa",
+        "ata",
+        "sprint-4",
+        "social"
+      ],
+      "dueDate": "2026-06-20",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-13",
+      "type": "Task",
+      "summary": "Elaborar desenho detalhado - Sprint 5",
+      "description": "Documentar o desenho detalhado da Sprint 5 com foco em readiness, Docker, LocalDB SQLite, tema claro/escuro, português/inglês, dataset realista, Jira, Confluence e entrega final.\n\nMódulos sugeridos:\n- M07 Administração e Observabilidade\n- Consolidação transversal dos módulos M01-M06",
+      "priority": "High",
+      "labels": [
+        "optidrive",
+        "esa",
+        "desenho-detalhado",
+        "sprint-5",
+        "readiness",
+        "docker"
+      ],
+      "dueDate": "2026-06-24",
+      "parentKey": "OP-19"
+    },
+    {
+      "ref": "DOC-14",
+      "type": "Task",
+      "summary": "Redigir ata - Sprint 5",
+      "description": "Preparar a ata da Sprint 5 com decisões finais, validações, readiness, publicação Confluence, atualização Jira, dados realistas e guião de apresentação.",
+      "priority": "Medium",
+      "labels": [
+        "optidrive",
+        "esa",
+        "ata",
+        "sprint-5",
+        "entrega-final"
+      ],
+      "dueDate": "2026-06-24",
+      "parentKey": "OP-19"
+    }
+  ]
+}

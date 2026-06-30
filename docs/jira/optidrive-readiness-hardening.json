@@ -1,0 +1,31 @@
+{
+  "issues": [
+    {
+      "ref": "READY-1",
+      "type": "Task",
+      "summary": "Rever readiness global e hardening transversal",
+      "description": "Auditar a aplicacao OptiDrive como produto completo, reforcando seguranca transversal com anti-CSRF, cookies HttpOnly/SameSite, sessao controlada e correcao de bug potencial no decoder de polyline Google.",
+      "priority": "High",
+      "labels": ["optidrive", "readiness", "hardening", "produto-final"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "READY-2",
+      "type": "Task",
+      "summary": "Adicionar healthcheck e painel operacional",
+      "description": "Adicionar endpoint /health e grelha de readiness no backoffice com estado de runtime, LocalDB, Google Maps, OpenChargeMap, OAuth Google/Microsoft/Apple, MFA e social online.",
+      "priority": "High",
+      "labels": ["optidrive", "healthcheck", "backoffice", "ops"],
+      "dueDate": "2026-06-17"
+    },
+    {
+      "ref": "READY-3",
+      "type": "Task",
+      "summary": "Documentar configuracao OAuth e Docker",
+      "description": "Criar .env.example e relatorio de configuracao para Docker, Google OAuth, Microsoft OAuth, Apple OAuth, Google Maps, OpenChargeMap e endpoint de saude.",
+      "priority": "Medium",
+      "labels": ["optidrive", "docker", "oauth", "documentacao"],
+      "dueDate": "2026-06-17"
+    }
+  ]
+}

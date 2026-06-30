@@ -1,0 +1,34 @@
+classDiagram
+    class SmartSaveService {
+        BuildRoutePlan()
+        CalculateConsumption()
+        CalculateArrivalLevel()
+        RecommendStops()
+    }
+    class PlanningController {
+        Index()
+        Calculate()
+        SaveRoute()
+        ApplyRoute()
+    }
+    class VehicleProfile {
+        FuelKind FuelKind
+        double AverageConsumption
+        double BatteryCapacityKWh
+        int CurrentLevelPercent
+    }
+    class PlannedRoute {
+        double DistanceKm
+        double AverageSpeedKmh
+        decimal EstimatedTotalCost
+        int ArrivalLevelPercent
+    }
+    class VehicleActivity {
+        string Type
+        double Quantity
+        decimal Cost
+    }
+    SmartSaveService --> VehicleProfile
+    SmartSaveService --> PlannedRoute
+    PlanningController --> SmartSaveService
+    PlanningController --> VehicleActivity

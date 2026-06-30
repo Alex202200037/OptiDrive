@@ -1,0 +1,13 @@
+sequenceDiagram
+    actor U as Condutor
+    participant UI as Mapa
+    participant PC as PlanningController
+    participant AS as AppStateService
+    participant JS as planning-map.js
+    U->>UI: Calcula rota
+    UI->>PC: Pedido com veículo e filtros
+    PC->>AS: Obtém postos e carregadores
+    AS-->>PC: Lista filtrável
+    PC-->>UI: Dados de rota e postos
+    UI->>JS: Renderiza rota e estações próximas
+    JS-->>U: Mostra pins e preços relevantes

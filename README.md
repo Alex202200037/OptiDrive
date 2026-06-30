@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OptiDrive
 
-## Getting Started
+OptiDrive is an ASP.NET Core MVC platform for intelligent route planning, garage management, fuel and charging station discovery, trip cost optimisation, and collaborative travel.
 
-First, run the development server:
+## Run With Docker
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up -d --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://127.0.0.1:5080
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Run Locally
 
-## Learn More
+```bash
+dotnet run --project OptiDrive.Web/OptiDrive.Web.csproj --urls http://127.0.0.1:5088
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Validate
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+dotnet build OptiDrive.Web/OptiDrive.Web.csproj
+dotnet test OptiDrive.sln
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Online Sign-In
 
-## Deploy on Vercel
+OptiDrive supports local accounts, TOTP MFA with Microsoft Authenticator/Google Authenticator, Google OAuth, Microsoft OAuth, and Apple OAuth.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Configure providers in `.env` or user secrets:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+GOOGLE_OAUTH_CLIENT_ID=
+GOOGLE_OAUTH_CLIENT_SECRET=
+MICROSOFT_OAUTH_CLIENT_ID=
+MICROSOFT_OAUTH_CLIENT_SECRET=
+APPLE_OAUTH_CLIENT_ID=
+APPLE_OAUTH_CLIENT_SECRET=
+APPLE_OAUTH_TEAM_ID=
+APPLE_OAUTH_KEY_ID=
+APPLE_OAUTH_PRIVATE_KEY_PATH=
+```
+
+Redirect URLs:
+
+```text
+http://127.0.0.1:5080/signin-google
+http://127.0.0.1:5080/signin-microsoft
+http://127.0.0.1:5080/signin-apple
+http://127.0.0.1:5088/signin-google
+http://127.0.0.1:5088/signin-microsoft
+http://127.0.0.1:5088/signin-apple
+```
+
+For Apple, use either a generated `APPLE_OAUTH_CLIENT_SECRET` or the Service ID + Team ID + Key ID + `.p8` private key path.
+
+## Product Areas
+
+- Account authentication and security
+- Social profiles, trusted contacts, conversations, and collaborative trips
+- Garage with real vehicle profiles, fuel/charge levels, service dates, and activity history
+- Smart route planning with fuel, charging, toll, cost, and arrival reserve estimates
+- Fuel and EV station map with route-aware filtering
+- Backoffice readiness and integration status

@@ -1,0 +1,15 @@
+flowchart TD
+    A[Visitante] --> B{Escolhe método}
+    B --> C[Registo local]
+    B --> D[Google OAuth]
+    B --> E[Microsoft OAuth]
+    B --> F[Apple OAuth]
+    C --> G[Perfil]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[Ativar Authenticator]
+    H --> I[Dashboard]
+    I --> J[Garagem]
+    I --> K[Planeamento]
+    I --> L[Social]

@@ -1,0 +1,13 @@
+{
+  "issues": [
+    {
+      "ref": "realistic-apresentacao-data",
+      "type": "Task",
+      "summary": "Popular base de dados com utilizadores e veiculos realistas para apresentacao",
+      "description": "Adicionar dataset de apresentacao com 7 utilizadores, 8 veiculos reais, consumos plausiveis, perfis sociais, contactos, partilhas, conversas, viagens colaborativas, historico de garagem e reports de preco. Validar em SQLite local, Docker e healthcheck.",
+      "priority": "High",
+      "labels": ["optidrive", "apresentacao", "sqlite", "social", "garagem", "dados"],
+      "estimateHours": 4
+    }
+  ]
+}

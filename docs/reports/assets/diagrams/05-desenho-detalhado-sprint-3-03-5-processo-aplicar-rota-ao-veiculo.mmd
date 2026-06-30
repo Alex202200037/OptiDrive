@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor C as Condutor
+    participant P as PlanningController
+    participant S as SmartSaveService
+    participant A as AppStateService
+    participant G as Garage
+    C->>P: Guarda rota calculada
+    P->>A: Persistir PlannedRoute
+    C->>P: Aplicar rota ao veículo
+    P->>S: Calcular consumo efetivo e reforços
+    S-->>P: Consumo, custo e nível final
+    P->>A: Registar viagem assumida
+    A->>G: Atualizar nível e histórico
+    G-->>C: Ficha do veículo atualizada

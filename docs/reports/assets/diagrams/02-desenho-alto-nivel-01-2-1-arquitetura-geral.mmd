@@ -1,0 +1,11 @@
+flowchart LR
+    U[Utilizador] --> B[Browser]
+    B --> MVC[ASP.NET Core MVC]
+    MVC --> C[Controllers]
+    C --> S[Services]
+    S --> DB[(SQLite LocalDB)]
+    S --> GM[Google Maps APIs]
+    S --> OCM[OpenChargeMap]
+    S --> DGEG[Dados de combustivel]
+    C --> V[Razor Views]
+    V --> JS[JavaScript mapa/i18n/UX]

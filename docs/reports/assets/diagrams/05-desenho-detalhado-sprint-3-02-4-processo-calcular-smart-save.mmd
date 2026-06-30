@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor C as Condutor
+    participant P as PlanningController
+    participant S as SmartSaveService
+    participant E as Energia/Postos
+    participant G as Garagem
+    C->>P: Calcula rota com veículo selecionado
+    P->>G: Obtém nível e consumo do veículo
+    P->>S: Envia distância, velocidade e energia disponível
+    S->>S: Ajusta consumo por velocidade média
+    S->>S: Calcula autonomia e chegada prevista
+    alt autonomia insuficiente ou margem baixa
+        S->>E: Procura postos/carregadores compatíveis na rota
+        E-->>S: Devolve candidatos de reforço
+        S-->>P: Plano com paragens recomendadas
+    else autonomia suficiente
+        S-->>P: Plano sem reforço obrigatório
+    end
+    P-->>C: Mostra custo total, chegada e reforços

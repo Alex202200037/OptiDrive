@@ -1,0 +1,13 @@
+flowchart LR
+    Browser[Browser] --> App[OptiDrive ASP.NET Core MVC]
+    App --> SQLite[(SQLite LocalDB)]
+    App --> Health["/health"]
+    App --> Admin[Backoffice Readiness]
+    App --> Env[.env Config]
+    Env --> Google[Google Maps/OAuth]
+    Env --> Microsoft[Microsoft OAuth]
+    Env --> OCM[OpenChargeMap]
+    App --> Reports[Relatórios Confluence]
+    App --> Jira[Jira OP]
+    Docker[Docker Compose] --> App
+    Docker --> SQLite

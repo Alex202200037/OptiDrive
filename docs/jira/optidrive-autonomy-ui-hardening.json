@@ -1,0 +1,13 @@
+{
+  "issues": [
+    {
+      "ref": "autonomy-ui-hardening",
+      "type": "Task",
+      "summary": "Corrigir autonomia final, consumo por velocidade e UI bilingue",
+      "description": "Hardening final do planeamento OptiDrive: corrigir chegada estimada a 0% quando existem reforcos, introduzir consumo ajustado pela velocidade media, apresentar margem minima de chegada, adicionar tema claro/escuro persistente e alternador portugues/ingles. Validado com build, testes automatizados, sintaxe JavaScript, Docker e healthcheck.",
+      "priority": "High",
+      "labels": ["optidrive", "planeamento", "autonomia", "i18n", "ui", "validacao"],
+      "estimateHours": 6
+    }
+  ]
+}

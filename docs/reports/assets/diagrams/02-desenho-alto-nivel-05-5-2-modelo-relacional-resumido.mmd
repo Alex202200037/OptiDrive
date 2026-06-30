@@ -1,0 +1,9 @@
+erDiagram
+    UserAccounts ||--o{ VehicleProfiles : owns
+    UserAccounts ||--|| SocialProfiles : has
+    UserAccounts ||--o{ PlannedRoutes : creates
+    VehicleProfiles ||--o{ PlannedRoutes : assigned_to
+    VehicleProfiles ||--o{ VehicleActivities : records
+    UserAccounts ||--o{ DirectMessages : sends
+    UserAccounts ||--o{ CollaborativeTrips : owns
+    FuelStations ||--o{ PriceReports : receives

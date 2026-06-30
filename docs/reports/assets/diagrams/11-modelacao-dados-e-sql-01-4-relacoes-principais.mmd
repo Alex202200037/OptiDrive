@@ -1,0 +1,18 @@
+erDiagram
+    USERS ||--o{ VEHICLES : owns
+    USERS ||--o{ PLANNED_ROUTES : plans
+    USERS ||--o{ VEHICLE_ACTIVITIES : generates
+    USERS ||--o{ TRUSTED_CONTACTS : manages
+    USERS ||--o{ TRAVEL_GROUPS : creates
+    USERS ||--o{ SOCIAL_PROFILES : owns
+    USERS ||--o{ DIRECT_MESSAGES : sends
+    USERS ||--o{ COLLABORATIVE_TRIPS : starts
+    USERS ||--o{ PRICE_REPORTS : submits
+    VEHICLES ||--o{ PLANNED_ROUTES : used_in
+    VEHICLES ||--o{ VEHICLE_ACTIVITIES : records
+    VEHICLES ||--o{ SHARED_VEHICLES : shared_as
+    PLANNED_ROUTES ||--o{ ROUTE_STOP_PLANS : contains
+    PLANNED_ROUTES ||--o{ VEHICLE_ACTIVITIES : linked_to
+    FUEL_STATIONS ||--o{ PRICE_REPORTS : receives
+    TRAVEL_GROUPS ||--o{ TRAVEL_GROUP_MEMBERS : includes
+    PLANNED_ROUTES ||--o{ COLLABORATIVE_TRIPS : shared_in

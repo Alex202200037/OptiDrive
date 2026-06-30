@@ -1,0 +1,744 @@
+@using OptiDrive.Web.Models
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Garagem";
+    var today = DateOnly.FromDateTime(DateTime.Today);
+
+    string fuelLabel(FuelKind kind) => kind switch
+    {
+        FuelKind.Gasoline95 => "Gasolina 95",
+        FuelKind.Gasoline98 => "Gasolina 98",
+        FuelKind.Diesel => "Gasóleo",
+        FuelKind.GPL => "GPL",
+        FuelKind.Electric => "Elétrico",
+        _ => kind.ToString()
+    };
+
+    string consumptionLabel(VehicleProfile vehicle) => vehicle.FuelKind == FuelKind.Electric
+        ? $"{vehicle.AverageConsumption:0.0} kWh/100 km"
+        : $"{vehicle.AverageConsumption:0.0} L/100 km";
+
+    double availableRange(VehicleProfile vehicle) => Math.Round(vehicle.AverageRangeKm * vehicle.CurrentLevelPercent / 100d, 0);
+
+    string reserveLabel(VehicleProfile vehicle)
+    {
+        var range = availableRange(vehicle);
+        if (vehicle.FuelKind == FuelKind.Electric)
+        {
+            var batteryNow = Math.Round((vehicle.BatteryCapacity ?? 0) * vehicle.CurrentLevelPercent / 100d, 1);
+            return $"{batteryNow:0.#} kWh · {range:0} km úteis";
+        }
+
+        var litersNow = Math.Round(vehicle.TankCapacity * vehicle.CurrentLevelPercent / 100d, 1);
+        return $"{litersNow:0.#} L · {range:0} km úteis";
+    }
+
+    string maintenanceTone(VehicleProfile vehicle)
+    {
+        if (vehicle.NextServiceKm.HasValue && vehicle.OdometerKm >= vehicle.NextServiceKm.Value) return "is-alert";
+        if (vehicle.NextServiceKm.HasValue && vehicle.NextServiceKm.Value - vehicle.OdometerKm <= 2000) return "is-warn";
+        if (vehicle.LastMaintenance is null) return "is-muted";
+        return "is-good";
+    }
+
+    string maintenanceText(VehicleProfile vehicle)
+    {
+        if (vehicle.NextServiceKm.HasValue)
+        {
+            var remaining = vehicle.NextServiceKm.Value - vehicle.OdometerKm;
+            if (remaining <= 0) return $"Revisão vencida · {Math.Abs(remaining):0} km acima";
+            if (remaining <= 2000) return $"Revisão perto · faltam {remaining:0} km";
+            return $"Próxima revisão em {remaining:0} km";
+        }
+
+        if (vehicle.LastMaintenance is null) return "Sem revisão registada";
+        return $"Última revisão em {vehicle.LastMaintenance.Value:dd/MM/yyyy}";
+    }
+
+    string dueTone(DateOnly? dueDate)
+    {
+        if (dueDate is null) return "is-muted";
+        var days = dueDate.Value.DayNumber - today.DayNumber;
+        if (days < 0) return "is-alert";
+        if (days <= 30) return "is-warn";
+        return "is-good";
+    }
+
+    string dueText(string label, DateOnly? dueDate)
+    {
+        if (dueDate is null) return $"{label} por definir";
+        var days = dueDate.Value.DayNumber - today.DayNumber;
+        if (days < 0) return $"{label} vencido em {dueDate.Value:dd/MM/yyyy}";
+        if (days == 0) return $"{label} vence hoje";
+        if (days <= 30) return $"{label} em {days} dias";
+        return $"{label} a {dueDate.Value:dd/MM/yyyy}";
+    }
+
+    string tireTone(VehicleProfile vehicle)
+    {
+        if (vehicle.TireHealthPercent <= 35) return "is-alert";
+        if (vehicle.TireHealthPercent <= 65) return "is-warn";
+        return "is-good";
+    }
+
+    string tireText(VehicleProfile vehicle)
+    {
+        if (vehicle.TireHealthPercent <= 35) return "Pneus a pedir troca";
+        if (vehicle.TireHealthPercent <= 65) return "Pneus a acompanhar";
+        return "Pneus com bom piso";
+    }
+
+    int datePenalty(DateOnly? dueDate, int overduePenalty, int soonPenalty)
+    {
+        if (dueDate is null) return soonPenalty;
+        var days = dueDate.Value.DayNumber - today.DayNumber;
+        return days < 0 ? overduePenalty : days <= 30 ? soonPenalty : 0;
+    }
+
+    int healthScore(VehicleProfile vehicle)
+    {
+        var score = 100;
+        if (vehicle.NextServiceKm.HasValue)
+        {
+            var remaining = vehicle.NextServiceKm.Value - vehicle.OdometerKm;
+            if (remaining < 0) score -= 22;
+            else if (remaining <= 2000) score -= 10;
+        }
+        else
+        {
+            score -= 6;
+        }
+
+        score -= datePenalty(vehicle.InspectionDueDate, 16, 8);
+        score -= datePenalty(vehicle.InsuranceDueDate, 18, 8);
+        score -= datePenalty(vehicle.TaxDueDate, 12, 6);
+
+        if (vehicle.TireHealthPercent <= 35) score -= 20;
+        else if (vehicle.TireHealthPercent <= 65) score -= 10;
+
+        return Math.Clamp(score, 18, 100);
+    }
+
+    int urgentItems(VehicleProfile vehicle)
+    {
+        var total = 0;
+        if (maintenanceTone(vehicle) == "is-alert") total++;
+        if (dueTone(vehicle.InspectionDueDate) == "is-alert") total++;
+        if (dueTone(vehicle.InsuranceDueDate) == "is-alert") total++;
+        if (dueTone(vehicle.TaxDueDate) == "is-alert") total++;
+        if (tireTone(vehicle) == "is-alert") total++;
+        return total;
+    }
+
+    string healthTone(int score) => score switch
+    {
+        >= 85 => "is-good",
+        >= 65 => "is-warn",
+        _ => "is-alert"
+    };
+
+    string refuelUnit(VehicleProfile vehicle) => vehicle.FuelKind == FuelKind.Electric ? "kWh" : "L";
+
+    string activityBadge(VehicleActivityType type) => type switch
+    {
+        VehicleActivityType.Created => "Novo",
+        VehicleActivityType.Updated => "Update",
+        VehicleActivityType.Refuel => "Abasteceu",
+        VehicleActivityType.Charge => "Carregou",
+        VehicleActivityType.TripApplied => "Viagem",
+        _ => type.ToString()
+    };
+
+    string activityTone(VehicleActivityType type) => type switch
+    {
+        VehicleActivityType.TripApplied => "mini-pill--accent",
+        VehicleActivityType.Refuel => "mini-pill--ok",
+        VehicleActivityType.Charge => "mini-pill--ok",
+        VehicleActivityType.Updated => "mini-pill--muted",
+        _ => string.Empty
+    };
+
+    string activityMetric(VehicleActivity activity)
+    {
+        if (activity.Amount.HasValue && !string.IsNullOrWhiteSpace(activity.Unit))
+        {
+            var format = activity.Unit.Equals("km", StringComparison.OrdinalIgnoreCase) ? "0.#" : "0.0";
+            return $"{activity.Amount.Value.ToString(format)} {activity.Unit}";
+        }
+
+        if (activity.LevelPercentAfter.HasValue)
+        {
+            return $"{activity.LevelPercentAfter.Value}%";
+        }
+
+        return "Sem métrica";
+    }
+
+    string relativeTime(DateTime timestamp)
+    {
+        var elapsed = DateTime.UtcNow - timestamp;
+        if (elapsed.TotalMinutes < 60) return $"há {Math.Max(1, (int)Math.Round(elapsed.TotalMinutes))} min";
+        if (elapsed.TotalHours < 24) return $"há {(int)Math.Round(elapsed.TotalHours)} h";
+        if (elapsed.TotalDays < 7) return $"há {(int)Math.Round(elapsed.TotalDays)} d";
+        return timestamp.ToLocalTime().ToString("dd/MM/yyyy");
+    }
+
+    var electricCount = Model.Vehicles.Count(vehicle => vehicle.FuelKind == FuelKind.Electric);
+    var defaultVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.IsDefault) ?? Model.Vehicles.FirstOrDefault();
+    var selectedVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == Model.SelectedVehicleId) ?? defaultVehicle;
+    var urgentVehicleCount = Model.Vehicles.Count(vehicle => urgentItems(vehicle) > 0);
+    var averageHealthScore = Model.Vehicles.Count == 0 ? 0 : (int)Math.Round(Model.Vehicles.Average(healthScore));
+    var recentWeekActivities = Model.VehicleActivities.Count(activity => activity.CreatedAt >= DateTime.UtcNow.AddDays(-7));
+    var selectedActivities = selectedVehicle is null
+        ? new List<VehicleActivity>()
+        : Model.VehicleActivities.Where(activity => activity.VehicleId == selectedVehicle.Id).OrderByDescending(activity => activity.CreatedAt).Take(6).ToList();
+    var selectedScore = selectedVehicle is null ? 0 : healthScore(selectedVehicle);
+    var lastEnergyActivity = selectedActivities.FirstOrDefault(activity => activity.Type is VehicleActivityType.Refuel or VehicleActivityType.Charge);
+    var lastTripActivity = selectedActivities.FirstOrDefault(activity => activity.Type == VehicleActivityType.TripApplied);
+    var selectedEnergyActivities = selectedVehicle is null
+        ? new List<VehicleActivity>()
+        : Model.VehicleActivities
+            .Where(activity => activity.VehicleId == selectedVehicle.Id && (activity.Type is VehicleActivityType.Refuel or VehicleActivityType.Charge))
+            .OrderByDescending(activity => activity.CreatedAt)
+            .ToList();
+    var selectedTripActivities = selectedVehicle is null
+        ? new List<VehicleActivity>()
+        : Model.VehicleActivities
+            .Where(activity => activity.VehicleId == selectedVehicle.Id && activity.Type == VehicleActivityType.TripApplied)
+            .OrderByDescending(activity => activity.CreatedAt)
+            .ToList();
+    var selectedRoutes = selectedVehicle is null
+        ? new List<PlannedRoute>()
+        : Model.Routes.Where(route => route.VehicleId == selectedVehicle.Id).OrderByDescending(route => route.CreatedAt).Take(4).ToList();
+    var energyWindow = DateTime.UtcNow.AddDays(-30);
+    var last30DaysEnergy = selectedEnergyActivities.Where(activity => activity.CreatedAt >= energyWindow).ToList();
+    var last30DaysTrips = selectedTripActivities.Where(activity => activity.CreatedAt >= energyWindow).ToList();
+    var fuelAmount30Days = last30DaysEnergy.Sum(activity => activity.Amount ?? 0);
+    var fuelCost30Days = last30DaysEnergy.Sum(activity => activity.CostEstimate ?? 0);
+    var tripDistance30Days = last30DaysTrips.Sum(activity => activity.Amount ?? 0);
+    var routeCoverage = selectedRoutes.Count(route => route.IsAppliedToVehicle);
+}
+
+<section class="page-hero">
+    <div>
+        <p class="eyebrow">Garagem</p>
+        <h1>Frota afinada para planear melhor</h1>
+        <p class="text-soft">Agora com lista de veículos, ficha dedicada por carro, histórico de combustível/carga e saúde completa da garagem.</p>
+    </div>
+    <div class="hero-actions">
+        <span class="mini-pill">@Model.Vehicles.Count veículo(s)</span>
+        <span class="mini-pill">@electricCount elétrico(s)</span>
+        <span class="mini-pill @(urgentVehicleCount > 0 ? "mini-pill--alert" : "mini-pill--ok")">@urgentVehicleCount alerta(s)</span>
+        @if (defaultVehicle is not null)
+        {
+            <span class="mini-pill">Ativo: @defaultVehicle.Nickname</span>
+        }
+        <a class="btn btn-ghost-dark" asp-controller="Planning" asp-action="Index">Ir para planeamento</a>
+    </div>
+</section>
+
+<section class="garage-insights garage-insights--wide">
+    <article class="summary-card">
+        <p class="eyebrow">Pronto para sair</p>
+        <h3>@(selectedVehicle?.CurrentLevelPercent ?? 0)%</h3>
+        <p>@(selectedVehicle is null ? "Seleciona um veículo" : reserveLabel(selectedVehicle))</p>
+    </article>
+    <article class="summary-card">
+        <p class="eyebrow">Saúde média</p>
+        <h3>@averageHealthScore/100</h3>
+        <p>@(averageHealthScore >= 85 ? "Frota em boa forma." : averageHealthScore >= 65 ? "Há detalhes para acompanhar." : "Convém agir em alguns pontos.")</p>
+    </article>
+    <article class="summary-card">
+        <p class="eyebrow">Atividade recente</p>
+        <h3>@recentWeekActivities registos</h3>
+        <p>Abastecimentos, cargas, viagens assumidas e updates da última semana.</p>
+    </article>
+    <article class="summary-card">
+        <p class="eyebrow">Ações pendentes</p>
+        <h3>@urgentVehicleCount veículo(s)</h3>
+        <p>Revisões, pneus ou documentos que pedem atenção.</p>
+    </article>
+</section>
+
+<section class="garage-browser">
+    <article class="panel-card garage-fleet-panel">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Frota</p>
+                <h2>Os teus veículos</h2>
+            </div>
+            <a class="btn btn-ghost-dark btn-sm" href="#garage-create-form">Novo veículo</a>
+        </div>
+        @if (TempData["GarageSuccess"] is string garageSuccess)
+        {
+            <div class="alert alert-success mt-3">@garageSuccess</div>
+        }
+        @if (TempData["GarageError"] is string garageError)
+        {
+            <div class="alert alert-danger mt-3">@garageError</div>
+        }
+        <div class="garage-vehicle-list mt-3">
+            @foreach (var vehicle in Model.Vehicles)
+            {
+                var score = healthScore(vehicle);
+                var isSelected = selectedVehicle?.Id == vehicle.Id;
+                <a class="garage-vehicle-link @(isSelected ? "is-selected" : string.Empty)" asp-controller="Garage" asp-action="Index" asp-route-vehicleId="@vehicle.Id">
+                    <div class="garage-vehicle-link__head">
+                        <div>
+                            <strong>@vehicle.Nickname</strong>
+                            <p>@vehicle.Brand @vehicle.Model</p>
+                        </div>
+                        <div class="garage-vehicle-link__status">
+                            <span class="mini-pill">@vehicle.CurrentLevelPercent%</span>
+                            @if (vehicle.IsDefault)
+                            {
+                                <span class="mini-pill mini-pill--accent">Ativo</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="garage-vehicle-link__meta">
+                        <span>@fuelLabel(vehicle.FuelKind)</span>
+                        <span>@availableRange(vehicle).ToString("0") km úteis</span>
+                        <span class="garage-vehicle-score @healthTone(score)">Saúde @score</span>
+                    </div>
+                </a>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card garage-detail-panel">
+        @if (selectedVehicle is null)
+        {
+            <div class="garage-empty-state">
+                <p class="eyebrow">Sem veículo</p>
+                <h2>Adiciona o primeiro carro à garagem</h2>
+                <p>Assim que tiveres veículos, podes abrir a ficha individual de cada um aqui mesmo.</p>
+            </div>
+        }
+        else
+        {
+            <div class="panel-top">
+                <div>
+                    <p class="eyebrow">Ficha do veículo</p>
+                    <h2>@selectedVehicle.Nickname</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2 justify-content-end">
+                    <span class="mini-pill">@fuelLabel(selectedVehicle.FuelKind)</span>
+                    <span class="mini-pill @healthTone(selectedScore)">Saúde @selectedScore/100</span>
+                    @if (!string.IsNullOrWhiteSpace(selectedVehicle.RegistrationPlate))
+                    {
+                        <span class="mini-pill">@selectedVehicle.RegistrationPlate</span>
+                    }
+                </div>
+            </div>
+
+            <div class="garage-card__header garage-card__header--solo">
+                <div class="vehicle-shape vehicle-shape--card">
+                    <span>@selectedVehicle.Brand</span>
+                </div>
+                <div class="garage-card__title">
+                    <div>
+                        <h3>@selectedVehicle.Brand @selectedVehicle.Model</h3>
+                        <p>@selectedVehicle.Year · Classe @selectedVehicle.TollClass</p>
+                    </div>
+                    <div class="garage-quick-summary">
+                        @if (lastEnergyActivity is not null)
+                        {
+                            <span class="garage-quick-chip">Último abastecimento/carga @relativeTime(lastEnergyActivity.CreatedAt)</span>
+                        }
+                        @if (lastTripActivity is not null)
+                        {
+                            <span class="garage-quick-chip">Última viagem @relativeTime(lastTripActivity.CreatedAt)</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="garage-status-row garage-status-row--metrics">
+                <div>
+                    <p class="eyebrow">Nível atual</p>
+                    <strong>@selectedVehicle.CurrentLevelPercent%</strong>
+                    <p>@reserveLabel(selectedVehicle)</p>
+                </div>
+                <div>
+                    <p class="eyebrow">Consumo</p>
+                    <strong>@consumptionLabel(selectedVehicle)</strong>
+                    <p>Autonomia total @selectedVehicle.AverageRangeKm.ToString("0") km</p>
+                </div>
+                <div>
+                    <p class="eyebrow">Odómetro</p>
+                    <strong>@selectedVehicle.OdometerKm.ToString("0.#") km</strong>
+                    <p>@maintenanceText(selectedVehicle)</p>
+                </div>
+                <div>
+                    <p class="eyebrow">Combustível e histórico</p>
+                    <strong>@selectedActivities.Count registo(s)</strong>
+                    <p>O carro guarda cargas, abastecimentos e viagens assumidas.</p>
+                </div>
+            </div>
+
+            <div class="garage-mini-grid">
+                <article class="summary-card">
+                    <p class="eyebrow">Combustível / carga 30d</p>
+                    <h3>@fuelAmount30Days.ToString("0.0") @refuelUnit(selectedVehicle)</h3>
+                    <p>@(fuelCost30Days > 0 ? $"Custo estimado {fuelCost30Days:0.00} EUR" : "Sem custo registado ainda")</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Distância 30d</p>
+                    <h3>@tripDistance30Days.ToString("0.#") km</h3>
+                    <p>@selectedTripActivities.Count viagem(ns) assumidas no histórico</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Rotas ligadas</p>
+                    <h3>@selectedRoutes.Count</h3>
+                    <p>@routeCoverage aplicada(s) ao veículo · @Math.Max(0, selectedRoutes.Count - routeCoverage) pendente(s)</p>
+                </article>
+                <article class="summary-card">
+                    <p class="eyebrow">Último preço</p>
+                    <h3>@(lastEnergyActivity?.UnitPrice is double unitPrice ? $"{unitPrice:0.000} EUR/{refuelUnit(selectedVehicle)}" : "Por definir")</h3>
+                    <p>@(lastEnergyActivity is null ? "Sem registo recente" : lastEnergyActivity.Title)</p>
+                </article>
+            </div>
+
+            <div class="level-meter">
+                <div class="level-meter__bar" style="width:@selectedVehicle.CurrentLevelPercent%;"></div>
+            </div>
+
+            <div class="garage-meta-row">
+                <span class="garage-meta @maintenanceTone(selectedVehicle)">@maintenanceText(selectedVehicle)</span>
+                <span class="garage-meta">Reserva estimada: @availableRange(selectedVehicle).ToString("0") km</span>
+                <span class="garage-meta">Capacidade @(selectedVehicle.FuelKind == FuelKind.Electric ? $"{selectedVehicle.BatteryCapacity ?? 0:0.#} kWh" : $"{selectedVehicle.TankCapacity:0.#} L")</span>
+                @if (!string.IsNullOrWhiteSpace(selectedVehicle.Notes))
+                {
+                    <span class="garage-meta garage-meta--notes">@selectedVehicle.Notes</span>
+                }
+            </div>
+
+            <div class="garage-health-grid">
+                <div class="garage-health-card @maintenanceTone(selectedVehicle)">
+                    <p class="eyebrow">Revisão</p>
+                    <strong>@(selectedVehicle.NextServiceKm?.ToString("0") ?? "-") km</strong>
+                    <p>@maintenanceText(selectedVehicle)</p>
+                </div>
+                <div class="garage-health-card @dueTone(selectedVehicle.InspectionDueDate)">
+                    <p class="eyebrow">Inspeção</p>
+                    <strong>@(selectedVehicle.InspectionDueDate?.ToString("dd/MM/yyyy") ?? "-")</strong>
+                    <p>@dueText("Inspeção", selectedVehicle.InspectionDueDate)</p>
+                </div>
+                <div class="garage-health-card @dueTone(selectedVehicle.InsuranceDueDate)">
+                    <p class="eyebrow">Seguro</p>
+                    <strong>@(selectedVehicle.InsuranceDueDate?.ToString("dd/MM/yyyy") ?? "-")</strong>
+                    <p>@dueText("Seguro", selectedVehicle.InsuranceDueDate)</p>
+                </div>
+                <div class="garage-health-card @dueTone(selectedVehicle.TaxDueDate)">
+                    <p class="eyebrow">IUC</p>
+                    <strong>@(selectedVehicle.TaxDueDate?.ToString("dd/MM/yyyy") ?? "-")</strong>
+                    <p>@dueText("IUC", selectedVehicle.TaxDueDate)</p>
+                </div>
+                <div class="garage-health-card @tireTone(selectedVehicle)">
+                    <p class="eyebrow">Pneus</p>
+                    <strong>@selectedVehicle.TireHealthPercent%</strong>
+                    <p>@tireText(selectedVehicle)</p>
+                </div>
+            </div>
+
+            <section class="garage-route-panel">
+                <div class="garage-history-head">
+                    <div>
+                        <p class="eyebrow">Planeamento ligado</p>
+                        <h4>Rotas deste veículo</h4>
+                    </div>
+                    <span class="garage-history-note">Abre a rota certa e aplica-a quando estiveres pronto</span>
+                </div>
+                @if (selectedRoutes.Count == 0)
+                {
+                    <div class="garage-history-empty">Ainda não há rotas guardadas para este veículo.</div>
+                }
+                else
+                {
+                    <div class="route-library-list">
+                        @foreach (var route in selectedRoutes)
+                        {
+                            <article class="route-library-card">
+                                <div class="route-library-card__head">
+                                    <div>
+                                        <strong>@route.Origin → @route.Destination</strong>
+                                        <p>@route.DistanceKm km · ETA @route.EtaMinutes min</p>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2 justify-content-end">
+                                        <span class="mini-pill @(route.IsAppliedToVehicle ? "mini-pill--ok" : "mini-pill--muted")">@(route.IsAppliedToVehicle ? "Aplicada" : "Guardada")</span>
+                                        @if (route.RequiresIntermediateStops)
+                                        {
+                                            <span class="mini-pill mini-pill--accent">@route.SuggestedStopCount paragem(ns)</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="route-library-card__foot">
+                                    <span>Consumo @route.EstimatedConsumptionAmount.ToString("0.0") @refuelUnit(selectedVehicle)</span>
+                                    <span>Chegada ~@route.EstimatedArrivalLevelPercent%</span>
+                                    <span>Custo @route.CheapestCost.ToString("0.00") EUR</span>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <a class="btn btn-ghost-dark btn-sm" asp-controller="Planning" asp-action="Index" asp-route-routeId="@route.Id">Abrir no planeamento</a>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+
+            <form asp-controller="Garage" asp-action="UpdateVehicle" method="post" class="garage-edit-form" data-vehicle-form>
+                <input type="hidden" name="VehicleStatus.Id" value="@selectedVehicle.Id" />
+                <p class="garage-section-title">Editar ficha e estado</p>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Alcunha</label>
+                        <input type="text" name="VehicleStatus.Nickname" value="@selectedVehicle.Nickname" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Matrícula</label>
+                        <input type="text" name="VehicleStatus.RegistrationPlate" value="@selectedVehicle.RegistrationPlate" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Marca</label>
+                        <input type="text" name="VehicleStatus.Brand" value="@selectedVehicle.Brand" class="form-control app-control app-control--light" data-vehicle-brand />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Modelo</label>
+                        <input type="text" name="VehicleStatus.Model" value="@selectedVehicle.Model" class="form-control app-control app-control--light" data-vehicle-model />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Ano</label>
+                        <input type="number" min="1990" max="2100" name="VehicleStatus.Year" value="@selectedVehicle.Year" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Combustível</label>
+                        <select name="VehicleStatus.FuelKind" class="form-select app-control app-control--light" data-fuel-select>
+                            @foreach (var fuel in Enum.GetValues<FuelKind>())
+                            {
+                                <option value="@fuel" selected="@(fuel == selectedVehicle.FuelKind)">@fuel</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Classe portagem</label>
+                        <select name="VehicleStatus.TollClass" class="form-select app-control app-control--light">
+                            @foreach (var tollClass in Enum.GetValues<TollClass>())
+                            {
+                                <option value="@tollClass" selected="@(tollClass == selectedVehicle.TollClass)">@tollClass</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Nível atual (%)</label>
+                        <input type="range" min="0" max="100" value="@selectedVehicle.CurrentLevelPercent" class="form-range garage-range" data-range-target="level-@selectedVehicle.Id" />
+                        <input id="level-@selectedVehicle.Id" type="number" min="0" max="100" name="VehicleStatus.CurrentLevelPercent" value="@selectedVehicle.CurrentLevelPercent" class="form-control app-control app-control--light mt-2" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Pneus (%)</label>
+                        <input type="number" min="0" max="100" name="VehicleStatus.TireHealthPercent" value="@selectedVehicle.TireHealthPercent" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Consumo médio</label>
+                        <input type="number" step="0.1" min="0.1" name="VehicleStatus.AverageConsumption" value="@selectedVehicle.AverageConsumption" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2" data-capacity-field="tank">
+                        <label class="form-label">Depósito (L)</label>
+                        <input type="number" step="0.1" min="0" name="VehicleStatus.TankCapacity" value="@selectedVehicle.TankCapacity" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2" data-capacity-field="battery">
+                        <label class="form-label">Bateria (kWh)</label>
+                        <input type="number" step="0.1" min="0" name="VehicleStatus.BatteryCapacity" value="@selectedVehicle.BatteryCapacity" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Autonomia total (km)</label>
+                        <input type="number" step="1" min="1" name="VehicleStatus.AverageRangeKm" value="@selectedVehicle.AverageRangeKm" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Odómetro (km)</label>
+                        <input type="number" step="0.1" min="0" name="VehicleStatus.OdometerKm" value="@selectedVehicle.OdometerKm" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Próxima revisão (km)</label>
+                        <input type="number" step="1" min="0" name="VehicleStatus.NextServiceKm" value="@selectedVehicle.NextServiceKm" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Última manutenção</label>
+                        <input type="date" name="VehicleStatus.LastMaintenance" value="@(selectedVehicle.LastMaintenance?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Inspeção</label>
+                        <input type="date" name="VehicleStatus.InspectionDueDate" value="@(selectedVehicle.InspectionDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Seguro</label>
+                        <input type="date" name="VehicleStatus.InsuranceDueDate" value="@(selectedVehicle.InsuranceDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">IUC</label>
+                        <input type="date" name="VehicleStatus.TaxDueDate" value="@(selectedVehicle.TaxDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Notas</label>
+                        <textarea name="VehicleStatus.Notes" rows="2" class="form-control app-control app-control--light garage-notes-input">@selectedVehicle.Notes</textarea>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button type="submit" class="btn btn-brand">Atualizar ficha</button>
+                </div>
+            </form>
+
+            <form asp-controller="Garage" asp-action="RefuelVehicle" method="post" class="garage-refuel-form">
+                <input type="hidden" name="RefuelInput.Id" value="@selectedVehicle.Id" />
+                <p class="garage-section-title">Abastecer / carregar</p>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">Adicionar @refuelUnit(selectedVehicle)</label>
+                        <input type="number" step="0.1" min="0" name="RefuelInput.Amount" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "12.5" : "20")" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Preço por @(selectedVehicle.FuelKind == FuelKind.Electric ? "kWh" : "L")</label>
+                        <input type="number" step="0.001" min="0" name="RefuelInput.UnitPrice" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "0.420" : "1.679")" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Posto / local (opcional)</label>
+                        <input type="text" name="RefuelInput.StationName" class="form-control app-control app-control--light" placeholder="Ex: Galp Palmela Norte" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check route-toggle">
+                            <input id="fill-@selectedVehicle.Id" name="RefuelInput.FillToFull" value="true" class="form-check-input" type="checkbox" />
+                            <label class="form-check-label" for="fill-@selectedVehicle.Id">Marcar como cheio</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-brand">Abastecer / Carregar</button>
+                        <span class="form-text text-muted">Se preencheres o preço, o custo estimado entra logo no histórico do veículo.</span>
+                    </div>
+                </div>
+            </form>
+
+            <section class="garage-history-panel">
+                <div class="garage-history-head">
+                    <div>
+                        <p class="eyebrow">Histórico recente</p>
+                        <h4>@selectedActivities.Count registo(s)</h4>
+                    </div>
+                    <span class="garage-history-note">Combustível, carga e viagens deste veículo</span>
+                </div>
+                @if (selectedActivities.Count == 0)
+                {
+                    <div class="garage-history-empty">Ainda não há histórico para este veículo.</div>
+                }
+                else
+                {
+                    <div class="garage-history-list">
+                        @foreach (var activity in selectedActivities)
+                        {
+                            <article class="garage-history-item">
+                                <div class="garage-history-item__head">
+                                    <div>
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                            <span class="mini-pill @activityTone(activity.Type)">@activityBadge(activity.Type)</span>
+                                            <strong>@activity.Title</strong>
+                                        </div>
+                                        <p>@activity.Details</p>
+                                    </div>
+                                    <div class="garage-history-item__meta">
+                                        <strong>@activityMetric(activity)</strong>
+                                        <span>@activity.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+                                    </div>
+                                </div>
+                                <div class="garage-history-item__foot">
+                                    <span>@relativeTime(activity.CreatedAt)</span>
+                                    @if (activity.UnitPrice.HasValue && !string.IsNullOrWhiteSpace(activity.Unit))
+                                    {
+                                        <span>Preço unitário @activity.UnitPrice.Value.ToString("0.000") EUR/@activity.Unit</span>
+                                    }
+                                    @if (activity.CostEstimate.HasValue)
+                                    {
+                                        <span>Custo estimado @activity.CostEstimate.Value.ToString("0.00") EUR</span>
+                                    }
+                                    @if (activity.OdometerKm.HasValue)
+                                    {
+                                        <span>Odómetro @activity.OdometerKm.Value.ToString("0.#") km</span>
+                                    }
+                                    @if (activity.LevelPercentAfter.HasValue)
+                                    {
+                                        <span>Nível após registo @activity.LevelPercentAfter.Value%</span>
+                                    }
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                @if (!selectedVehicle.IsDefault)
+                {
+                    <form asp-controller="Garage" asp-action="SetDefaultVehicle" method="post">
+                        <input type="hidden" name="id" value="@selectedVehicle.Id" />
+                        <button type="submit" class="btn btn-sm btn-ghost-dark">Tornar predefinido</button>
+                    </form>
+                }
+                <form asp-controller="Garage" asp-action="DeleteVehicle" method="post">
+                    <input type="hidden" name="id" value="@selectedVehicle.Id" />
+                    <button type="submit" class="btn btn-sm btn-ghost-dark">Remover</button>
+                </form>
+            </div>
+        }
+    </article>
+</section>
+
+<section class="garage-layout garage-layout--stacked">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Novo veículo</p>
+                <h2>Adicionar à garagem</h2>
+            </div>
+        </div>
+        <form id="garage-create-form" asp-controller="Garage" asp-action="AddVehicle" method="post" class="row g-3 mt-1" data-vehicle-form>
+            <div class="col-md-3"><input asp-for="VehicleInput.Nickname" class="form-control app-control app-control--light" placeholder="Alcunha" /></div>
+            <div class="col-md-3"><input asp-for="VehicleInput.RegistrationPlate" class="form-control app-control app-control--light" placeholder="Matrícula" /></div>
+            <div class="col-md-3">
+                <select asp-for="VehicleInput.Brand" id="vehicle-make" class="form-select app-control app-control--light" data-model-target="#vehicle-model" data-model-url="/api/catalog/models">
+                    <option value="">Seleciona marca</option>
+                    @foreach (var make in Model.VehicleMakes)
+                    {
+                        <option value="@make">@make</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select asp-for="VehicleInput.Model" id="vehicle-model" class="form-select app-control app-control--light">
+                    <option value="">Seleciona modelo</option>
+                </select>
+            </div>
+            <div class="col-md-2"><input asp-for="VehicleInput.Year" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-2"><select asp-for="VehicleInput.FuelKind" id="vehicle-fuel-kind" asp-items="Html.GetEnumSelectList<FuelKind>()" class="form-select app-control app-control--light" data-fuel-select></select></div>
+            <div class="col-md-2"><select asp-for="VehicleInput.TollClass" asp-items="Html.GetEnumSelectList<TollClass>()" class="form-select app-control app-control--light"></select></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.CurrentLevelPercent" class="form-control app-control app-control--light" placeholder="Nível atual" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.TireHealthPercent" class="form-control app-control app-control--light" placeholder="Pneus %" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.AverageConsumption" class="form-control app-control app-control--light" placeholder="Consumo médio" /></div>
+            <div class="col-md-2" data-capacity-field="tank"><input asp-for="VehicleInput.TankCapacity" class="form-control app-control app-control--light" placeholder="Depósito" /></div>
+            <div class="col-md-2" data-capacity-field="battery"><input asp-for="VehicleInput.BatteryCapacity" class="form-control app-control app-control--light" placeholder="Bateria" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.AverageRangeKm" class="form-control app-control app-control--light" placeholder="Autonomia" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.OdometerKm" class="form-control app-control app-control--light" placeholder="Odómetro" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.NextServiceKm" class="form-control app-control app-control--light" placeholder="Próxima revisão km" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.LastMaintenance" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.InspectionDueDate" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.InsuranceDueDate" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-2"><input asp-for="VehicleInput.TaxDueDate" class="form-control app-control app-control--light" /></div>
+            <div class="col-12"><textarea asp-for="VehicleInput.Notes" class="form-control app-control app-control--light garage-notes-input" rows="2" placeholder="Notas rápidas do veículo, pneus, uso principal, etc."></textarea></div>
+            <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+                <button type="submit" class="btn btn-brand">Guardar veículo</button>
+                <span class="form-text text-muted">Marca/modelo e combustível podem ser inferidos. A garagem abre logo a ficha do novo veículo.</span>
+            </div>
+        </form>
+    </article>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

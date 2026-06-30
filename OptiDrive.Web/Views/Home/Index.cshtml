@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<section class="hero-grid">
+    <article class="hero-card hero-card--primary">
+        <p class="eyebrow">Mobilidade inteligente</p>
+        <h1>Planeamento inteligente com foco real em combustivel, portagens e poupanca.</h1>
+        <p class="lede">
+            Plataforma completa para planear viagens, gerir veiculos, encontrar postos e coordenar deslocacoes em grupo.
+            Tudo com custos, autonomia, carregamentos, portagens e historico num unico cockpit.
+        </p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="btn btn-brand" asp-controller="Home" asp-action="Login">Entrar</a>
+            <a class="btn btn-ghost" asp-controller="Home" asp-action="Register">Criar conta</a>
+        </div>
+    </article>
+
+    <div class="hero-stack">
+        <article class="info-card">
+            <p class="eyebrow">Smart Save</p>
+            <h2>Compara rota rapida vs rota economica</h2>
+            <p>Calcula custo total, autonomia, portagens, score de poupanca e sugestao de paragem.</p>
+        </article>
+        <article class="info-card">
+            <p class="eyebrow">Garagem</p>
+            <h2>Veiculos com consumo real</h2>
+            <p>Marca, modelo, tipo de energia, autonomia e manutencao numa garagem unica.</p>
+        </article>
+        <article class="info-card">
+            <p class="eyebrow">Colaboracao</p>
+            <h2>Partilha e grupos de viagem</h2>
+            <p>Circulo de confianca, grupos e split de despesas para roadtrips em caravana.</p>
+        </article>
+    </div>
+</section>

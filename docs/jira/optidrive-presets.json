@@ -1,0 +1,229 @@
+{
+  "issues": [
+    {
+      "ref": "T1",
+      "type": "Epic",
+      "summary": "T1 - Fase de Analise de Requisitos",
+      "description": "Planeamento e execucao da fase de analise de requisitos do projeto OptiDrive.",
+      "priority": "High",
+      "labels": ["optidrive", "fase-analise", "wbs"],
+      "estimateHours": 32,
+      "dueDate": "2026-05-12"
+    },
+    {
+      "ref": "T1.1",
+      "type": "Task",
+      "summary": "T1.1 - Levantamento e Engenharia de Requisitos",
+      "description": "Levantamento, validacao e estruturacao dos requisitos funcionais e nao funcionais.",
+      "priority": "High",
+      "labels": ["optidrive", "requisitos", "wbs"],
+      "estimateHours": 12,
+      "dueDate": "2026-05-06",
+      "parentRef": "T1"
+    },
+    {
+      "ref": "T1.2",
+      "type": "Task",
+      "summary": "T1.2 - Modelacao de Casos de Uso (UML) e Atores",
+      "description": "Definicao de atores, fluxos principais e casos de uso UML do sistema.",
+      "priority": "High",
+      "labels": ["optidrive", "uml", "wbs"],
+      "estimateHours": 10,
+      "dueDate": "2026-05-09",
+      "parentRef": "T1"
+    },
+    {
+      "ref": "T1.3",
+      "type": "Task",
+      "summary": "T1.3 - Desenho da Matriz de Rastreabilidade Geral",
+      "description": "Criacao da matriz de rastreabilidade para ligar requisitos, desenho, implementacao e testes.",
+      "priority": "Medium",
+      "labels": ["optidrive", "rastreabilidade", "wbs"],
+      "estimateHours": 10,
+      "dueDate": "2026-05-12",
+      "parentRef": "T1"
+    },
+    {
+      "ref": "T2",
+      "type": "Epic",
+      "summary": "T2 - Modelacao e Modelacao de Dados",
+      "description": "Fase de modelacao de dados e preparacao da base de dados do OptiDrive.",
+      "priority": "High",
+      "labels": ["optidrive", "dados", "wbs"],
+      "estimateHours": 20,
+      "dueDate": "2026-05-17"
+    },
+    {
+      "ref": "T2.1",
+      "type": "Task",
+      "summary": "T2.1 - Desenho do Modelo Entidade-Relacao",
+      "description": "Criacao do modelo ER para suportar utilizadores, veiculos, rotas, abastecimentos e postos.",
+      "priority": "High",
+      "labels": ["optidrive", "er", "wbs"],
+      "estimateHours": 10,
+      "dueDate": "2026-05-15",
+      "parentRef": "T2"
+    },
+    {
+      "ref": "T2.2",
+      "type": "Task",
+      "summary": "T2.2 - Criacao de Scripts SQL",
+      "description": "Criacao dos scripts SQL DDL e DML da base de dados.",
+      "priority": "High",
+      "labels": ["optidrive", "sql", "wbs"],
+      "estimateHours": 10,
+      "dueDate": "2026-05-17",
+      "parentRef": "T2"
+    },
+    {
+      "ref": "T3",
+      "type": "Epic",
+      "summary": "T3 - Desenvolvimento Backend (.NET 8 Core)",
+      "description": "Implementacao dos modulos backend, integracoes e logica Smart Save.",
+      "priority": "Highest",
+      "labels": ["optidrive", "backend", "wbs"],
+      "estimateHours": 64,
+      "dueDate": "2026-06-02"
+    },
+    {
+      "ref": "T3.1",
+      "type": "Task",
+      "summary": "T3.1 - Setup de Arquitetura e Configuracao ASP.NET",
+      "description": "Estruturar a arquitetura da aplicacao ASP.NET Core e configuracoes base do projeto.",
+      "priority": "High",
+      "labels": ["optidrive", "aspnet", "wbs"],
+      "estimateHours": 8,
+      "dueDate": "2026-05-19",
+      "parentRef": "T3"
+    },
+    {
+      "ref": "T3.2",
+      "type": "Task",
+      "summary": "T3.2 - Implementacao do Modulo de Identidade e Seguranca",
+      "description": "Implementar autenticacao, perfis, controlo de acesso e protecao das principais operacoes.",
+      "priority": "High",
+      "labels": ["optidrive", "seguranca", "wbs"],
+      "estimateHours": 14,
+      "dueDate": "2026-05-23",
+      "parentRef": "T3"
+    },
+    {
+      "ref": "T3.3",
+      "type": "Task",
+      "summary": "T3.3 - Integracao com APIs de Mapas e Portagens",
+      "description": "Integrar Google Maps, pesquisa de locais, roteamento e logica relacionada com portagens.",
+      "priority": "Highest",
+      "labels": ["optidrive", "maps", "wbs"],
+      "estimateHours": 22,
+      "dueDate": "2026-05-28",
+      "parentRef": "T3"
+    },
+    {
+      "ref": "T3.4",
+      "type": "Task",
+      "summary": "T3.4 - Desenvolvimento do Algoritmo Smart Save",
+      "description": "Implementar a heuristica de recomendacao de paragens, custo e autonomia.",
+      "priority": "Highest",
+      "labels": ["optidrive", "smartsave", "wbs"],
+      "estimateHours": 20,
+      "dueDate": "2026-06-02",
+      "parentRef": "T3"
+    },
+    {
+      "ref": "T4",
+      "type": "Epic",
+      "summary": "T4 - Desenvolvimento Frontend (Razor Pages / HTML5)",
+      "description": "Construir a experiencia visual do sistema, dashboard, garagem e planeamento.",
+      "priority": "High",
+      "labels": ["optidrive", "frontend", "wbs"],
+      "estimateHours": 48,
+      "dueDate": "2026-06-05"
+    },
+    {
+      "ref": "T4.1",
+      "type": "Task",
+      "summary": "T4.1 - Criacao de Interfaces de Utilizador e Dashboard",
+      "description": "Criar as interfaces principais, dashboard, navegacao e vistas de utilizador.",
+      "priority": "Medium",
+      "labels": ["optidrive", "ui", "wbs"],
+      "estimateHours": 20,
+      "dueDate": "2026-05-29",
+      "parentRef": "T4"
+    },
+    {
+      "ref": "T4.2",
+      "type": "Task",
+      "summary": "T4.2 - Implementacao do Mapa Dinamico e Filtros Visuais",
+      "description": "Criar o mapa de rotas e postos, incluindo filtros visuais de combustivel, marca e carregamento.",
+      "priority": "High",
+      "labels": ["optidrive", "mapa", "wbs"],
+      "estimateHours": 28,
+      "dueDate": "2026-06-05",
+      "parentRef": "T4"
+    },
+    {
+      "ref": "T5",
+      "type": "Epic",
+      "summary": "T5 - Fase de Testes e Validacao de Qualidade",
+      "description": "Executar testes tecnicos e de experiencia para garantir qualidade da entrega.",
+      "priority": "High",
+      "labels": ["optidrive", "qa", "wbs"],
+      "estimateHours": 24,
+      "dueDate": "2026-06-12"
+    },
+    {
+      "ref": "T5.1",
+      "type": "Task",
+      "summary": "T5.1 - Execucao de Testes Unitarios de Backend",
+      "description": "Cobrir a logica critica do backend com testes unitarios e validacao tecnica.",
+      "priority": "Medium",
+      "labels": ["optidrive", "testes", "backend", "wbs"],
+      "estimateHours": 12,
+      "dueDate": "2026-06-08",
+      "parentRef": "T5"
+    },
+    {
+      "ref": "T5.2",
+      "type": "Task",
+      "summary": "T5.2 - Testes de Compatibilidade e Responsividade",
+      "description": "Validar comportamento em browsers e ecras diferentes, com foco na experiencia mobile e desktop.",
+      "priority": "High",
+      "labels": ["optidrive", "responsivo", "wbs"],
+      "estimateHours": 12,
+      "dueDate": "2026-06-12",
+      "parentRef": "T5"
+    },
+    {
+      "ref": "T6",
+      "type": "Epic",
+      "summary": "T6 - Fase de Encerramento e Documentacao",
+      "description": "Fecho do projeto com relatorio final e apresentacao da solucao.",
+      "priority": "Medium",
+      "labels": ["optidrive", "documentacao", "wbs"],
+      "estimateHours": 16,
+      "dueDate": "2026-06-18"
+    },
+    {
+      "ref": "T6.1",
+      "type": "Task",
+      "summary": "T6.1 - Consolidacao do Relatorio de Especificacao Final",
+      "description": "Consolidar o documento final de especificacao e artefactos principais.",
+      "priority": "Medium",
+      "labels": ["optidrive", "relatorio", "wbs"],
+      "estimateHours": 10,
+      "dueDate": "2026-06-15",
+      "parentRef": "T6"
+    },
+    {
+      "ref": "T6.2",
+      "type": "Task",
+      "summary": "T6.2 - Preparacao da Apresentacao do Projeto",
+      "description": "Preparar a apresentacao final com apresentacao da solucao.",
+      "priority": "Low",
+      "labels": ["optidrive", "apresentacao", "wbs"],
+      "estimateHours": 6,
+      "dueDate": "2026-06-18",
+      "parentRef": "T6"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+flowchart TB
+    subgraph Browser
+        HTML[Razor HTML]
+        JS[JavaScript]
+        CSS[CSS]
+    end
+    subgraph App[Container optidrive-web]
+        ASP[ASP.NET Core MVC]
+        Services[Domain Services]
+        EF[EF Core]
+    end
+    subgraph Storage
+        SQLite[(SQLite Volume)]
+    end
+    subgraph External
+        Maps[Google Maps]
+        Charge[OpenChargeMap]
+        OAuth[Google/Microsoft/Apple OAuth]
+    end
+    Browser --> ASP
+    ASP --> Services
+    Services --> EF
+    EF --> SQLite
+    Services --> Maps
+    Services --> Charge
+    ASP --> OAuth

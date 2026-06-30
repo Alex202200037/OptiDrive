@@ -1,0 +1,45 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "primaryColor": "#0b5e47",
+    "primaryTextColor": "#0b1f2a",
+    "primaryBorderColor": "#0b5e47",
+    "lineColor": "#51656e",
+    "secondaryColor": "#f0d37b",
+    "tertiaryColor": "#f8f4e8",
+    "background": "#ffffff",
+    "mainBkg": "#ffffff",
+    "secondBkg": "#f8f4e8",
+    "tertiaryBkg": "#eef7f2",
+    "clusterBkg": "#f8f4e8",
+    "clusterBorder": "#d8c98d",
+    "edgeLabelBackground": "#ffffff",
+    "actorBkg": "#0b5e47",
+    "actorTextColor": "#ffffff",
+    "actorBorder": "#0b5e47",
+    "activationBkgColor": "#f0d37b",
+    "activationBorderColor": "#0b5e47",
+    "sequenceNumberColor": "#ffffff",
+    "noteBkgColor": "#fff7dc",
+    "noteTextColor": "#0b1f2a",
+    "noteBorderColor": "#d8c98d"
+  },
+  "flowchart": {
+    "htmlLabels": true,
+    "curve": "basis"
+  },
+  "sequence": {
+    "showSequenceNumbers": true,
+    "mirrorActors": false
+  },
+  "gantt": {
+    "barHeight": 24,
+    "topPadding": 48,
+    "leftPadding": 100,
+    "gridLineStartPadding": 30,
+    "fontSize": 13,
+    "sectionFontSize": 13,
+    "numberSectionStyles": 4
+  }
+}

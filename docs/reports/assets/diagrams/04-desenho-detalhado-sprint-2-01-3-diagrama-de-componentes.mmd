@@ -1,0 +1,11 @@
+flowchart LR
+    PlanningView --> PlanningController
+    PlanningController --> GoogleDirectionsService
+    PlanningController --> GeocodingService
+    PlanningController --> SmartSaveService
+    SmartSaveService --> AppStateService
+    AppStateService --> FuelStations[(FuelStation)]
+    ExternalFuelStationService --> AppStateService
+    ExternalElectricStationService --> AppStateService
+    GoogleDirectionsService --> GoogleMaps[Google Maps]
+    ExternalElectricStationService --> OCM[OpenChargeMap]

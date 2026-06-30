@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor U as Visitante
+    participant H as HomeController
+    participant A as AppStateService
+    participant P as ProfileController
+    participant T as AuthenticatorService
+    U->>H: Submete registo
+    H->>A: Register(nome,email,password)
+    A-->>H: UserAccount criado
+    H-->>P: Redireciona para perfil
+    P->>A: GetAuthenticatorSetup(userId)
+    A->>T: Gerar segredo e URI TOTP
+    T-->>A: QR code/URI
+    P-->>U: Mostra QR code
+    U->>P: Introduz código TOTP
+    P->>A: EnableAuthenticator(code)
+    A-->>P: Recovery codes

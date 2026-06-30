@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor A as Apresentador
+    participant D as Docker Compose
+    participant W as OptiDrive Web
+    participant H as Healthcheck
+    participant C as Confluence
+    participant J as Jira
+    A->>D: docker compose up -d --build
+    D->>W: Inicia aplicação
+    W->>H: Expõe estado operacional
+    A->>H: Valida /health
+    A->>W: Ensaia login, garagem, planeamento e social
+    A->>C: Mostra relatórios publicados
+    A->>J: Mostra backlog/issues concluídas

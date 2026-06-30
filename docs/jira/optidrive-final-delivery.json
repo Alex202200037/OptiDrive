@@ -1,0 +1,13 @@
+{
+  "issues": [
+    {
+      "ref": "FINAL-1",
+      "type": "Task",
+      "summary": "Consolidar entrega final e guia de apresentacao",
+      "description": "Consolidar o estado final do OptiDrive para apresentacao: stack ASP.NET Core MVC, comandos de execucao, contas apresentacao, roteiro de apresentacao, validacao build/testes/Docker, Jira e Confluence.",
+      "priority": "High",
+      "labels": ["optidrive", "entrega-final", "apresentacao", "confluence"],
+      "dueDate": "2026-06-24"
+    }
+  ]
+}

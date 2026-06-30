@@ -1,0 +1,340 @@
+@using OptiDrive.Web.Models
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var places = (IReadOnlyList<string>)(ViewBag.Places ?? Array.Empty<string>());
+    string fuelLabel(FuelKind kind) => kind switch
+    {
+        FuelKind.Gasoline95 => "Gasolina 95",
+        FuelKind.Gasoline98 => "Gasolina 98",
+        FuelKind.Diesel => "Gasoleo",
+        FuelKind.GPL => "GPL",
+        FuelKind.Electric => "Eletrico",
+        _ => kind.ToString()
+    };
+}
+
+<section class="dashboard-hero">
+    <div>
+        <p class="eyebrow">OptiDrive Cockpit</p>
+        <h1>Ola, @Model.User.Name</h1>
+        <p class="text-soft">Centro de controlo para rotas, autonomia, postos e colaboracao.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        @if (Model.User.Role == UserRole.Admin)
+        {
+            <a class="btn btn-ghost" asp-controller="Admin" asp-action="Index">Backoffice</a>
+        }
+        <form asp-controller="Home" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-ghost">Terminar sessao</button>
+        </form>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Veiculos</span><strong>@Model.Vehicles.Count</strong></article>
+    <article class="stat-card"><span>Postos</span><strong>@Model.Stations.Count</strong></article>
+    <article class="stat-card"><span>Rotas</span><strong>@Model.Routes.Count</strong></article>
+    <article class="stat-card"><span>Contactos</span><strong>@Model.Contacts.Count</strong></article>
+</section>
+
+<section class="sync-grid">
+    @foreach (var item in Model.SyncStatuses)
+    {
+        <article class="sync-card @(item.Value.IsSuccess ? "sync-card--ok" : "sync-card--warn")">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                    <p class="eyebrow">@item.Value.SourceName</p>
+                    <h3>@item.Key</h3>
+                </div>
+                <span class="mini-pill">@item.Value.ItemCount registos</span>
+            </div>
+            <p class="mt-2 mb-1">@item.Value.Message</p>
+            <small>Ultimo sucesso: @(item.Value.LastSuccessUtc?.ToLocalTime().ToString("g") ?? "sem sucesso ainda")</small>
+        </article>
+    }
+</section>
+
+<section class="content-grid">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Smart Save</p>
+                <h2>Planear itinerario</h2>
+            </div>
+            @if (Model.Routes.Any())
+            {
+                <span class="score-pill">Score @Model.Routes.First().SavingsScore/10</span>
+            }
+        </div>
+        <form asp-action="PlanRoute" method="post" class="row g-3 mt-1">
+            <div class="col-md-6">
+                <label asp-for="RouteInput.VehicleId" class="form-label">Veiculo</label>
+                <select asp-for="RouteInput.VehicleId" class="form-select app-control app-control--light">
+                    @foreach (var vehicle in Model.Vehicles)
+                    {
+                        <option value="@vehicle.Id">@vehicle.Nickname</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.AverageSpeed" class="form-label">Velocidade media</label>
+                <input asp-for="RouteInput.AverageSpeed" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.Origin" class="form-label">Origem</label>
+                <select asp-for="RouteInput.Origin" class="form-select app-control app-control--light">
+                    @foreach (var place in places)
+                    {
+                        <option value="@place">@place</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="RouteInput.Destination" class="form-label">Destino</label>
+                <select asp-for="RouteInput.Destination" class="form-select app-control app-control--light">
+                    @foreach (var place in places)
+                    {
+                        <option value="@place">@place</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12">
+                <label asp-for="RouteInput.Waypoints" class="form-label">Pontos intermédios</label>
+                <input asp-for="RouteInput.Waypoints" class="form-control app-control app-control--light" placeholder="Ex: Alcacer do Sal,Grandola" />
+            </div>
+            <div class="col-12">
+                <div class="form-check route-toggle">
+                    <input asp-for="RouteInput.AvoidTolls" class="form-check-input" />
+                    <label asp-for="RouteInput.AvoidTolls" class="form-check-label">Evitar portagens</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-brand">Gerar nova rota</button>
+            </div>
+        </form>
+
+        @if (Model.Routes.Any())
+        {
+            var route = Model.Routes.First();
+            <div class="route-summary">
+                <div class="summary-card">
+                    <p class="eyebrow">Ultima rota</p>
+                    <h3>@route.Origin para @route.Destination</h3>
+                    <p>@route.DistanceKm km · ETA @route.EtaMinutes min · CO2 @route.CarbonKg kg</p>
+                </div>
+                <div class="summary-card summary-card--accent">
+                    <p class="eyebrow">Comparativo</p>
+                    <h3>Rapida @route.FastestCost.ToString("0.00") EUR</h3>
+                    <p>Economica @route.CheapestCost.ToString("0.00") EUR · Portagens @route.TollCost.ToString("0.00") EUR</p>
+                    <p class="mt-2">@route.Recommendation</p>
+                    <p class="mt-2">@route.CriticalAlert</p>
+                </div>
+            </div>
+        }
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Garagem</p>
+                <h2>Veiculos e autonomia</h2>
+            </div>
+        </div>
+        <form asp-action="AddVehicle" method="post" class="row g-3 mt-1">
+            <div class="col-md-6"><input asp-for="VehicleInput.Nickname" class="form-control app-control app-control--light" placeholder="Alcunha" /></div>
+            <div class="col-md-6">
+                <select asp-for="VehicleInput.Brand" id="vehicle-make" class="form-select app-control app-control--light" data-model-target="#vehicle-model" data-model-url="/api/catalog/models">
+                    <option value="">Seleciona marca</option>
+                    @foreach (var make in Model.VehicleMakes)
+                    {
+                        <option value="@make">@make</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <select asp-for="VehicleInput.Model" id="vehicle-model" class="form-select app-control app-control--light">
+                    <option value="">Seleciona modelo</option>
+                </select>
+            </div>
+            <div class="col-md-6"><input asp-for="VehicleInput.Year" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-6"><select asp-for="VehicleInput.FuelKind" asp-items="Html.GetEnumSelectList<FuelKind>()" class="form-select app-control app-control--light"></select></div>
+            <div class="col-md-6"><select asp-for="VehicleInput.TollClass" asp-items="Html.GetEnumSelectList<TollClass>()" class="form-select app-control app-control--light"></select></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.AverageConsumption" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.TankCapacity" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.BatteryCapacity" class="form-control app-control app-control--light" placeholder="Bateria (opcional)" /></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.AverageRangeKm" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.CurrentLevelPercent" class="form-control app-control app-control--light" /></div>
+            <div class="col-md-6"><input asp-for="VehicleInput.LastMaintenance" class="form-control app-control app-control--light" /></div>
+            <div class="col-12"><button type="submit" class="btn btn-brand">Adicionar veiculo</button></div>
+        </form>
+
+        <div class="stack-list mt-4">
+            @foreach (var vehicle in Model.Vehicles)
+            {
+                <div class="list-card">
+                    <div>
+                        <h3>@vehicle.Nickname</h3>
+                        <p>@vehicle.Brand @vehicle.Model · @vehicle.Year · @fuelLabel(vehicle.FuelKind)</p>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (vehicle.IsDefault)
+                        {
+                            <span class="mini-pill">Veiculo ativo</span>
+                        }
+                        else
+                        {
+                            <form asp-action="SetDefaultVehicle" method="post">
+                                <input type="hidden" name="id" value="@vehicle.Id" />
+                                <button type="submit" class="btn btn-sm btn-ghost-dark">Tornar predefinido</button>
+                            </form>
+                        }
+                        <form asp-action="DeleteVehicle" method="post">
+                            <input type="hidden" name="id" value="@vehicle.Id" />
+                            <button type="submit" class="btn btn-sm btn-ghost-dark">Remover</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="content-grid mt-4">
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Postos</p>
+                <h2>Low-cost e reportes</h2>
+            </div>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var station in Model.Stations.Take(5))
+            {
+                <div class="list-card">
+                    <div>
+                        <h3>@station.Name</h3>
+                        <p>@station.City · @fuelLabel(station.FuelKind) · @station.Services</p>
+                    </div>
+                    <div class="text-end">
+                        <strong>@station.Price.ToString("0.000") EUR</strong>
+                        <div class="small text-muted">@((station.IsLowCost ? "Low cost" : station.Brand)) · @station.Source</div>
+                    </div>
+                </div>
+                <form asp-action="ReportPrice" method="post" class="row g-2 report-form">
+                    <input type="hidden" name="StationId" value="@station.Id" />
+                    <div class="col-md-4">
+                        <input name="ReportedPrice" type="number" step="0.001" class="form-control app-control app-control--light" placeholder="1.599" />
+                    </div>
+                    <div class="col-md-8">
+                        <input name="Note" class="form-control app-control app-control--light" placeholder="Comentario do posto" />
+                    </div>
+                </form>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Hub social</p>
+                <h2>Partilha e grupos</h2>
+            </div>
+        </div>
+        <div class="row g-4 mt-1">
+            <div class="col-md-6">
+                <form asp-action="AddContact" method="post" class="mini-panel">
+                    <h3>Circulo de confianca</h3>
+                    <input asp-for="ContactInput.Name" class="form-control app-control app-control--light mt-3" placeholder="Nome" />
+                    <input asp-for="ContactInput.Email" class="form-control app-control app-control--light mt-3" placeholder="Email" />
+                    <button type="submit" class="btn btn-brand mt-3">Adicionar contacto</button>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        @foreach (var contact in Model.Contacts)
+                        {
+                            <span class="mini-pill">@contact.ContactName</span>
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form asp-action="CreateGroup" method="post" class="mini-panel">
+                    <h3>Grupo de viagem</h3>
+                    <input asp-for="GroupInput.Name" class="form-control app-control app-control--light mt-3" placeholder="Nome do grupo" />
+                    <textarea asp-for="GroupInput.Description" class="form-control app-control app-control--light mt-3" rows="3" placeholder="Descricao"></textarea>
+                    <input asp-for="GroupInput.MemberEmails" class="form-control app-control app-control--light mt-3" placeholder="Emails separados por virgula" />
+                    <input asp-for="GroupInput.SplitAmount" class="form-control app-control app-control--light mt-3" placeholder="Split" />
+                    <button type="submit" class="btn btn-brand mt-3">Criar grupo</button>
+                </form>
+            </div>
+        </div>
+
+        <form asp-action="ShareVehicle" method="post" class="mini-panel mt-4">
+            <h3>Partilhar veiculo</h3>
+            <div class="row g-3 mt-1">
+                <div class="col-md-5">
+                    <select asp-for="ShareInput.VehicleId" class="form-select app-control app-control--light">
+                        @foreach (var vehicle in Model.Vehicles)
+                        {
+                            <option value="@vehicle.Id">@vehicle.Nickname</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="ShareInput.TargetEmail" class="form-control app-control app-control--light" placeholder="Email" />
+                </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <div class="form-check">
+                        <input asp-for="ShareInput.CanEdit" class="form-check-input" />
+                        <label asp-for="ShareInput.CanEdit" class="form-check-label">Editar</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-brand mt-3">Guardar partilha</button>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                @foreach (var share in Model.SharedVehicles)
+                {
+                    <span class="mini-pill">@share.TargetEmail</span>
+                }
+            </div>
+        </form>
+    </article>
+</section>
+
+<section class="panel-card mt-4">
+    <div class="panel-top">
+        <div>
+            <p class="eyebrow">APIs internas</p>
+            <h2>Endpoints prontos para o sistema</h2>
+        </div>
+    </div>
+    <div class="stack-list mt-4">
+        <div class="list-card">
+            <div>
+                <h3><code>/api/catalog/makes</code></h3>
+                <p>Catálogo real de marcas via vPIC.</p>
+            </div>
+        </div>
+        <div class="list-card">
+            <div>
+                <h3><code>/api/catalog/models?make=Tesla</code></h3>
+                <p>Modelos dinâmicos por marca.</p>
+            </div>
+        </div>
+        <div class="list-card">
+            <div>
+                <h3><code>/api/fuel/types</code> e <code>/api/fuel/stations</code></h3>
+                <p>Tipos de combustível e postos sincronizados da DGEG com filtros por cidade e combustível.</p>
+            </div>
+        </div>
+        <div class="list-card">
+            <div>
+                <h3><code>/api/status/sync</code></h3>
+                <p>Estado da sincronização externa para monitorização do sistema.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

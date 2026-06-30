@@ -1,0 +1,289 @@
+@using OptiDrive.Web.Models
+@model OptiDrive.Web.Models.AdminViewModel
+@{
+    ViewData["Title"] = "Backoffice";
+
+    string roleLabel(UserRole role) => role == UserRole.Admin ? "Admin" : "Utilizador";
+    string tripStatusLabel(CollaborativeTripStatus status) => status switch
+    {
+        CollaborativeTripStatus.Active => "Ativa",
+        CollaborativeTripStatus.Scheduled => "Agendada",
+        CollaborativeTripStatus.Completed => "Concluida",
+        CollaborativeTripStatus.Cancelled => "Cancelada",
+        _ => "Planeada"
+    };
+    string dateLabel(DateTime? date) => date?.ToLocalTime().ToString("dd/MM HH:mm") ?? "Sem registo";
+}
+
+<section class="dashboard-hero admin-hero">
+    <div>
+        <p class="eyebrow">Backoffice</p>
+        <h1>Centro de comando</h1>
+        <p class="text-soft">Operacao real da plataforma: utilizadores, seguranca, rotas, comunidade, dados externos e saude geral.</p>
+    </div>
+    <div class="admin-hero-actions">
+        <span class="mini-pill mini-pill--accent">Acesso administrativo</span>
+        <form asp-action="RefreshStations" method="post">
+            <button type="submit" class="btn btn-brand">Atualizar postos</button>
+        </form>
+    </div>
+</section>
+
+@if (TempData["AdminSuccess"] is string success)
+{
+    <div class="alert alert-success mt-4">@success</div>
+}
+@if (TempData["AdminWarning"] is string warning)
+{
+    <div class="alert alert-warning mt-4">@warning</div>
+}
+
+<section class="stats-grid admin-stats-grid">
+    <article class="stat-card"><span>Utilizadores</span><strong>@Model.UserCount</strong></article>
+    <article class="stat-card"><span>Online 24h</span><strong>@Model.ActiveUserCount</strong></article>
+    <article class="stat-card"><span>2FA ativo</span><strong>@Model.TwoFactorUserCount</strong></article>
+    <article class="stat-card"><span>Rotas</span><strong>@Model.RouteCount</strong></article>
+    <article class="stat-card"><span>Pedidos sociais</span><strong>@Model.PendingSocialRequestCount</strong></article>
+    <article class="stat-card"><span>Viagens ativas</span><strong>@Model.ActiveTripCount</strong></article>
+</section>
+
+<section class="panel-card mt-4 admin-panel admin-panel--wide">
+    <div class="panel-top">
+        <div>
+            <p class="eyebrow">Seguranca e contas</p>
+            <h2>Gestao de utilizadores</h2>
+        </div>
+        <span class="mini-pill @(Model.LockedUserCount == 0 ? "mini-pill--ok" : "mini-pill--alert")">@Model.LockedUserCount bloqueadas</span>
+    </div>
+
+    <div class="admin-table-wrap mt-3">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Conta</th>
+                    <th>Estado</th>
+                    <th>Atividade</th>
+                    <th>Ultimo acesso</th>
+                    <th>Acoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>
+                            <div class="admin-user-cell">
+                                @if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
+                                {
+                                    <img src="@user.AvatarUrl" alt="@user.Name" />
+                                }
+                                else
+                                {
+                                    <span class="admin-avatar">@string.Concat(user.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(part => part[0]).Take(2)).ToUpperInvariant()</span>
+                                }
+                                <div>
+                                    <strong>@user.Name</strong>
+                                    <small>@user.Email</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="admin-pill-stack">
+                                <span class="mini-pill @(user.Role == UserRole.Admin ? "mini-pill--accent" : "mini-pill--muted")">@roleLabel(user.Role)</span>
+                                <span class="mini-pill @(user.IsLocked ? "mini-pill--alert" : "mini-pill--ok")">@(user.IsLocked ? "Bloqueada" : "Ativa")</span>
+                                <span class="mini-pill @(user.TwoFactorEnabled ? "mini-pill--ok" : "mini-pill--warn")">@(user.TwoFactorEnabled ? "2FA ativo" : "2FA pendente")</span>
+                                <span class="mini-pill @(user.EmailConfirmed ? "mini-pill--ok" : "mini-pill--warn")">@(user.EmailConfirmed ? "Email confirmado" : "Email pendente")</span>
+                                <span class="mini-pill mini-pill--muted">@user.AccessMode</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="admin-metrics-mini">
+                                <span>@user.VehicleCount veiculos</span>
+                                <span>@user.RouteCount rotas</span>
+                                <span>@user.TripCount viagens</span>
+                                <span>@user.MessageCount mensagens</span>
+                                @if (user.FailedLoginAttempts > 0)
+                                {
+                                    <span>@user.FailedLoginAttempts tentativas falhadas</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <strong>@dateLabel(user.LastLoginAtUtc)</strong>
+                            <small>Criada em @user.CreatedAtUtc.ToLocalTime().ToString("dd/MM/yyyy")</small>
+                        </td>
+                        <td>
+                            <div class="admin-actions">
+                                @if (!user.EmailConfirmed)
+                                {
+                                    <form asp-action="ConfirmUserEmail" method="post">
+                                        <input type="hidden" name="targetUserId" value="@user.UserId" />
+                                        <button type="submit" class="btn btn-ghost-dark btn-sm">Confirmar</button>
+                                    </form>
+                                }
+                                <form asp-action="ResetUserMfa" method="post">
+                                    <input type="hidden" name="targetUserId" value="@user.UserId" />
+                                    <button type="submit" class="btn btn-ghost-dark btn-sm">Reset MFA</button>
+                                </form>
+                                @if (user.IsLocked)
+                                {
+                                    <form asp-action="UnlockUser" method="post">
+                                        <input type="hidden" name="targetUserId" value="@user.UserId" />
+                                        <button type="submit" class="btn btn-ghost-dark btn-sm">Desbloquear</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="LockUser" method="post">
+                                        <input type="hidden" name="targetUserId" value="@user.UserId" />
+                                        <button type="submit" class="btn btn-ghost-dark btn-sm">Bloquear</button>
+                                    </form>
+                                }
+                                <form asp-action="SetUserRole" method="post">
+                                    <input type="hidden" name="targetUserId" value="@user.UserId" />
+                                    <input type="hidden" name="role" value="@(user.Role == UserRole.Admin ? UserRole.User : UserRole.Admin)" />
+                                    <button type="submit" class="btn btn-ghost-dark btn-sm">@(user.Role == UserRole.Admin ? "Tornar user" : "Tornar admin")</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="content-grid mt-4">
+    <article class="panel-card admin-panel">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Planeamento</p>
+                <h2>Rotas recentes</h2>
+            </div>
+            <span class="mini-pill">@Model.VehicleCount veiculos</span>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var route in Model.RecentRoutes)
+            {
+                <div class="list-card admin-route-card">
+                    <div>
+                        <h3>@route.Origin -> @route.Destination</h3>
+                        <p>@route.OwnerName · @route.VehicleName</p>
+                        <small>@route.DistanceKm.ToString("0") km · @route.CheapestCost.ToString("0.00") EUR · chegada @route.EstimatedArrivalLevelPercent%</small>
+                    </div>
+                    <div class="admin-pill-stack admin-pill-stack--right">
+                        @if (route.RequiresIntermediateStops)
+                        {
+                            <span class="mini-pill mini-pill--warn">Reforco</span>
+                        }
+                        @if (route.IsAppliedToVehicle)
+                        {
+                            <span class="mini-pill mini-pill--ok">Assumida</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card admin-panel">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Social</p>
+                <h2>Viagens colaborativas</h2>
+            </div>
+            <span class="mini-pill mini-pill--accent">@Model.ActiveTripCount ativas</span>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var trip in Model.Trips)
+            {
+                <div class="list-card">
+                    <div>
+                        <h3>@trip.Name</h3>
+                        <p>@trip.OwnerName · @trip.Origin -> @trip.Destination</p>
+                        <small>@trip.MemberCount participantes · split @trip.EstimatedSplitAmount.ToString("0.00") EUR · @dateLabel(trip.StartsAtUtc)</small>
+                    </div>
+                    <span class="mini-pill @(trip.Status == CollaborativeTripStatus.Active ? "mini-pill--ok" : "mini-pill--muted")">@tripStatusLabel(trip.Status)</span>
+                </div>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="panel-card mt-4 admin-panel">
+    <div class="panel-top">
+        <div>
+            <p class="eyebrow">Readiness</p>
+            <h2>Estado de produto</h2>
+        </div>
+        <span class="mini-pill mini-pill--ok">Operacional</span>
+    </div>
+    <div class="readiness-grid mt-3">
+        @foreach (var item in Model.Readiness)
+        {
+            <article class="readiness-card readiness-card--@item.Severity">
+                <div class="panel-top">
+                    <h3>@item.Area</h3>
+                    <span class="mini-pill @(item.Severity == "ok" ? "mini-pill--ok" : "mini-pill--warn")">@item.Status</span>
+                </div>
+                <p>@item.Detail</p>
+            </article>
+        }
+    </div>
+</section>
+
+<section class="sync-grid">
+    @foreach (var item in Model.SyncStatuses)
+    {
+        <article class="sync-card @(item.Value.IsSuccess ? "sync-card--ok" : "sync-card--warn")">
+            <p class="eyebrow">@item.Value.SourceName</p>
+            <h3>@item.Key</h3>
+            <p class="mb-1">@item.Value.Message</p>
+            <small>Registos: @item.Value.ItemCount · @(item.Value.LastSuccessUtc?.ToLocalTime().ToString("g") ?? "sem sucesso")</small>
+        </article>
+    }
+</section>
+
+<section class="content-grid mt-4">
+    <article class="panel-card admin-panel">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Dados externos</p>
+                <h2>Ultimos postos</h2>
+            </div>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var station in Model.Stations.Take(8))
+            {
+                <div class="list-card">
+                    <div>
+                        <h3>@station.Name</h3>
+                        <p>@station.City · @station.Brand · @station.LastUpdatedAt.ToLocalTime().ToString("g")</p>
+                    </div>
+                    <strong>@station.Price.ToString("0.000") EUR</strong>
+                </div>
+            }
+        </div>
+    </article>
+
+    <article class="panel-card admin-panel">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Auditoria</p>
+                <h2>Reportes de preco</h2>
+            </div>
+        </div>
+        <div class="stack-list mt-4">
+            @foreach (var report in Model.Reports)
+            {
+                <div class="list-card">
+                    <div>
+                        <h3>@report.ReporterName</h3>
+                        <p>@report.Note</p>
+                    </div>
+                    <strong>@report.ReportedPrice.ToString("0.000") EUR</strong>
+                </div>
+            }
+        </div>
+    </article>
+</section>

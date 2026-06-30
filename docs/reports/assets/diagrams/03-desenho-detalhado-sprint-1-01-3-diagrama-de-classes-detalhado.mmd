@@ -1,0 +1,31 @@
+classDiagram
+    class HomeController {
+        Login()
+        Register()
+        TwoFactor()
+        Logout()
+    }
+    class ProfileController {
+        Index()
+        EnableAuthenticator()
+        ResetAuthenticator()
+    }
+    class AppStateService {
+        Register()
+        ValidateUser()
+        EnableAuthenticator()
+        AddVehicle()
+    }
+    class PasswordSecurityService {
+        HashPassword()
+        VerifyPassword()
+    }
+    class AuthenticatorService {
+        GenerateSecret()
+        BuildOtpAuthUri()
+        ValidateCode()
+    }
+    HomeController --> AppStateService
+    ProfileController --> AppStateService
+    AppStateService --> PasswordSecurityService
+    AppStateService --> AuthenticatorService
