@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+    id="com.optidrive.vpgenerator"
+    name="OptiDrive Visual Paradigm Generator"
+    description="Generates OptiDrive diagrams for ESA documentation."
+    provider="OptiDrive"
+    class="com.optidrive.vpgenerator.OptiDriveVpGenerator">
+</plugin>

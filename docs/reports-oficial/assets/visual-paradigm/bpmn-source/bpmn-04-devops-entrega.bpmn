@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_Process_DevOps"
+  targetNamespace="https://optidrive.local/bpmn/devops">
+  <bpmn:process id="Process_DevOps" name="bpmn-04-devops-entrega" isExecutable="false">
+    <bpmn:startEvent id="devops_start" name="Necessidade de publicar entrega">
+      <bpmn:outgoing>devops_f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="devops_prepare" name="Preparar configuração local e Azure">
+      <bpmn:incoming>devops_f1</bpmn:incoming>
+      <bpmn:outgoing>devops_f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="devops_build" name="Executar build, testes e validação">
+      <bpmn:incoming>devops_f2</bpmn:incoming>
+      <bpmn:incoming>devops_f9</bpmn:incoming>
+      <bpmn:outgoing>devops_f3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="devops_ok" name="Build e testes OK?">
+      <bpmn:incoming>devops_f3</bpmn:incoming>
+      <bpmn:outgoing>devops_f4</bpmn:outgoing>
+      <bpmn:outgoing>devops_f8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="devops_deploy" name="Publicar aplicação e atualizar documentação">
+      <bpmn:incoming>devops_f4</bpmn:incoming>
+      <bpmn:outgoing>devops_f5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="devops_health" name="Verificar healthcheck, admin e métricas">
+      <bpmn:incoming>devops_f5</bpmn:incoming>
+      <bpmn:outgoing>devops_f6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="devops_package" name="Gerar pacote final de entrega">
+      <bpmn:incoming>devops_f6</bpmn:incoming>
+      <bpmn:outgoing>devops_f7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="devops_end" name="Entrega validada">
+      <bpmn:incoming>devops_f7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="devops_fix" name="Corrigir defeitos e repetir validação">
+      <bpmn:incoming>devops_f8</bpmn:incoming>
+      <bpmn:outgoing>devops_f9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="devops_f1" sourceRef="devops_start" targetRef="devops_prepare" />
+    <bpmn:sequenceFlow id="devops_f2" sourceRef="devops_prepare" targetRef="devops_build" />
+    <bpmn:sequenceFlow id="devops_f3" sourceRef="devops_build" targetRef="devops_ok" />
+    <bpmn:sequenceFlow id="devops_f4" name="sim" sourceRef="devops_ok" targetRef="devops_deploy" />
+    <bpmn:sequenceFlow id="devops_f5" sourceRef="devops_deploy" targetRef="devops_health" />
+    <bpmn:sequenceFlow id="devops_f6" sourceRef="devops_health" targetRef="devops_package" />
+    <bpmn:sequenceFlow id="devops_f7" sourceRef="devops_package" targetRef="devops_end" />
+    <bpmn:sequenceFlow id="devops_f8" name="não" sourceRef="devops_ok" targetRef="devops_fix" />
+    <bpmn:sequenceFlow id="devops_f9" sourceRef="devops_fix" targetRef="devops_build" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="bpmn-04-devops-entrega_diagram" name="bpmn-04-devops-entrega">
+    <bpmndi:BPMNPlane id="bpmn-04-devops-entrega_plane" bpmnElement="Process_DevOps">
+      <bpmndi:BPMNShape id="devops_start_di" bpmnElement="devops_start">
+        <dc:Bounds x="70" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_prepare_di" bpmnElement="devops_prepare">
+        <dc:Bounds x="190" y="190" width="310" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_build_di" bpmnElement="devops_build">
+        <dc:Bounds x="590" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_ok_di" bpmnElement="devops_ok">
+        <dc:Bounds x="980" y="205" width="82" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_deploy_di" bpmnElement="devops_deploy">
+        <dc:Bounds x="1150" y="190" width="350" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_health_di" bpmnElement="devops_health">
+        <dc:Bounds x="1590" y="190" width="340" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_package_di" bpmnElement="devops_package">
+        <dc:Bounds x="2020" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_end_di" bpmnElement="devops_end">
+        <dc:Bounds x="2410" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="devops_fix_di" bpmnElement="devops_fix">
+        <dc:Bounds x="590" y="455" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="devops_f1_di" bpmnElement="devops_f1">
+        <di:waypoint x="126.0" y="248.0" />
+        <di:waypoint x="190.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f2_di" bpmnElement="devops_f2">
+        <di:waypoint x="500.0" y="245.0" />
+        <di:waypoint x="590.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f3_di" bpmnElement="devops_f3">
+        <di:waypoint x="890.0" y="245.0" />
+        <di:waypoint x="980.0" y="246.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f4_di" bpmnElement="devops_f4">
+        <di:waypoint x="1062.0" y="246.0" />
+        <di:waypoint x="1150.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f5_di" bpmnElement="devops_f5">
+        <di:waypoint x="1500.0" y="245.0" />
+        <di:waypoint x="1590.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f6_di" bpmnElement="devops_f6">
+        <di:waypoint x="1930.0" y="245.0" />
+        <di:waypoint x="2020.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f7_di" bpmnElement="devops_f7">
+        <di:waypoint x="2320.0" y="245.0" />
+        <di:waypoint x="2410.0" y="248.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f8_di" bpmnElement="devops_f8">
+        <di:waypoint x="1021.0" y="287.0" />
+        <di:waypoint x="1021.0" y="510.0" />
+        <di:waypoint x="890.0" y="510.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="devops_f9_di" bpmnElement="devops_f9">
+        <di:waypoint x="740.0" y="455.0" />
+        <di:waypoint x="740.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

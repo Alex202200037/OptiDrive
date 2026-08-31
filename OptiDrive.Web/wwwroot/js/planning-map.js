@@ -17,6 +17,10 @@
 
     async function fetchJson(url) {
         const response = await fetch(url, { credentials: "same-origin" });
+        if (!response.ok) {
+            throw new Error(`Pedido falhou com estado ${response.status}.`);
+        }
+
         return await response.json();
     }
 
@@ -209,6 +213,7 @@
         buttons.forEach((button) => {
             const active = (button.dataset.fuelFilter || "") === (fuelKind || "");
             button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
             matched = matched || active;
         });
 
@@ -216,6 +221,7 @@
             const allButton = buttons.find((button) => (button.dataset.fuelFilter || "") === "");
             if (allButton) {
                 allButton.classList.add("active");
+                allButton.setAttribute("aria-pressed", "true");
             }
         }
     }
@@ -567,7 +573,14 @@
         const endpoint = mapContainer.dataset.mapEndpoint;
         const routeId = mapContainer.dataset.routeId;
         const url = routeId ? `${endpoint}?routeId=${encodeURIComponent(routeId)}` : endpoint;
-        const payload = await fetchJson(url);
+        let payload;
+        try {
+            payload = await fetchJson(url);
+        } catch {
+            mapContainer.innerHTML = "<div class='map-fallback-message'><strong>Mapa temporariamente indisponível.</strong><span>O planeamento continua acessível; tenta atualizar dentro de momentos.</span></div>";
+            directionsContainer.innerHTML = "<h3>Não foi possível carregar os dados do mapa.</h3><p>Confirma a ligação e volta a tentar.</p>";
+            return;
+        }
 
         const apiKey = mapContainer.dataset.googleKey;
         const initialFuel = selectedFuelFromVehicle() || payload.selectedVehicle?.fuelKind || "";
@@ -579,7 +592,13 @@
                 renderLeafletMap(mapContainer, costSummaryContainer, directionsContainer, payload, initialFuel);
             }
         } catch {
-            renderLeafletMap(mapContainer, costSummaryContainer, directionsContainer, payload, initialFuel);
+            try {
+                renderLeafletMap(mapContainer, costSummaryContainer, directionsContainer, payload, initialFuel);
+            } catch {
+                mapContainer.innerHTML = "<div class='map-fallback-message'><strong>Mapa temporariamente indisponível.</strong><span>A rota e os custos permanecem visíveis nesta página.</span></div>";
+                renderDirectionsFallback(directionsContainer, payload.route, payload.suggestedStops);
+                renderCostSummary(costSummaryContainer, payload.route, initialFuel, payload.suggestedStops);
+            }
         }
     });
 })();

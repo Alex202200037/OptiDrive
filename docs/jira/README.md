@@ -6,6 +6,8 @@ This repo now includes a small importer to push OptiDrive presets into Jira by A
 
 - `tools/jira_import.py`: CLI utility for validating Jira access, inspecting metadata, and creating issues.
 - `docs/jira/optidrive-presets.json`: starter bootstrap file based on the project work breakdown.
+- `docs/jira/optidrive-improvement-sprints-6-7.json`: backlog for the two improvement sprints requested after feedback.
+- `docs/jira/jira-sprints-6-7-operacao.md`: practical operating guide for opening, moving, closing and commenting the two sprints.
 
 ## Required environment variables
 

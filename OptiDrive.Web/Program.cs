@@ -168,6 +168,7 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -216,6 +217,7 @@ static string? ToAspNetConfigurationKey(string key)
     => key switch
     {
         "GOOGLE_MAPS_API_KEY" => "GoogleMaps__ApiKey",
+        "GOOGLE_MAPS_BROWSER_ENABLED" => "GoogleMaps__BrowserEnabled",
         "OPEN_CHARGE_MAP_API_KEY" => "OpenChargeMap__ApiKey",
         "GOOGLE_OAUTH_CLIENT_ID" => "Authentication__Google__ClientId",
         "GOOGLE_OAUTH_CLIENT_SECRET" => "Authentication__Google__ClientSecret",

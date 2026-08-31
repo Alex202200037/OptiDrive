@@ -19,6 +19,11 @@ public sealed class PlanningController(
     {
         var userId = HttpContext.Session.GetCurrentUserId();
         if (userId is null) return RedirectToAction("Login", "Home");
+        if (appState.IsAdmin(userId))
+        {
+            TempData["AdminWarning"] = "O planeamento é realizado no perfil de condutor. O backoffice mantém apenas a supervisão das rotas e viagens.";
+            return RedirectToAction("Index", "Admin");
+        }
 
         await vehicleCatalog.GetMakesAsync(cancellationToken);
         await fuelStations.GetAllStationsAsync(false, cancellationToken);
@@ -40,7 +45,10 @@ public sealed class PlanningController(
         model.LatestRouteStops = selectedRoute is null ? [] : smartSave.ReadSuggestedStops(selectedRoute);
 
         ViewBag.Places = smartSave.PlaceNames;
-        ViewBag.GoogleMapsApiKey = configuration["GoogleMaps:ApiKey"] ?? string.Empty;
+        var browserMapEnabled = configuration.GetValue("GoogleMaps:BrowserEnabled", false);
+        ViewBag.GoogleMapsApiKey = browserMapEnabled
+            ? configuration["GoogleMaps:ApiKey"] ?? string.Empty
+            : string.Empty;
         return View(model);
     }
 
@@ -49,6 +57,28 @@ public sealed class PlanningController(
     {
         var userId = HttpContext.Session.GetCurrentUserId();
         if (userId is null) return RedirectToAction("Login", "Home");
+        if (appState.IsAdmin(userId))
+        {
+            TempData["AdminWarning"] = "O backoffice acompanha rotas, mas a criação e aplicação de viagens pertence aos perfis de condutor.";
+            return RedirectToAction("Index", "Admin");
+        }
+
+        input.Origin = input.Origin?.Trim() ?? string.Empty;
+        input.Destination = input.Destination?.Trim() ?? string.Empty;
+        input.Waypoints = input.Waypoints?.Trim();
+        if (!ModelState.IsValid
+            || string.IsNullOrWhiteSpace(input.Origin)
+            || string.IsNullOrWhiteSpace(input.Destination))
+        {
+            TempData["PlanningError"] = "Preenche uma origem, um destino e uma velocidade média válidos.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        if (input.Origin.Equals(input.Destination, StringComparison.OrdinalIgnoreCase))
+        {
+            TempData["PlanningError"] = "A origem e o destino devem ser diferentes.";
+            return RedirectToAction(nameof(Index));
+        }
 
         var vehicle = appState.GetVehicle(userId.Value, input.VehicleId);
         if (vehicle is null)
@@ -69,10 +99,14 @@ public sealed class PlanningController(
             TempData["PlanningSuccess"] = "Rota calculada e guardada com sucesso.";
             return RedirectToAction(nameof(Index), new { routeId = route.Id });
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
         catch (Exception exception)
         {
             logger.LogError(exception, "Falha ao calcular rota para o veiculo {VehicleId}.", input.VehicleId);
-            TempData["PlanningError"] = $"Nao foi possivel calcular a rota: {exception.Message}";
+            TempData["PlanningError"] = "Não foi possível calcular a rota. Confirma os locais e tenta novamente.";
         }
 
         return RedirectToAction(nameof(Index));
@@ -83,6 +117,11 @@ public sealed class PlanningController(
     {
         var userId = HttpContext.Session.GetCurrentUserId();
         if (userId is null) return RedirectToAction("Login", "Home");
+        if (appState.IsAdmin(userId))
+        {
+            TempData["AdminWarning"] = "O backoffice acompanha rotas, mas a criação e aplicação de viagens pertence aos perfis de condutor.";
+            return RedirectToAction("Index", "Admin");
+        }
 
         var result = appState.ApplyRouteToVehicle(userId.Value, id);
         if (result.Success)

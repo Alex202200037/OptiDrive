@@ -12,7 +12,14 @@ public sealed class DashboardController(
     ExternalElectricStationService electricStations) : Controller
 {
     [HttpGet]
-    public IActionResult Index() => RedirectToAction("Index", "Profile");
+    public IActionResult Index()
+    {
+        var userId = HttpContext.Session.GetCurrentUserId();
+        if (userId is null) return RedirectToAction("Login", "Home");
+        return appState.IsAdmin(userId)
+            ? RedirectToAction("Index", "Admin")
+            : RedirectToAction("Index", "Profile");
+    }
 
     [HttpPost]
     public IActionResult AddVehicle(VehicleInputModel input)

@@ -29,6 +29,12 @@ Esta página funciona como índice final do Confluence. A estrutura abaixo segue
 | 21 | Documento do Project Manager | Concluído |
 | 22 | Documento de Métricas | Concluído |
 
+## Documento Complementar de Defesa
+
+| Documento | Estado |
+| --- | --- |
+| Avaliação de Usabilidade e NPS | Concluído |
+
 ## Nota de Calendário
 
 O arranque formal do projeto foi alinhado com 11/05/2026, data em que a análise de requisitos foi enviada ao docente. A Sprint 5 termina em 30/06/2026 para refletir bugfix, validação final e preparação da entrega.

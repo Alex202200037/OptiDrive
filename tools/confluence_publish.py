@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import argparse
 import base64
+import http.client
 import json
 import mimetypes
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -61,22 +63,29 @@ class ConfluenceClient:
             headers["Content-Type"] = "application/json"
             data = json.dumps(payload).encode("utf-8")
 
-        req = urllib.request.Request(url, method=method, headers=headers, data=data)
-        try:
-            with urllib.request.urlopen(req) as resp:
-                raw = resp.read().decode("utf-8")
-                return resp.status, json.loads(raw) if raw else {}
-        except urllib.error.HTTPError as exc:
-            raw = exc.read().decode("utf-8")
-            body = {}
-            if raw:
-                try:
-                    body = json.loads(raw)
-                except json.JSONDecodeError:
-                    body = {"raw": raw}
-            raise RuntimeError(
-                f"Confluence request failed: {method} {path} -> {exc.code} {body}"
-            ) from exc
+        for attempt in range(1, 4):
+            req = urllib.request.Request(url, method=method, headers=headers, data=data)
+            try:
+                with urllib.request.urlopen(req) as resp:
+                    raw = resp.read().decode("utf-8")
+                    return resp.status, json.loads(raw) if raw else {}
+            except urllib.error.HTTPError as exc:
+                raw = exc.read().decode("utf-8")
+                body = {}
+                if raw:
+                    try:
+                        body = json.loads(raw)
+                    except json.JSONDecodeError:
+                        body = {"raw": raw}
+                raise RuntimeError(
+                    f"Confluence request failed: {method} {path} -> {exc.code} {body}"
+                ) from exc
+            except (urllib.error.URLError, http.client.RemoteDisconnected, TimeoutError) as exc:
+                if attempt == 3:
+                    raise RuntimeError(
+                        f"Confluence request failed: {method} {path} -> network error: {exc}"
+                    ) from exc
+                time.sleep(1.5 * attempt)
 
     def upload_attachment(self, page_id, file_path):
         existing = self.find_attachment(page_id, Path(file_path).name)
@@ -132,27 +141,34 @@ class ConfluenceClient:
             "Content-Type": f"multipart/form-data; boundary={boundary}",
             "X-Atlassian-Token": "no-check",
         }
-        req = urllib.request.Request(
-            self.base_url + path,
-            method=method,
-            headers=headers,
-            data=data,
-        )
-        try:
-            with urllib.request.urlopen(req) as resp:
-                raw = resp.read().decode("utf-8")
-                return resp.status, json.loads(raw) if raw else {}
-        except urllib.error.HTTPError as exc:
-            raw = exc.read().decode("utf-8")
-            body = {}
-            if raw:
-                try:
-                    body = json.loads(raw)
-                except json.JSONDecodeError:
-                    body = {"raw": raw}
-            raise RuntimeError(
-                f"Confluence attachment upload failed: {filename} -> {exc.code} {body}"
-            ) from exc
+        for attempt in range(1, 4):
+            req = urllib.request.Request(
+                self.base_url + path,
+                method=method,
+                headers=headers,
+                data=data,
+            )
+            try:
+                with urllib.request.urlopen(req) as resp:
+                    raw = resp.read().decode("utf-8")
+                    return resp.status, json.loads(raw) if raw else {}
+            except urllib.error.HTTPError as exc:
+                raw = exc.read().decode("utf-8")
+                body = {}
+                if raw:
+                    try:
+                        body = json.loads(raw)
+                    except json.JSONDecodeError:
+                        body = {"raw": raw}
+                raise RuntimeError(
+                    f"Confluence attachment upload failed: {filename} -> {exc.code} {body}"
+                ) from exc
+            except (urllib.error.URLError, http.client.RemoteDisconnected, TimeoutError) as exc:
+                if attempt == 3:
+                    raise RuntimeError(
+                        f"Confluence attachment upload failed: {filename} -> network error: {exc}"
+                    ) from exc
+                time.sleep(1.5 * attempt)
 
     def get_space(self, space_key):
         data = self.request(
@@ -421,6 +437,26 @@ def markdown_to_storage(markdown_text, source_file=None):
 
 
 def default_page_specs(source_dir):
+    if source_dir.name == "reports-oficial":
+        return [
+            {"title": "OptiDrive - Documentacao Oficial", "file": source_dir / "README.md"},
+            {"title": "OptiDrive - Analise e Especificacao de Requisitos - Oficial", "file": source_dir / "01-analise-especificacao-requisitos.md"},
+            {"title": "OptiDrive - Desenho de Alto Nivel - Oficial", "file": source_dir / "02-desenho-alto-nivel.md"},
+            {"title": "OptiDrive - Desenho Detalhado Sprint 1 - Oficial", "file": source_dir / "03-desenho-detalhado-sprint-1.md"},
+            {"title": "OptiDrive - Desenho Detalhado Sprint 2 - Oficial", "file": source_dir / "04-desenho-detalhado-sprint-2.md"},
+            {"title": "OptiDrive - Desenho Detalhado Sprint 3 - Oficial", "file": source_dir / "05-desenho-detalhado-sprint-3.md"},
+            {"title": "OptiDrive - Desenho Detalhado Sprint 4 - Oficial", "file": source_dir / "06-desenho-detalhado-sprint-4.md"},
+            {"title": "OptiDrive - Desenho Detalhado Sprint 5 - Oficial", "file": source_dir / "07-desenho-detalhado-sprint-5.md"},
+            {"title": "OptiDrive - Ata Sprint 1 - Oficial", "file": source_dir / "08-ata-sprint-1.md"},
+            {"title": "OptiDrive - Ata Sprint 2 - Oficial", "file": source_dir / "09-ata-sprint-2.md"},
+            {"title": "OptiDrive - Ata Sprint 3 - Oficial", "file": source_dir / "10-ata-sprint-3.md"},
+            {"title": "OptiDrive - Ata Sprint 4 - Oficial", "file": source_dir / "11-ata-sprint-4.md"},
+            {"title": "OptiDrive - Ata Sprint 5 - Oficial", "file": source_dir / "12-ata-sprint-5.md"},
+            {"title": "OptiDrive - Documento de Encerramento do Projeto - Oficial", "file": source_dir / "13-documento-encerramento-projeto.md"},
+            {"title": "OptiDrive - Plano de Testes e Metricas - Oficial", "file": source_dir / "14-plano-testes-e-metricas.md"},
+            {"title": "OptiDrive - DevOps e Gestao de Erros - Oficial", "file": source_dir / "15-devops-e-gestao-erros.md"},
+        ]
+
     return [
         {"title": "OptiDrive - Relatorios Academicos", "file": source_dir / "README.md"},
         {"title": "OptiDrive - Analise e Especificacao de Requisitos", "file": source_dir / "01-analise-especificacao-requisitos.md"},
@@ -508,6 +544,50 @@ def publish_command(args):
     }, indent=2, ensure_ascii=False))
 
 
+def publish_page_command(args):
+    base_url = load_env("CONFLUENCE_BASE_URL", load_env("JIRA_BASE_URL"), required=True)
+    email = load_env("CONFLUENCE_EMAIL", load_env("JIRA_EMAIL"), required=True)
+    token = load_env("CONFLUENCE_API_TOKEN", load_env("JIRA_API_TOKEN"), required=True)
+    space_key = args.space or load_env("CONFLUENCE_SPACE_KEY", required=True)
+    source_file = Path(args.file).resolve()
+
+    if not source_file.exists():
+        raise SystemExit(f"Source file not found: {source_file}")
+
+    client = ConfluenceClient(base_url, email, token)
+    space = client.get_space(space_key)
+    parent_id = args.parent_id
+    if args.parent_title:
+        parent = client.find_page(space_key, args.parent_title)
+        if not parent:
+            raise RuntimeError(f"Parent page not found: {args.parent_title}")
+        parent_id = parent["id"]
+    if not parent_id:
+        parent_id = space.get("homepageId")
+
+    body, attachments = markdown_to_storage(
+        source_file.read_text(encoding="utf-8"),
+        source_file=source_file,
+    )
+    result = client.ensure_page(
+        space_key,
+        args.title,
+        body,
+        parent_id=parent_id,
+        dry_run=args.dry_run,
+    )
+    result["attachments"] = publish_attachments(
+        client,
+        result.get("id"),
+        attachments,
+        dry_run=args.dry_run,
+    )
+    print(json.dumps({
+        "space": {"key": space.get("key"), "name": space.get("name"), "id": space.get("id")},
+        "result": result,
+    }, indent=2, ensure_ascii=False))
+
+
 def publish_attachments(client, page_id, attachments, dry_run=False):
     unique_attachments = []
     seen = set()
@@ -568,6 +648,18 @@ def build_parser():
     )
     publish_parser.add_argument("--dry-run", action="store_true", help="Preview actions without writing pages.")
     publish_parser.set_defaults(func=publish_command)
+
+    publish_page_parser = subparsers.add_parser(
+        "publish-page",
+        help="Create or update a single Markdown-backed Confluence page.",
+    )
+    publish_page_parser.add_argument("--space", help="Confluence space key")
+    publish_page_parser.add_argument("--file", required=True, help="Markdown source file")
+    publish_page_parser.add_argument("--title", required=True, help="Confluence page title")
+    publish_page_parser.add_argument("--parent-id", help="Parent Confluence page id")
+    publish_page_parser.add_argument("--parent-title", help="Parent Confluence page title")
+    publish_page_parser.add_argument("--dry-run", action="store_true", help="Preview without writing the page")
+    publish_page_parser.set_defaults(func=publish_page_command)
 
     return parser
 

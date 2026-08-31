@@ -73,7 +73,7 @@ public sealed class GarageController(
 
         if (!ModelState.IsValid)
         {
-            TempData["GarageError"] = "Nao foi possivel atualizar os dados do veículo. Verifica os valores introduzidos.";
+            TempData["GarageError"] = "Não foi possível atualizar os dados do veículo. Verifica os valores introduzidos.";
             return RedirectToAction(nameof(Index), new { vehicleId = input.Id });
         }
 
@@ -87,6 +87,12 @@ public sealed class GarageController(
     {
         var userId = HttpContext.Session.GetCurrentUserId();
         if (userId is null) return RedirectToAction("Login", "Home");
+
+        if (!ModelState.IsValid || (!input.FillToFull && input.Amount <= 0))
+        {
+            TempData["GarageError"] = "Indica uma quantidade válida ou seleciona a opção para encher o depósito/bateria.";
+            return RedirectToAction(nameof(Index), new { vehicleId = input.Id });
+        }
 
         appState.RefuelVehicle(userId.Value, input);
         TempData["GarageSuccess"] = input.FillToFull

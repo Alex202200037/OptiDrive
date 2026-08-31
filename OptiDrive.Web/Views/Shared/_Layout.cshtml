@@ -27,33 +27,35 @@
         var isAuthenticated = currentUserId is not null;
         var isAdmin = AppState.IsAdmin(currentUserId);
         var currentController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty).ToLowerInvariant();
+        var currentAction = (ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty).ToLowerInvariant();
     }
+    <a class="skip-link" href="#main-content">Saltar para o conteúdo principal</a>
     <div class="orb orb-left"></div>
     <div class="orb orb-right"></div>
     <header class="site-header">
         <div class="container-xxl d-flex flex-wrap align-items-center justify-content-between gap-3">
             <a class="brandmark" asp-controller="Home" asp-action="Index">OptiDrive</a>
             <div class="shell-nav-stack">
-                <nav class="d-flex flex-wrap align-items-center gap-2">
+                <nav class="d-flex flex-wrap align-items-center gap-2" aria-label="Navegação principal">
                     @if (isAuthenticated)
                     {
-                        <a class="nav-chip @(currentController == "profile" ? "nav-chip--active" : "")" asp-controller="Profile" asp-action="Index">Perfil</a>
+                        <a class="nav-chip @(currentController == "profile" ? "nav-chip--active" : "")" aria-current="@(currentController == "profile" ? "page" : null)" asp-controller="Profile" asp-action="Index">Perfil</a>
                         @if (!isAdmin)
                         {
-                            <a class="nav-chip @(currentController == "garage" ? "nav-chip--active" : "")" asp-controller="Garage" asp-action="Index">Garagem</a>
-                            <a class="nav-chip @(currentController == "planning" ? "nav-chip--active" : "")" asp-controller="Planning" asp-action="Index">Planeamento</a>
+                            <a class="nav-chip @(currentController == "garage" ? "nav-chip--active" : "")" aria-current="@(currentController == "garage" ? "page" : null)" asp-controller="Garage" asp-action="Index">Garagem</a>
+                            <a class="nav-chip @(currentController == "planning" ? "nav-chip--active" : "")" aria-current="@(currentController == "planning" ? "page" : null)" asp-controller="Planning" asp-action="Index">Planeamento</a>
                         }
-                        <a class="nav-chip @(currentController == "social" ? "nav-chip--active" : "")" asp-controller="Social" asp-action="Index">Social</a>
+                        <a class="nav-chip @(currentController == "social" ? "nav-chip--active" : "")" aria-current="@(currentController == "social" ? "page" : null)" asp-controller="Social" asp-action="Index">Social</a>
                         @if (isAdmin)
                         {
-                            <a class="nav-chip nav-chip--admin @(currentController == "admin" ? "nav-chip--active" : "")" asp-controller="Admin" asp-action="Index">Backoffice</a>
+                            <a class="nav-chip nav-chip--admin @(currentController == "admin" ? "nav-chip--active" : "")" aria-current="@(currentController == "admin" ? "page" : null)" asp-controller="Admin" asp-action="Index">Backoffice</a>
                         }
                     }
                     else
                     {
-                        <a class="nav-chip @(currentController == "home" ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Index">Inicio</a>
-                        <a class="nav-chip @(currentController == "home" && (ViewContext.RouteData.Values["action"]?.ToString() == "Login") ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Login">Entrar</a>
-                        <a class="nav-chip @(currentController == "home" && (ViewContext.RouteData.Values["action"]?.ToString() == "Register") ? "nav-chip--active" : "")" asp-controller="Home" asp-action="Register">Criar conta</a>
+                        <a class="nav-chip @(currentController == "home" && currentAction == "index" ? "nav-chip--active" : "")" aria-current="@(currentController == "home" && currentAction == "index" ? "page" : null)" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="nav-chip @(currentController == "home" && currentAction == "login" ? "nav-chip--active" : "")" aria-current="@(currentController == "home" && currentAction == "login" ? "page" : null)" asp-controller="Home" asp-action="Login">Entrar</a>
+                        <a class="nav-chip @(currentController == "home" && currentAction == "register" ? "nav-chip--active" : "")" aria-current="@(currentController == "home" && currentAction == "register" ? "page" : null)" asp-controller="Home" asp-action="Register">Criar conta</a>
                     }
                 </nav>
                 <div class="shell-tools" aria-label="Preferências da interface">
@@ -69,7 +71,7 @@
         </div>
     </header>
     <div class="container-xxl pb-5">
-        <main role="main">
+        <main id="main-content" role="main" tabindex="-1">
             @RenderBody()
         </main>
     </div>

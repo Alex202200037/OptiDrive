@@ -532,7 +532,9 @@
         }
 
         document.querySelectorAll("[data-language-option]").forEach((button) => {
-            button.classList.toggle("is-active", button.dataset.languageOption === activeLanguage);
+            const isActive = button.dataset.languageOption === activeLanguage;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
         });
         updateThemeLabel();
         isTranslating = false;
@@ -540,11 +542,12 @@
 
     function updateThemeLabel() {
         const label = document.querySelector("[data-theme-label]");
+        const isDark = document.documentElement.dataset.theme === "dark";
+        document.querySelector("[data-theme-toggle]")?.setAttribute("aria-pressed", String(isDark));
         if (!label) {
             return;
         }
 
-        const isDark = document.documentElement.dataset.theme === "dark";
         const text = isDark ? "Modo claro" : "Modo escuro";
         const nextText = activeLanguage === "en" ? translations[text] : text;
         if (label.textContent !== nextText) {
@@ -597,6 +600,15 @@
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("form[data-confirm]").forEach((form) => {
+        form.addEventListener("submit", (event) => {
+            const message = form.getAttribute("data-confirm");
+            if (message && !window.confirm(message)) {
+                event.preventDefault();
+            }
+        });
+    });
+
     const makeSelect = document.querySelector("#vehicle-make");
     const modelSelect = document.querySelector("#vehicle-model");
     const fuelSelect = document.querySelector("#vehicle-fuel-kind");

@@ -1,0 +1,144 @@
+{
+  "issues": [
+    {
+      "ref": "S6",
+      "type": "Epic",
+      "summary": "Sprint 6 - Melhorias de Codigo, UI e Produto",
+      "description": "Sprint de uma semana dedicada a estabilizar a aplicacao, melhorar apresentacao visual, corrigir detalhes operacionais e preparar a demonstracao funcional. Deve ser aberta no Jira antes da execucao das tarefas para permitir burndown e velocity reais.",
+      "priority": "Highest",
+      "labels": ["optidrive", "sprint-6", "code-polish", "evops"],
+      "estimateHours": 28,
+      "dueDate": "2026-09-06"
+    },
+    {
+      "ref": "S6.1",
+      "type": "Task",
+      "summary": "S6.1 - Corrigir readiness tecnico e endpoint de health",
+      "description": "Garantir que o endpoint /health esta exposto, responde em ambiente local/Docker/Azure e serve como evidencia operacional para DevOps.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-6", "healthcheck", "devops"],
+      "estimateHours": 4,
+      "dueDate": "2026-09-01",
+      "parentRef": "S6"
+    },
+    {
+      "ref": "S6.2",
+      "type": "Task",
+      "summary": "S6.2 - Reforcar comportamento do backoffice administrativo",
+      "description": "Evitar fluxos de condutor no perfil admin quando nao se aplicam, mostrar mensagens controladas e reforcar a diferenca entre utilizador normal e administrador.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-6", "admin", "ux"],
+      "estimateHours": 5,
+      "dueDate": "2026-09-02",
+      "parentRef": "S6"
+    },
+    {
+      "ref": "S6.3",
+      "type": "Task",
+      "summary": "S6.3 - Melhorar apresentacao visual da landing page",
+      "description": "Polir a primeira impressao do produto com fluxo de valor claro: garagem, planeamento inteligente e viagens colaborativas.",
+      "priority": "Medium",
+      "labels": ["optidrive", "sprint-6", "ui", "landing"],
+      "estimateHours": 5,
+      "dueDate": "2026-09-03",
+      "parentRef": "S6"
+    },
+    {
+      "ref": "S6.4",
+      "type": "Task",
+      "summary": "S6.4 - Alinhar a app com o processo DevOps visivel no backoffice",
+      "description": "Adicionar ao backoffice informacao de pipeline, testes automatizados, stress local, roadmap MoSCoW e estado operacional para a defesa.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-6", "devops", "backoffice"],
+      "estimateHours": 6,
+      "dueDate": "2026-09-04",
+      "parentRef": "S6"
+    },
+    {
+      "ref": "S6.5",
+      "type": "Task",
+      "summary": "S6.5 - Validar build, testes e pacote de publicacao",
+      "description": "Executar build/testes automatizados, confirmar stress test com 500 utilizadores e 500 veiculos e gerar pacote pronto para deploy Azure.",
+      "priority": "Highest",
+      "labels": ["optidrive", "sprint-6", "qa", "release"],
+      "estimateHours": 8,
+      "dueDate": "2026-09-06",
+      "parentRef": "S6"
+    },
+    {
+      "ref": "S7",
+      "type": "Epic",
+      "summary": "Sprint 7 - Polimento e Estabilizacao Final",
+      "description": "Sprint curta e real, executada entre 29/08/2026 e 31/08/2026, dedicada a polir a aplicacao, robustecer garagem e planeamento, validar autenticacao e preparar a release.",
+      "priority": "Highest",
+      "labels": ["optidrive", "sprint-7", "polish", "stabilization"],
+      "estimateHours": 28,
+      "dueDate": "2026-08-31"
+    },
+    {
+      "ref": "S7.1",
+      "type": "Task",
+      "summary": "S7.1 - Auditar responsividade, acessibilidade e consistencia visual",
+      "description": "Rever as paginas principais em desktop e mobile, contraste, hierarquia, estados vazios, mensagens, foco de teclado e consistencia entre modos claro e escuro.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-7", "ui", "accessibility"],
+      "estimateHours": 4,
+      "dueDate": "2026-08-29",
+      "parentRef": "S7"
+    },
+    {
+      "ref": "S7.2",
+      "type": "Task",
+      "summary": "S7.2 - Polir fluxos da garagem e feedback de operacoes",
+      "description": "Validar criacao, edicao, abastecimento, carregamento, historico, nivel de energia e navegacao da ficha do veiculo, mantendo o utilizador no contexto correto.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-7", "garage", "ux"],
+      "estimateHours": 5,
+      "dueDate": "2026-08-30",
+      "parentRef": "S7"
+    },
+    {
+      "ref": "S7.3",
+      "type": "Task",
+      "summary": "S7.3 - Robustecer planeamento, rotas e Smart Save",
+      "description": "Validar origem e destino livres, pontos intermedios opcionais, rota visual, portagens, postos do corredor, carregadores, reforcos de autonomia e totais de custo.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-7", "planning", "smart-save"],
+      "estimateHours": 6,
+      "dueDate": "2026-08-30",
+      "parentRef": "S7"
+    },
+    {
+      "ref": "S7.4",
+      "type": "Task",
+      "summary": "S7.4 - Validar autenticacao, perfis e navegacao administrativa",
+      "description": "Rever login local, Google e Microsoft, 2FA, perfil social, autorizacao por papel e comportamento da area administrativa.",
+      "priority": "High",
+      "labels": ["optidrive", "sprint-7", "authentication", "admin"],
+      "estimateHours": 5,
+      "dueDate": "2026-08-31",
+      "parentRef": "S7"
+    },
+    {
+      "ref": "S7.5",
+      "type": "Task",
+      "summary": "S7.5 - Executar regressao, Docker e readiness de release",
+      "description": "Executar build, testes automatizados, arranque Docker, healthcheck e validacao do pacote de release, registando evidencias e riscos residuais.",
+      "priority": "Highest",
+      "labels": ["optidrive", "sprint-7", "qa", "release"],
+      "estimateHours": 8,
+      "dueDate": "2026-08-31",
+      "parentRef": "S7"
+    },
+    {
+      "ref": "S8",
+      "type": "Epic",
+      "summary": "Sprint 8 - Documentacao, Diagramas e Graficos",
+      "description": "Sprint planeada para a semana seguinte, dedicada a reformular documentacao, rever diagramas Visual Paradigm/BPMN, comentar os charts do Jira e fechar relatorios no Confluence.",
+      "priority": "Highest",
+      "labels": ["optidrive", "sprint-8", "documentation", "diagrams"],
+      "estimateHours": 34,
+      "dueDate": "2026-09-07"
+    }
+  ]
+}

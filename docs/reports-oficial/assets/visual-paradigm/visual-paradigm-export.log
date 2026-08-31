@@ -1,0 +1,9 @@
+[Key-Mapping] Duplicated key id: 874
+[Key-Mapping] Duplicated key id: 1638
+[Key-Mapping] Duplicated key id: 1639
+start startup getLicenseKey on 15-Jul-2026
+getLicenseKey in local ...
+getLicenseKey from server ...
+finish startup getLicenseKey
+getVerifiedLicenseKey: null; state=Evaluating
+Opening Project: /tmp/OptiDrive-Visual-Paradigm.vpp

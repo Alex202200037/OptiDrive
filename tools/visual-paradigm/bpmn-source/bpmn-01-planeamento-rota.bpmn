@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_Process_Route"
+  targetNamespace="https://optidrive.local/bpmn/route">
+  <bpmn:process id="Process_Route" name="bpmn-01-planeamento-rota" isExecutable="false">
+    <bpmn:startEvent id="route_start" name="Necessidade de viagem">
+      <bpmn:outgoing>route_f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="route_input" name="Introduzir origem, destino e veículo">
+      <bpmn:incoming>route_f1</bpmn:incoming>
+      <bpmn:outgoing>route_f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="route_validate" name="Validar dados do veículo e nível atual">
+      <bpmn:incoming>route_f2</bpmn:incoming>
+      <bpmn:outgoing>route_f3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:serviceTask id="route_maps" name="Geocoding e Directions">
+      <bpmn:incoming>route_f3</bpmn:incoming>
+      <bpmn:outgoing>route_f4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="route_stations" name="Consultar postos e carregadores próximos da rota">
+      <bpmn:incoming>route_f4</bpmn:incoming>
+      <bpmn:outgoing>route_f5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="route_smart" name="Calcular custo, autonomia e Smart Save">
+      <bpmn:incoming>route_f5</bpmn:incoming>
+      <bpmn:outgoing>route_f6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="route_autonomy" name="Autonomia suficiente?">
+      <bpmn:incoming>route_f6</bpmn:incoming>
+      <bpmn:outgoing>route_f7</bpmn:outgoing>
+      <bpmn:outgoing>route_f9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="route_present" name="Apresentar itinerário, reforços e gasto total">
+      <bpmn:incoming>route_f7</bpmn:incoming>
+      <bpmn:incoming>route_f11</bpmn:incoming>
+      <bpmn:outgoing>route_f8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="route_end" name="Rota pronta">
+      <bpmn:incoming>route_f8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="route_refuel" name="Sugerir paragem de combustível ou carregamento">
+      <bpmn:incoming>route_f9</bpmn:incoming>
+      <bpmn:outgoing>route_f10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="route_recalc" name="Recalcular autonomia prevista à chegada">
+      <bpmn:incoming>route_f10</bpmn:incoming>
+      <bpmn:outgoing>route_f11</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="route_f1" sourceRef="route_start" targetRef="route_input" />
+    <bpmn:sequenceFlow id="route_f2" sourceRef="route_input" targetRef="route_validate" />
+    <bpmn:sequenceFlow id="route_f3" sourceRef="route_validate" targetRef="route_maps" />
+    <bpmn:sequenceFlow id="route_f4" sourceRef="route_maps" targetRef="route_stations" />
+    <bpmn:sequenceFlow id="route_f5" sourceRef="route_stations" targetRef="route_smart" />
+    <bpmn:sequenceFlow id="route_f6" sourceRef="route_smart" targetRef="route_autonomy" />
+    <bpmn:sequenceFlow id="route_f7" name="sim" sourceRef="route_autonomy" targetRef="route_present" />
+    <bpmn:sequenceFlow id="route_f8" sourceRef="route_present" targetRef="route_end" />
+    <bpmn:sequenceFlow id="route_f9" name="não" sourceRef="route_autonomy" targetRef="route_refuel" />
+    <bpmn:sequenceFlow id="route_f10" sourceRef="route_refuel" targetRef="route_recalc" />
+    <bpmn:sequenceFlow id="route_f11" sourceRef="route_recalc" targetRef="route_present" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="bpmn-01-planeamento-rota_diagram" name="bpmn-01-planeamento-rota">
+    <bpmndi:BPMNPlane id="bpmn-01-planeamento-rota_plane" bpmnElement="Process_Route">
+      <bpmndi:BPMNShape id="route_start_di" bpmnElement="route_start">
+        <dc:Bounds x="70" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_input_di" bpmnElement="route_input">
+        <dc:Bounds x="190" y="190" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_validate_di" bpmnElement="route_validate">
+        <dc:Bounds x="540" y="190" width="275" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_maps_di" bpmnElement="route_maps">
+        <dc:Bounds x="895" y="190" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_stations_di" bpmnElement="route_stations">
+        <dc:Bounds x="1235" y="190" width="320" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_smart_di" bpmnElement="route_smart">
+        <dc:Bounds x="1640" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_autonomy_di" bpmnElement="route_autonomy">
+        <dc:Bounds x="2030" y="205" width="82" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_present_di" bpmnElement="route_present">
+        <dc:Bounds x="2200" y="190" width="320" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_end_di" bpmnElement="route_end">
+        <dc:Bounds x="2610" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_refuel_di" bpmnElement="route_refuel">
+        <dc:Bounds x="1885" y="455" width="340" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="route_recalc_di" bpmnElement="route_recalc">
+        <dc:Bounds x="2260" y="455" width="310" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="route_f1_di" bpmnElement="route_f1">
+        <di:waypoint x="126.0" y="248.0" />
+        <di:waypoint x="190.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f2_di" bpmnElement="route_f2">
+        <di:waypoint x="460.0" y="245.0" />
+        <di:waypoint x="540.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f3_di" bpmnElement="route_f3">
+        <di:waypoint x="815.0" y="245.0" />
+        <di:waypoint x="895.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f4_di" bpmnElement="route_f4">
+        <di:waypoint x="1155.0" y="245.0" />
+        <di:waypoint x="1235.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f5_di" bpmnElement="route_f5">
+        <di:waypoint x="1555.0" y="245.0" />
+        <di:waypoint x="1640.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f6_di" bpmnElement="route_f6">
+        <di:waypoint x="1940.0" y="245.0" />
+        <di:waypoint x="2030.0" y="246.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f7_di" bpmnElement="route_f7">
+        <di:waypoint x="2112.0" y="246.0" />
+        <di:waypoint x="2200.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f8_di" bpmnElement="route_f8">
+        <di:waypoint x="2520.0" y="245.0" />
+        <di:waypoint x="2610.0" y="248.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f9_di" bpmnElement="route_f9">
+        <di:waypoint x="2071.0" y="287.0" />
+        <di:waypoint x="2071.0" y="510.0" />
+        <di:waypoint x="1885.0" y="510.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f10_di" bpmnElement="route_f10">
+        <di:waypoint x="2225.0" y="510.0" />
+        <di:waypoint x="2260.0" y="510.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="route_f11_di" bpmnElement="route_f11">
+        <di:waypoint x="2415.0" y="455.0" />
+        <di:waypoint x="2415.0" y="300.0" />
+        <di:waypoint x="2360.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -31,11 +31,11 @@
 
 @if (TempData["AdminSuccess"] is string success)
 {
-    <div class="alert alert-success mt-4">@success</div>
+    <div class="alert alert-success mt-4" role="status" aria-live="polite">@success</div>
 }
 @if (TempData["AdminWarning"] is string warning)
 {
-    <div class="alert alert-warning mt-4">@warning</div>
+    <div class="alert alert-warning mt-4" role="alert">@warning</div>
 }
 
 <section class="stats-grid admin-stats-grid">
@@ -121,7 +121,7 @@
                                         <button type="submit" class="btn btn-ghost-dark btn-sm">Confirmar</button>
                                     </form>
                                 }
-                                <form asp-action="ResetUserMfa" method="post">
+                                <form asp-action="ResetUserMfa" method="post" data-confirm="Repor o MFA de @user.Name? A conta terá de configurar novamente o Authenticator.">
                                     <input type="hidden" name="targetUserId" value="@user.UserId" />
                                     <button type="submit" class="btn btn-ghost-dark btn-sm">Reset MFA</button>
                                 </form>
@@ -134,12 +134,12 @@
                                 }
                                 else
                                 {
-                                    <form asp-action="LockUser" method="post">
+                                    <form asp-action="LockUser" method="post" data-confirm="Bloquear a conta de @user.Name?">
                                         <input type="hidden" name="targetUserId" value="@user.UserId" />
                                         <button type="submit" class="btn btn-ghost-dark btn-sm">Bloquear</button>
                                     </form>
                                 }
-                                <form asp-action="SetUserRole" method="post">
+                                <form asp-action="SetUserRole" method="post" data-confirm="Alterar o perfil de acesso de @user.Name?">
                                     <input type="hidden" name="targetUserId" value="@user.UserId" />
                                     <input type="hidden" name="role" value="@(user.Role == UserRole.Admin ? UserRole.User : UserRole.Admin)" />
                                     <button type="submit" class="btn btn-ghost-dark btn-sm">@(user.Role == UserRole.Admin ? "Tornar user" : "Tornar admin")</button>
@@ -230,6 +230,56 @@
             </article>
         }
     </div>
+</section>
+
+<section class="content-grid mt-4">
+    <article class="panel-card admin-panel admin-quality-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Entrega continua</p>
+                <h2>Pipeline e validacao</h2>
+            </div>
+            <span class="mini-pill mini-pill--ok">Pronto para CI/CD</span>
+        </div>
+        <p class="text-soft mt-2">Fluxo operacional alinhado com a entrega: codigo, build, testes, pacote e publicacao em Azure App Service.</p>
+        <div class="admin-flow mt-4">
+            <span>Requisitos</span>
+            <span>Diagramas</span>
+            <span>Codigo</span>
+            <span>Testes</span>
+            <span>Deploy</span>
+        </div>
+        <div class="admin-quality-grid mt-4">
+            <div>
+                <strong>12/12</strong>
+                <span>testes automatizados</span>
+            </div>
+            <div>
+                <strong>500 + 500</strong>
+                <span>users e veiculos em stress local</span>
+            </div>
+            <div>
+                <strong>/health</strong>
+                <span>monitorizacao rapida</span>
+            </div>
+        </div>
+    </article>
+
+    <article class="panel-card admin-panel admin-quality-card">
+        <div class="panel-top">
+            <div>
+                <p class="eyebrow">Roadmap controlado</p>
+                <h2>Escopo e proximas melhorias</h2>
+            </div>
+            <span class="mini-pill mini-pill--warn">MoSCoW</span>
+        </div>
+        <p class="text-soft mt-2">O produto fica preparado para evolucao sem prometer funcionalidades fora do ambito da entrega atual.</p>
+        <div class="roadmap-list mt-4">
+            <div><strong>Should Have</strong><span>Monitorizacao Azure e alertas de falha externa.</span></div>
+            <div><strong>Could Have</strong><span>Chat em tempo real e notificacoes push.</span></div>
+            <div><strong>Won't Have</strong><span>CarPlay e Android Auto ficam como integracao opcional futura.</span></div>
+        </div>
+    </article>
 </section>
 
 <section class="sync-grid">

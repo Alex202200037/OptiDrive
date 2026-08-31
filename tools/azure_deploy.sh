@@ -6,6 +6,27 @@ set -euo pipefail
 #   az login
 #   APP_NAME=optidrive-202200037 ./tools/azure_deploy.sh
 
+load_dotenv() {
+  local env_file=".env"
+  if [ ! -f "$env_file" ]; then
+    return
+  fi
+
+  while IFS='=' read -r key value; do
+    key="$(echo "${key:-}" | xargs)"
+    if [ -z "$key" ] || [[ "$key" == \#* ]]; then
+      continue
+    fi
+
+    value="$(echo "${value:-}" | sed -e 's/^"//' -e 's/"$//' -e \"s/^'//\" -e \"s/'$//\")"
+    if [ -z "${!key:-}" ]; then
+      export "$key=$value"
+    fi
+  done < "$env_file"
+}
+
+load_dotenv
+
 RG="${AZURE_RESOURCE_GROUP:-rg-optidrive-esa}"
 LOCATION="${AZURE_LOCATION:-westeurope}"
 PLAN="${AZURE_APP_SERVICE_PLAN:-asp-optidrive-esa}"

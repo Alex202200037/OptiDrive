@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_Process_Garage"
+  targetNamespace="https://optidrive.local/bpmn/garage">
+  <bpmn:process id="Process_Garage" name="bpmn-02-garagem-veiculo" isExecutable="false">
+    <bpmn:startEvent id="garage_start" name="Veículo a registar">
+      <bpmn:outgoing>garage_f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="garage_select" name="Selecionar marca, modelo e combustível">
+      <bpmn:incoming>garage_f1</bpmn:incoming>
+      <bpmn:incoming>garage_f8</bpmn:incoming>
+      <bpmn:outgoing>garage_f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="garage_validate" name="Validar dados obrigatórios">
+      <bpmn:incoming>garage_f2</bpmn:incoming>
+      <bpmn:outgoing>garage_f3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="garage_gateway" name="Dados válidos?">
+      <bpmn:incoming>garage_f3</bpmn:incoming>
+      <bpmn:outgoing>garage_f4</bpmn:outgoing>
+      <bpmn:outgoing>garage_f7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="garage_save" name="Guardar perfil do veículo">
+      <bpmn:incoming>garage_f4</bpmn:incoming>
+      <bpmn:outgoing>garage_f5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="garage_history" name="Registar nível inicial e histórico">
+      <bpmn:incoming>garage_f5</bpmn:incoming>
+      <bpmn:outgoing>garage_f6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="garage_end" name="Garagem atualizada">
+      <bpmn:incoming>garage_f6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="garage_errors" name="Mostrar erros ao utilizador">
+      <bpmn:incoming>garage_f7</bpmn:incoming>
+      <bpmn:outgoing>garage_f8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="garage_f1" sourceRef="garage_start" targetRef="garage_select" />
+    <bpmn:sequenceFlow id="garage_f2" sourceRef="garage_select" targetRef="garage_validate" />
+    <bpmn:sequenceFlow id="garage_f3" sourceRef="garage_validate" targetRef="garage_gateway" />
+    <bpmn:sequenceFlow id="garage_f4" name="sim" sourceRef="garage_gateway" targetRef="garage_save" />
+    <bpmn:sequenceFlow id="garage_f5" sourceRef="garage_save" targetRef="garage_history" />
+    <bpmn:sequenceFlow id="garage_f6" sourceRef="garage_history" targetRef="garage_end" />
+    <bpmn:sequenceFlow id="garage_f7" name="não" sourceRef="garage_gateway" targetRef="garage_errors" />
+    <bpmn:sequenceFlow id="garage_f8" name="corrigir" sourceRef="garage_errors" targetRef="garage_select" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="bpmn-02-garagem-veiculo_diagram" name="bpmn-02-garagem-veiculo">
+    <bpmndi:BPMNPlane id="bpmn-02-garagem-veiculo_plane" bpmnElement="Process_Garage">
+      <bpmndi:BPMNShape id="garage_start_di" bpmnElement="garage_start">
+        <dc:Bounds x="70" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_select_di" bpmnElement="garage_select">
+        <dc:Bounds x="190" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_validate_di" bpmnElement="garage_validate">
+        <dc:Bounds x="585" y="190" width="265" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_gateway_di" bpmnElement="garage_gateway">
+        <dc:Bounds x="940" y="205" width="82" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_save_di" bpmnElement="garage_save">
+        <dc:Bounds x="1120" y="190" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_history_di" bpmnElement="garage_history">
+        <dc:Bounds x="1485" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_end_di" bpmnElement="garage_end">
+        <dc:Bounds x="1880" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="garage_errors_di" bpmnElement="garage_errors">
+        <dc:Bounds x="585" y="455" width="265" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="garage_f1_di" bpmnElement="garage_f1">
+        <di:waypoint x="126.0" y="248.0" />
+        <di:waypoint x="190.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f2_di" bpmnElement="garage_f2">
+        <di:waypoint x="490.0" y="245.0" />
+        <di:waypoint x="585.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f3_di" bpmnElement="garage_f3">
+        <di:waypoint x="850.0" y="245.0" />
+        <di:waypoint x="940.0" y="246.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f4_di" bpmnElement="garage_f4">
+        <di:waypoint x="1022.0" y="246.0" />
+        <di:waypoint x="1120.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f5_di" bpmnElement="garage_f5">
+        <di:waypoint x="1390.0" y="245.0" />
+        <di:waypoint x="1485.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f6_di" bpmnElement="garage_f6">
+        <di:waypoint x="1785.0" y="245.0" />
+        <di:waypoint x="1880.0" y="248.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f7_di" bpmnElement="garage_f7">
+        <di:waypoint x="981.0" y="287.0" />
+        <di:waypoint x="981.0" y="510.0" />
+        <di:waypoint x="850.0" y="510.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="garage_f8_di" bpmnElement="garage_f8">
+        <di:waypoint x="585.0" y="510.0" />
+        <di:waypoint x="340.0" y="510.0" />
+        <di:waypoint x="340.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

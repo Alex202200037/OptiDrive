@@ -4,7 +4,19 @@
     ViewData["Title"] = "Planeamento";
     var googleMapsApiKey = (string)(ViewBag.GoogleMapsApiKey ?? string.Empty);
     var selectedRoute = Model.Routes.FirstOrDefault(route => route.Id == Model.SelectedRouteId) ?? Model.Routes.FirstOrDefault();
-    var selectedVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == selectedRoute?.VehicleId);
+    var selectedVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == selectedRoute?.VehicleId)
+                          ?? Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == Model.RouteInput.VehicleId)
+                          ?? Model.Vehicles.FirstOrDefault(vehicle => vehicle.IsDefault)
+                          ?? Model.Vehicles.FirstOrDefault();
+    string fuelLabel(FuelKind kind) => kind switch
+    {
+        FuelKind.Gasoline95 => "Gasolina 95",
+        FuelKind.Gasoline98 => "Gasolina 98",
+        FuelKind.Diesel => "Gasóleo",
+        FuelKind.GPL => "GPL",
+        FuelKind.Electric => "Elétrico",
+        _ => kind.ToString()
+    };
     var routeUnit = selectedVehicle?.FuelKind == FuelKind.Electric ? "kWh" : "L";
     var adjustedConsumption = (selectedRoute?.AdjustedConsumptionPer100 ?? 0) > 0 ? selectedRoute!.AdjustedConsumptionPer100 : selectedVehicle?.AverageConsumption ?? 0;
     var averageSpeed = (selectedRoute?.AverageSpeedKmh ?? 0) > 0 ? selectedRoute!.AverageSpeedKmh : Model.RouteInput.AverageSpeed;
@@ -34,11 +46,11 @@
         </div>
         @if (TempData["PlanningSuccess"] is string planningSuccess)
         {
-            <div class="alert alert-success mt-3">@planningSuccess</div>
+            <div class="alert alert-success mt-3" role="status" aria-live="polite">@planningSuccess</div>
         }
         @if (TempData["PlanningError"] is string planningError)
         {
-            <div class="alert alert-danger mt-3">@planningError</div>
+            <div class="alert alert-danger mt-3" role="alert">@planningError</div>
         }
         <form asp-controller="Planning" asp-action="PlanRoute" method="post" class="row g-3 mt-1" data-place-search-url="/api/planning/search-places">
             <div class="col-md-6">
@@ -52,17 +64,20 @@
             </div>
             <div class="col-md-6">
                 <label asp-for="RouteInput.AverageSpeed" class="form-label">Velocidade média</label>
-                <input asp-for="RouteInput.AverageSpeed" class="form-control app-control app-control--light" />
+                <input asp-for="RouteInput.AverageSpeed" class="form-control app-control app-control--light" min="60" max="140" inputmode="numeric" />
+                <span asp-validation-for="RouteInput.AverageSpeed" class="text-danger"></span>
             </div>
             <div class="col-md-6">
                 <label asp-for="RouteInput.Origin" class="form-label">Origem</label>
                 <input asp-for="RouteInput.Origin" class="form-control app-control app-control--light place-search-input" placeholder="Ex: Rua Augusta, Lisboa" autocomplete="off" data-google-place-input="origin" />
-                <div class="place-suggestions"></div>
+                <span asp-validation-for="RouteInput.Origin" class="text-danger"></span>
+                <div class="place-suggestions" aria-live="polite"></div>
             </div>
             <div class="col-md-6">
                 <label asp-for="RouteInput.Destination" class="form-label">Destino</label>
                 <input asp-for="RouteInput.Destination" class="form-control app-control app-control--light place-search-input" placeholder="Ex: Avenida da Liberdade, Lisboa" autocomplete="off" data-google-place-input="destination" />
-                <div class="place-suggestions"></div>
+                <span asp-validation-for="RouteInput.Destination" class="text-danger"></span>
+                <div class="place-suggestions" aria-live="polite"></div>
             </div>
             <div class="col-12">
                 <label asp-for="RouteInput.Waypoints" class="form-label">Pontos intermédios (opcional)</label>
@@ -91,7 +106,7 @@
                     <p>Portagens @selectedRoute.TollCost.ToString("0.00") EUR · Score @selectedRoute.SavingsScore/10</p>
                     @if (selectedVehicle is not null)
                     {
-                        <p class="mt-2">Ligada a <strong>@selectedVehicle.Nickname</strong> · @selectedVehicle.FuelKind</p>
+                        <p class="mt-2">Ligada a <strong>@selectedVehicle.Nickname</strong> · @fuelLabel(selectedVehicle.FuelKind)</p>
                     }
                 </div>
                 <div class="summary-card summary-card--accent">
@@ -128,7 +143,7 @@
                     <div class="d-flex flex-wrap gap-2 mt-3">
                         @if (!selectedRoute.IsAppliedToVehicle)
                         {
-                            <form asp-controller="Planning" asp-action="ApplyRoute" method="post">
+                            <form asp-controller="Planning" asp-action="ApplyRoute" method="post" data-confirm="Assumir esta viagem? O nível e o histórico do veículo serão atualizados.">
                                 <input type="hidden" name="id" value="@selectedRoute.Id" />
                                 <button type="submit" class="btn btn-brand">Assumir viagem neste veículo</button>
                             </form>
@@ -222,7 +237,7 @@
                     {
                         var routeVehicle = Model.Vehicles.FirstOrDefault(vehicle => vehicle.Id == route.VehicleId);
                         var isSelected = selectedRoute?.Id == route.Id;
-                        <article class="route-library-card @(isSelected ? "is-selected" : string.Empty)">
+                        <article class="route-library-card @(isSelected ? "is-selected" : string.Empty)" aria-current="@(isSelected ? "true" : null)">
                             <div class="route-library-card__head">
                                 <div>
                                     <strong>@route.Origin → @route.Destination</strong>
@@ -248,7 +263,7 @@
                                 <a class="btn btn-ghost-dark btn-sm" asp-controller="Planning" asp-action="Index" asp-route-routeId="@route.Id">Abrir rota</a>
                                 @if (!route.IsAppliedToVehicle)
                                 {
-                                    <form asp-controller="Planning" asp-action="ApplyRoute" method="post">
+                                    <form asp-controller="Planning" asp-action="ApplyRoute" method="post" data-confirm="Aplicar esta rota ao veículo? O nível e o histórico serão atualizados.">
                                         <input type="hidden" name="id" value="@route.Id" />
                                         <button type="submit" class="btn btn-brand btn-sm">Aplicar ao veículo</button>
                                     </form>
@@ -269,11 +284,12 @@
             </div>
         </div>
         <div class="map-toolbar">
-            <button type="button" class="map-filter-chip active" data-fuel-filter="">Todos</button>
-            <button type="button" class="map-filter-chip" data-fuel-filter="Diesel">Gasóleo</button>
-            <button type="button" class="map-filter-chip" data-fuel-filter="Gasoline95">Gasolina 95</button>
-            <button type="button" class="map-filter-chip" data-fuel-filter="GPL">GPL</button>
-            <button type="button" class="map-filter-chip" data-fuel-filter="Electric">Elétricos</button>
+            <button type="button" class="map-filter-chip active" data-fuel-filter="" aria-pressed="true">Todos</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Diesel" aria-pressed="false">Gasóleo</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Gasoline95" aria-pressed="false">Gasolina 95</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="GPL" aria-pressed="false">GPL</button>
+            <button type="button" class="map-filter-chip" data-fuel-filter="Electric" aria-pressed="false">Elétricos</button>
+            <label class="visually-hidden" for="brand-filter">Filtrar postos por marca</label>
             <select id="brand-filter" class="form-select app-control app-control--light brand-filter">
                 <option value="">Todas as marcas</option>
             </select>
@@ -290,6 +306,7 @@
 </section>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="~/js/planning-map.js" asp-append-version="true"></script>
 }

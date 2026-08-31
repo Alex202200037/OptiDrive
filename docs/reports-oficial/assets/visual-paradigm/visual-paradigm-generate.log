@@ -1,0 +1,24 @@
+[Key-Mapping] Duplicated key id: 874
+[Key-Mapping] Duplicated key id: 1638
+[Key-Mapping] Duplicated key id: 1639
+start startup getLicenseKey on 15-Jul-2026
+getLicenseKey in local ...
+getLicenseKey from server ...
+finish startup getLicenseKey
+getVerifiedLicenseKey: null; state=Evaluating
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by v.cag.n (file:/Applications/Visual%20Paradigm.app/Contents/Resources/app/lib/vpplatform.jar) to field javax.swing.ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP
+WARNING: Please consider reporting this to the maintainers of v.cag.n
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Opening Project: /tmp/optidrive-vp-base.vpp
+The project you are opening is an older version of Visual Paradigm. Please run the script again with "-upgrade-project" to convert project to latest version.
+Open Project "/tmp/optidrive-vp-base.vpp", Time Used: 0 seconds, Memory: 256.0 MB (268435456), Project File Size: 1.37 MB (1438720), Diagram Count: 0
+OptiDriveVpGenerator loaded
+Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_000f
+Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_001d
+Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_002d
+Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_003d
+Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_004d
+Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
+SAVED /tmp/OptiDrive-Visual-Paradigm.vpp diagrams=9

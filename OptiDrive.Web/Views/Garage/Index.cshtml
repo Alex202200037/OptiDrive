@@ -14,6 +14,15 @@
         _ => kind.ToString()
     };
 
+    string tollLabel(TollClass tollClass) => tollClass switch
+    {
+        TollClass.Class1 => "Classe 1",
+        TollClass.Class2 => "Classe 2",
+        TollClass.Class3 => "Classe 3",
+        TollClass.Class4 => "Classe 4",
+        _ => tollClass.ToString()
+    };
+
     string consumptionLabel(VehicleProfile vehicle) => vehicle.FuelKind == FuelKind.Electric
         ? $"{vehicle.AverageConsumption:0.0} kWh/100 km"
         : $"{vehicle.AverageConsumption:0.0} L/100 km";
@@ -271,18 +280,18 @@
         </div>
         @if (TempData["GarageSuccess"] is string garageSuccess)
         {
-            <div class="alert alert-success mt-3">@garageSuccess</div>
+            <div class="alert alert-success mt-3" role="status" aria-live="polite">@garageSuccess</div>
         }
         @if (TempData["GarageError"] is string garageError)
         {
-            <div class="alert alert-danger mt-3">@garageError</div>
+            <div class="alert alert-danger mt-3" role="alert">@garageError</div>
         }
         <div class="garage-vehicle-list mt-3">
             @foreach (var vehicle in Model.Vehicles)
             {
                 var score = healthScore(vehicle);
                 var isSelected = selectedVehicle?.Id == vehicle.Id;
-                <a class="garage-vehicle-link @(isSelected ? "is-selected" : string.Empty)" asp-controller="Garage" asp-action="Index" asp-route-vehicleId="@vehicle.Id">
+                <a class="garage-vehicle-link @(isSelected ? "is-selected" : string.Empty)" aria-current="@(isSelected ? "true" : null)" asp-controller="Garage" asp-action="Index" asp-route-vehicleId="@vehicle.Id">
                     <div class="garage-vehicle-link__head">
                         <div>
                             <strong>@vehicle.Nickname</strong>
@@ -339,7 +348,7 @@
                 <div class="garage-card__title">
                     <div>
                         <h3>@selectedVehicle.Brand @selectedVehicle.Model</h3>
-                        <p>@selectedVehicle.Year · Classe @selectedVehicle.TollClass</p>
+                        <p>@selectedVehicle.Year · @tollLabel(selectedVehicle.TollClass)</p>
                     </div>
                     <div class="garage-quick-summary">
                         @if (lastEnergyActivity is not null)
@@ -400,7 +409,7 @@
                 </article>
             </div>
 
-            <div class="level-meter">
+            <div class="level-meter" role="progressbar" aria-label="Nível atual do veículo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="@selectedVehicle.CurrentLevelPercent">
                 <div class="level-meter__bar" style="width:@selectedVehicle.CurrentLevelPercent%;"></div>
             </div>
 
@@ -492,95 +501,96 @@
                 <p class="garage-section-title">Editar ficha e estado</p>
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label class="form-label">Alcunha</label>
-                        <input type="text" name="VehicleStatus.Nickname" value="@selectedVehicle.Nickname" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-nickname">Alcunha</label>
+                        <input id="vehicle-nickname" type="text" name="VehicleStatus.Nickname" value="@selectedVehicle.Nickname" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Matrícula</label>
-                        <input type="text" name="VehicleStatus.RegistrationPlate" value="@selectedVehicle.RegistrationPlate" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-plate">Matrícula</label>
+                        <input id="vehicle-plate" type="text" name="VehicleStatus.RegistrationPlate" value="@selectedVehicle.RegistrationPlate" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Marca</label>
-                        <input type="text" name="VehicleStatus.Brand" value="@selectedVehicle.Brand" class="form-control app-control app-control--light" data-vehicle-brand />
+                        <label class="form-label" for="vehicle-brand">Marca</label>
+                        <input id="vehicle-brand" type="text" name="VehicleStatus.Brand" value="@selectedVehicle.Brand" class="form-control app-control app-control--light" data-vehicle-brand />
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Modelo</label>
-                        <input type="text" name="VehicleStatus.Model" value="@selectedVehicle.Model" class="form-control app-control app-control--light" data-vehicle-model />
+                        <label class="form-label" for="vehicle-model-edit">Modelo</label>
+                        <input id="vehicle-model-edit" type="text" name="VehicleStatus.Model" value="@selectedVehicle.Model" class="form-control app-control app-control--light" data-vehicle-model />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Ano</label>
-                        <input type="number" min="1990" max="2100" name="VehicleStatus.Year" value="@selectedVehicle.Year" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-year">Ano</label>
+                        <input id="vehicle-year" type="number" min="1990" max="2100" name="VehicleStatus.Year" value="@selectedVehicle.Year" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Combustível</label>
-                        <select name="VehicleStatus.FuelKind" class="form-select app-control app-control--light" data-fuel-select>
+                        <label class="form-label" for="vehicle-fuel-edit">Combustível</label>
+                        <select id="vehicle-fuel-edit" name="VehicleStatus.FuelKind" class="form-select app-control app-control--light" data-fuel-select>
                             @foreach (var fuel in Enum.GetValues<FuelKind>())
                             {
-                                <option value="@fuel" selected="@(fuel == selectedVehicle.FuelKind)">@fuel</option>
+                                <option value="@fuel" selected="@(fuel == selectedVehicle.FuelKind)">@fuelLabel(fuel)</option>
                             }
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Classe portagem</label>
-                        <select name="VehicleStatus.TollClass" class="form-select app-control app-control--light">
+                        <label class="form-label" for="vehicle-toll-edit">Classe de portagem</label>
+                        <select id="vehicle-toll-edit" name="VehicleStatus.TollClass" class="form-select app-control app-control--light">
                             @foreach (var tollClass in Enum.GetValues<TollClass>())
                             {
-                                <option value="@tollClass" selected="@(tollClass == selectedVehicle.TollClass)">@tollClass</option>
+                                <option value="@tollClass" selected="@(tollClass == selectedVehicle.TollClass)">@tollLabel(tollClass)</option>
                             }
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Nível atual (%)</label>
-                        <input type="range" min="0" max="100" value="@selectedVehicle.CurrentLevelPercent" class="form-range garage-range" data-range-target="level-@selectedVehicle.Id" />
+                        <label class="form-label" for="level-range-@selectedVehicle.Id">Nível atual (%)</label>
+                        <input id="level-range-@selectedVehicle.Id" type="range" min="0" max="100" value="@selectedVehicle.CurrentLevelPercent" class="form-range garage-range" data-range-target="level-@selectedVehicle.Id" />
+                        <label class="visually-hidden" for="level-@selectedVehicle.Id">Valor numérico do nível atual</label>
                         <input id="level-@selectedVehicle.Id" type="number" min="0" max="100" name="VehicleStatus.CurrentLevelPercent" value="@selectedVehicle.CurrentLevelPercent" class="form-control app-control app-control--light mt-2" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Pneus (%)</label>
-                        <input type="number" min="0" max="100" name="VehicleStatus.TireHealthPercent" value="@selectedVehicle.TireHealthPercent" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-tires">Pneus (%)</label>
+                        <input id="vehicle-tires" type="number" min="0" max="100" name="VehicleStatus.TireHealthPercent" value="@selectedVehicle.TireHealthPercent" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Consumo médio</label>
-                        <input type="number" step="0.1" min="0.1" name="VehicleStatus.AverageConsumption" value="@selectedVehicle.AverageConsumption" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-consumption">Consumo médio</label>
+                        <input id="vehicle-consumption" type="number" step="0.1" min="0.1" name="VehicleStatus.AverageConsumption" value="@selectedVehicle.AverageConsumption" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2" data-capacity-field="tank">
-                        <label class="form-label">Depósito (L)</label>
-                        <input type="number" step="0.1" min="0" name="VehicleStatus.TankCapacity" value="@selectedVehicle.TankCapacity" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-tank">Depósito (L)</label>
+                        <input id="vehicle-tank" type="number" step="0.1" min="0" name="VehicleStatus.TankCapacity" value="@selectedVehicle.TankCapacity" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2" data-capacity-field="battery">
-                        <label class="form-label">Bateria (kWh)</label>
-                        <input type="number" step="0.1" min="0" name="VehicleStatus.BatteryCapacity" value="@selectedVehicle.BatteryCapacity" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-battery">Bateria (kWh)</label>
+                        <input id="vehicle-battery" type="number" step="0.1" min="0" name="VehicleStatus.BatteryCapacity" value="@selectedVehicle.BatteryCapacity" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Autonomia total (km)</label>
-                        <input type="number" step="1" min="1" name="VehicleStatus.AverageRangeKm" value="@selectedVehicle.AverageRangeKm" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-range">Autonomia total (km)</label>
+                        <input id="vehicle-range" type="number" step="1" min="1" name="VehicleStatus.AverageRangeKm" value="@selectedVehicle.AverageRangeKm" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Odómetro (km)</label>
-                        <input type="number" step="0.1" min="0" name="VehicleStatus.OdometerKm" value="@selectedVehicle.OdometerKm" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-odometer">Odómetro (km)</label>
+                        <input id="vehicle-odometer" type="number" step="0.1" min="0" name="VehicleStatus.OdometerKm" value="@selectedVehicle.OdometerKm" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Próxima revisão (km)</label>
-                        <input type="number" step="1" min="0" name="VehicleStatus.NextServiceKm" value="@selectedVehicle.NextServiceKm" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-next-service">Próxima revisão (km)</label>
+                        <input id="vehicle-next-service" type="number" step="1" min="0" name="VehicleStatus.NextServiceKm" value="@selectedVehicle.NextServiceKm" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Última manutenção</label>
-                        <input type="date" name="VehicleStatus.LastMaintenance" value="@(selectedVehicle.LastMaintenance?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-last-maintenance">Última manutenção</label>
+                        <input id="vehicle-last-maintenance" type="date" name="VehicleStatus.LastMaintenance" value="@(selectedVehicle.LastMaintenance?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Inspeção</label>
-                        <input type="date" name="VehicleStatus.InspectionDueDate" value="@(selectedVehicle.InspectionDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-inspection">Inspeção</label>
+                        <input id="vehicle-inspection" type="date" name="VehicleStatus.InspectionDueDate" value="@(selectedVehicle.InspectionDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Seguro</label>
-                        <input type="date" name="VehicleStatus.InsuranceDueDate" value="@(selectedVehicle.InsuranceDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-insurance">Seguro</label>
+                        <input id="vehicle-insurance" type="date" name="VehicleStatus.InsuranceDueDate" value="@(selectedVehicle.InsuranceDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">IUC</label>
-                        <input type="date" name="VehicleStatus.TaxDueDate" value="@(selectedVehicle.TaxDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
+                        <label class="form-label" for="vehicle-tax">IUC</label>
+                        <input id="vehicle-tax" type="date" name="VehicleStatus.TaxDueDate" value="@(selectedVehicle.TaxDueDate?.ToString("yyyy-MM-dd") ?? string.Empty)" class="form-control app-control app-control--light" />
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Notas</label>
-                        <textarea name="VehicleStatus.Notes" rows="2" class="form-control app-control app-control--light garage-notes-input">@selectedVehicle.Notes</textarea>
+                        <label class="form-label" for="vehicle-notes">Notas</label>
+                        <textarea id="vehicle-notes" name="VehicleStatus.Notes" rows="2" class="form-control app-control app-control--light garage-notes-input">@selectedVehicle.Notes</textarea>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap gap-2 mt-4">
@@ -588,21 +598,21 @@
                 </div>
             </form>
 
-            <form asp-controller="Garage" asp-action="RefuelVehicle" method="post" class="garage-refuel-form">
+            <form asp-controller="Garage" asp-action="RefuelVehicle" method="post" class="garage-refuel-form" aria-describedby="refuel-help">
                 <input type="hidden" name="RefuelInput.Id" value="@selectedVehicle.Id" />
                 <p class="garage-section-title">Abastecer / carregar</p>
                 <div class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label">Adicionar @refuelUnit(selectedVehicle)</label>
-                        <input type="number" step="0.1" min="0" name="RefuelInput.Amount" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "12.5" : "20")" />
+                        <label class="form-label" for="refuel-amount">Adicionar @refuelUnit(selectedVehicle)</label>
+                        <input id="refuel-amount" type="number" step="0.1" min="0.1" name="RefuelInput.Amount" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "12.5" : "20")" />
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Preço por @(selectedVehicle.FuelKind == FuelKind.Electric ? "kWh" : "L")</label>
-                        <input type="number" step="0.001" min="0" name="RefuelInput.UnitPrice" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "0.420" : "1.679")" />
+                        <label class="form-label" for="refuel-price">Preço por @(selectedVehicle.FuelKind == FuelKind.Electric ? "kWh" : "L")</label>
+                        <input id="refuel-price" type="number" step="0.001" min="0" name="RefuelInput.UnitPrice" class="form-control app-control app-control--light" placeholder="Ex: @(selectedVehicle.FuelKind == FuelKind.Electric ? "0.420" : "1.679")" />
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Posto / local (opcional)</label>
-                        <input type="text" name="RefuelInput.StationName" class="form-control app-control app-control--light" placeholder="Ex: Galp Palmela Norte" />
+                        <label class="form-label" for="refuel-station">Posto / local (opcional)</label>
+                        <input id="refuel-station" type="text" name="RefuelInput.StationName" class="form-control app-control app-control--light" placeholder="Ex: Galp Palmela Norte" />
                     </div>
                     <div class="col-md-3">
                         <div class="form-check route-toggle">
@@ -610,9 +620,9 @@
                             <label class="form-check-label" for="fill-@selectedVehicle.Id">Marcar como cheio</label>
                         </div>
                     </div>
-                    <div class="col-12 d-flex gap-2">
+                    <div class="col-12 d-flex flex-wrap align-items-center gap-2">
                         <button type="submit" class="btn btn-brand">Abastecer / Carregar</button>
-                        <span class="form-text text-muted">Se preencheres o preço, o custo estimado entra logo no histórico do veículo.</span>
+                        <span id="refuel-help" class="form-text text-muted">Indica uma quantidade ou seleciona “Marcar como cheio”. Se preencheres o preço, o custo entra no histórico.</span>
                     </div>
                 </div>
             </form>
@@ -681,7 +691,7 @@
                         <button type="submit" class="btn btn-sm btn-ghost-dark">Tornar predefinido</button>
                     </form>
                 }
-                <form asp-controller="Garage" asp-action="DeleteVehicle" method="post">
+                <form asp-controller="Garage" asp-action="DeleteVehicle" method="post" data-confirm="Remover @selectedVehicle.Nickname e o respetivo histórico da garagem?">
                     <input type="hidden" name="id" value="@selectedVehicle.Id" />
                     <button type="submit" class="btn btn-sm btn-ghost-dark">Remover</button>
                 </form>
@@ -699,9 +709,17 @@
             </div>
         </div>
         <form id="garage-create-form" asp-controller="Garage" asp-action="AddVehicle" method="post" class="row g-3 mt-1" data-vehicle-form>
-            <div class="col-md-3"><input asp-for="VehicleInput.Nickname" class="form-control app-control app-control--light" placeholder="Alcunha" /></div>
-            <div class="col-md-3"><input asp-for="VehicleInput.RegistrationPlate" class="form-control app-control app-control--light" placeholder="Matrícula" /></div>
             <div class="col-md-3">
+                <label asp-for="VehicleInput.Nickname" class="form-label">Alcunha</label>
+                <input asp-for="VehicleInput.Nickname" class="form-control app-control app-control--light" placeholder="Ex: Carro de viagem" />
+                <span asp-validation-for="VehicleInput.Nickname" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="VehicleInput.RegistrationPlate" class="form-label">Matrícula</label>
+                <input asp-for="VehicleInput.RegistrationPlate" class="form-control app-control app-control--light" placeholder="Ex: 12-AB-34" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="VehicleInput.Brand" class="form-label">Marca</label>
                 <select asp-for="VehicleInput.Brand" id="vehicle-make" class="form-select app-control app-control--light" data-model-target="#vehicle-model" data-model-url="/api/catalog/models">
                     <option value="">Seleciona marca</option>
                     @foreach (var make in Model.VehicleMakes)
@@ -709,28 +727,89 @@
                         <option value="@make">@make</option>
                     }
                 </select>
+                <span asp-validation-for="VehicleInput.Brand" class="text-danger"></span>
             </div>
             <div class="col-md-3">
+                <label asp-for="VehicleInput.Model" class="form-label">Modelo</label>
                 <select asp-for="VehicleInput.Model" id="vehicle-model" class="form-select app-control app-control--light">
                     <option value="">Seleciona modelo</option>
                 </select>
+                <span asp-validation-for="VehicleInput.Model" class="text-danger"></span>
             </div>
-            <div class="col-md-2"><input asp-for="VehicleInput.Year" class="form-control app-control app-control--light" /></div>
-            <div class="col-md-2"><select asp-for="VehicleInput.FuelKind" id="vehicle-fuel-kind" asp-items="Html.GetEnumSelectList<FuelKind>()" class="form-select app-control app-control--light" data-fuel-select></select></div>
-            <div class="col-md-2"><select asp-for="VehicleInput.TollClass" asp-items="Html.GetEnumSelectList<TollClass>()" class="form-select app-control app-control--light"></select></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.CurrentLevelPercent" class="form-control app-control app-control--light" placeholder="Nível atual" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.TireHealthPercent" class="form-control app-control app-control--light" placeholder="Pneus %" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.AverageConsumption" class="form-control app-control app-control--light" placeholder="Consumo médio" /></div>
-            <div class="col-md-2" data-capacity-field="tank"><input asp-for="VehicleInput.TankCapacity" class="form-control app-control app-control--light" placeholder="Depósito" /></div>
-            <div class="col-md-2" data-capacity-field="battery"><input asp-for="VehicleInput.BatteryCapacity" class="form-control app-control app-control--light" placeholder="Bateria" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.AverageRangeKm" class="form-control app-control app-control--light" placeholder="Autonomia" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.OdometerKm" class="form-control app-control app-control--light" placeholder="Odómetro" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.NextServiceKm" class="form-control app-control app-control--light" placeholder="Próxima revisão km" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.LastMaintenance" class="form-control app-control app-control--light" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.InspectionDueDate" class="form-control app-control app-control--light" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.InsuranceDueDate" class="form-control app-control app-control--light" /></div>
-            <div class="col-md-2"><input asp-for="VehicleInput.TaxDueDate" class="form-control app-control app-control--light" /></div>
-            <div class="col-12"><textarea asp-for="VehicleInput.Notes" class="form-control app-control app-control--light garage-notes-input" rows="2" placeholder="Notas rápidas do veículo, pneus, uso principal, etc."></textarea></div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.Year" class="form-label">Ano</label>
+                <input asp-for="VehicleInput.Year" class="form-control app-control app-control--light" min="1990" max="2100" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.FuelKind" class="form-label">Combustível</label>
+                <select asp-for="VehicleInput.FuelKind" id="vehicle-fuel-kind" class="form-select app-control app-control--light" data-fuel-select>
+                    @foreach (var fuel in Enum.GetValues<FuelKind>())
+                    {
+                        <option value="@fuel">@fuelLabel(fuel)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.TollClass" class="form-label">Classe de portagem</label>
+                <select asp-for="VehicleInput.TollClass" class="form-select app-control app-control--light">
+                    @foreach (var tollClass in Enum.GetValues<TollClass>())
+                    {
+                        <option value="@tollClass">@tollLabel(tollClass)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.CurrentLevelPercent" class="form-label">Nível atual (%)</label>
+                <input asp-for="VehicleInput.CurrentLevelPercent" class="form-control app-control app-control--light" min="0" max="100" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.TireHealthPercent" class="form-label">Estado dos pneus (%)</label>
+                <input asp-for="VehicleInput.TireHealthPercent" class="form-control app-control app-control--light" min="0" max="100" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.AverageConsumption" class="form-label">Consumo médio</label>
+                <input asp-for="VehicleInput.AverageConsumption" class="form-control app-control app-control--light" min="0.1" step="0.1" />
+            </div>
+            <div class="col-md-2" data-capacity-field="tank">
+                <label asp-for="VehicleInput.TankCapacity" class="form-label">Depósito (L)</label>
+                <input asp-for="VehicleInput.TankCapacity" class="form-control app-control app-control--light" min="0" step="0.1" />
+            </div>
+            <div class="col-md-2" data-capacity-field="battery">
+                <label asp-for="VehicleInput.BatteryCapacity" class="form-label">Bateria (kWh)</label>
+                <input asp-for="VehicleInput.BatteryCapacity" class="form-control app-control app-control--light" min="0" step="0.1" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.AverageRangeKm" class="form-label">Autonomia total (km)</label>
+                <input asp-for="VehicleInput.AverageRangeKm" class="form-control app-control app-control--light" min="1" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.OdometerKm" class="form-label">Odómetro (km)</label>
+                <input asp-for="VehicleInput.OdometerKm" class="form-control app-control app-control--light" min="0" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.NextServiceKm" class="form-label">Próxima revisão (km)</label>
+                <input asp-for="VehicleInput.NextServiceKm" class="form-control app-control app-control--light" min="0" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.LastMaintenance" class="form-label">Última manutenção</label>
+                <input asp-for="VehicleInput.LastMaintenance" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.InspectionDueDate" class="form-label">Próxima inspeção</label>
+                <input asp-for="VehicleInput.InspectionDueDate" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.InsuranceDueDate" class="form-label">Validade do seguro</label>
+                <input asp-for="VehicleInput.InsuranceDueDate" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VehicleInput.TaxDueDate" class="form-label">Data do IUC</label>
+                <input asp-for="VehicleInput.TaxDueDate" class="form-control app-control app-control--light" />
+            </div>
+            <div class="col-12">
+                <label asp-for="VehicleInput.Notes" class="form-label">Notas</label>
+                <textarea asp-for="VehicleInput.Notes" class="form-control app-control app-control--light garage-notes-input" rows="2" placeholder="Uso principal, estado dos pneus ou outras observações."></textarea>
+            </div>
             <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
                 <button type="submit" class="btn btn-brand">Guardar veículo</button>
                 <span class="form-text text-muted">Marca/modelo e combustível podem ser inferidos. A garagem abre logo a ficha do novo veículo.</span>

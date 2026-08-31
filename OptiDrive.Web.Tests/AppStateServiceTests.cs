@@ -44,6 +44,59 @@ public sealed class AppStateServiceTests
     }
 
     [Fact]
+    public void RefuelVehicle_UpdatesLevelCostAndGarageHistory()
+    {
+        var appState = new AppStateService();
+        var user = appState.Register("Fuel QA", "fuel-qa@optidrive.pt", "secret123");
+        var vehicleId = appState.AddVehicle(user.Id, new VehicleInputModel
+        {
+            Nickname = "Carro de teste",
+            Brand = "Peugeot",
+            Model = "308",
+            Year = 2022,
+            FuelKind = FuelKind.Diesel,
+            TollClass = TollClass.Class1,
+            AverageConsumption = 5.2,
+            TankCapacity = 50,
+            AverageRangeKm = 850,
+            CurrentLevelPercent = 40,
+            OdometerKm = 32000,
+            TireHealthPercent = 90
+        });
+
+        appState.RefuelVehicle(user.Id, new RefuelVehicleInputModel
+        {
+            Id = vehicleId,
+            Amount = 10,
+            UnitPrice = 1.65,
+            StationName = "Posto de validação"
+        });
+
+        var afterRefuel = appState.BuildDashboard(user.Id);
+        var vehicle = Assert.Single(afterRefuel.Vehicles);
+        var refuel = afterRefuel.VehicleActivities.First(activity => activity.Type == VehicleActivityType.Refuel);
+
+        Assert.Equal(60, vehicle.CurrentLevelPercent);
+        Assert.Equal(10, refuel.Amount);
+        Assert.Equal(16.50, refuel.CostEstimate);
+        Assert.Equal("L", refuel.Unit);
+        Assert.Contains("Posto de validação", refuel.Details);
+
+        appState.RefuelVehicle(user.Id, new RefuelVehicleInputModel
+        {
+            Id = vehicleId,
+            FillToFull = true
+        });
+
+        var afterFill = appState.BuildDashboard(user.Id);
+        Assert.Equal(100, Assert.Single(afterFill.Vehicles).CurrentLevelPercent);
+        Assert.Contains(afterFill.VehicleActivities, activity =>
+            activity.Type == VehicleActivityType.Refuel
+            && activity.LevelPercentAfter == 100
+            && activity.Title.Contains("cheio", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
     public void ApplyRouteToVehicle_UpdatesVehicleStateAndMarksRouteAsApplied()
     {
         var appState = new AppStateService();

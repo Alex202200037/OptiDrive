@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_Process_Social"
+  targetNamespace="https://optidrive.local/bpmn/social">
+  <bpmn:process id="Process_Social" name="bpmn-03-social-viagem" isExecutable="false">
+    <bpmn:startEvent id="social_start" name="Condutor cria viagem">
+      <bpmn:outgoing>social_f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="social_search" name="Pesquisar pessoas e enviar convite">
+      <bpmn:incoming>social_f1</bpmn:incoming>
+      <bpmn:outgoing>social_f2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="social_notify" name="Notificar participantes">
+      <bpmn:incoming>social_f2</bpmn:incoming>
+      <bpmn:outgoing>social_f3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="social_gateway" name="Participantes aceitam?">
+      <bpmn:incoming>social_f3</bpmn:incoming>
+      <bpmn:outgoing>social_f4</bpmn:outgoing>
+      <bpmn:outgoing>social_f8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="social_group" name="Criar viagem em grupo">
+      <bpmn:incoming>social_f4</bpmn:incoming>
+      <bpmn:outgoing>social_f5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="social_chat" name="Ativar chat e partilha de custos">
+      <bpmn:incoming>social_f5</bpmn:incoming>
+      <bpmn:outgoing>social_f6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="social_follow" name="Acompanhar viagem colaborativa">
+      <bpmn:incoming>social_f6</bpmn:incoming>
+      <bpmn:outgoing>social_f7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="social_end" name="Viagem concluída">
+      <bpmn:incoming>social_f7</bpmn:incoming>
+      <bpmn:incoming>social_f9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="social_individual" name="Manter viagem individual">
+      <bpmn:incoming>social_f8</bpmn:incoming>
+      <bpmn:outgoing>social_f9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="social_f1" sourceRef="social_start" targetRef="social_search" />
+    <bpmn:sequenceFlow id="social_f2" sourceRef="social_search" targetRef="social_notify" />
+    <bpmn:sequenceFlow id="social_f3" sourceRef="social_notify" targetRef="social_gateway" />
+    <bpmn:sequenceFlow id="social_f4" name="sim" sourceRef="social_gateway" targetRef="social_group" />
+    <bpmn:sequenceFlow id="social_f5" sourceRef="social_group" targetRef="social_chat" />
+    <bpmn:sequenceFlow id="social_f6" sourceRef="social_chat" targetRef="social_follow" />
+    <bpmn:sequenceFlow id="social_f7" sourceRef="social_follow" targetRef="social_end" />
+    <bpmn:sequenceFlow id="social_f8" name="não" sourceRef="social_gateway" targetRef="social_individual" />
+    <bpmn:sequenceFlow id="social_f9" sourceRef="social_individual" targetRef="social_end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="bpmn-03-social-viagem_diagram" name="bpmn-03-social-viagem">
+    <bpmndi:BPMNPlane id="bpmn-03-social-viagem_plane" bpmnElement="Process_Social">
+      <bpmndi:BPMNShape id="social_start_di" bpmnElement="social_start">
+        <dc:Bounds x="70" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_search_di" bpmnElement="social_search">
+        <dc:Bounds x="190" y="190" width="300" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_notify_di" bpmnElement="social_notify">
+        <dc:Bounds x="585" y="190" width="265" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_gateway_di" bpmnElement="social_gateway">
+        <dc:Bounds x="940" y="205" width="82" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_group_di" bpmnElement="social_group">
+        <dc:Bounds x="1120" y="190" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_chat_di" bpmnElement="social_chat">
+        <dc:Bounds x="1485" y="190" width="305" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_follow_di" bpmnElement="social_follow">
+        <dc:Bounds x="1885" y="190" width="320" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_end_di" bpmnElement="social_end">
+        <dc:Bounds x="2300" y="220" width="56" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="social_individual_di" bpmnElement="social_individual">
+        <dc:Bounds x="1120" y="455" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="social_f1_di" bpmnElement="social_f1">
+        <di:waypoint x="126.0" y="248.0" />
+        <di:waypoint x="190.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f2_di" bpmnElement="social_f2">
+        <di:waypoint x="490.0" y="245.0" />
+        <di:waypoint x="585.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f3_di" bpmnElement="social_f3">
+        <di:waypoint x="850.0" y="245.0" />
+        <di:waypoint x="940.0" y="246.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f4_di" bpmnElement="social_f4">
+        <di:waypoint x="1022.0" y="246.0" />
+        <di:waypoint x="1120.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f5_di" bpmnElement="social_f5">
+        <di:waypoint x="1390.0" y="245.0" />
+        <di:waypoint x="1485.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f6_di" bpmnElement="social_f6">
+        <di:waypoint x="1790.0" y="245.0" />
+        <di:waypoint x="1885.0" y="245.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f7_di" bpmnElement="social_f7">
+        <di:waypoint x="2205.0" y="245.0" />
+        <di:waypoint x="2300.0" y="248.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f8_di" bpmnElement="social_f8">
+        <di:waypoint x="981.0" y="287.0" />
+        <di:waypoint x="981.0" y="510.0" />
+        <di:waypoint x="1120.0" y="510.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="social_f9_di" bpmnElement="social_f9">
+        <di:waypoint x="1390.0" y="510.0" />
+        <di:waypoint x="2240.0" y="510.0" />
+        <di:waypoint x="2240.0" y="248.0" />
+        <di:waypoint x="2300.0" y="248.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
