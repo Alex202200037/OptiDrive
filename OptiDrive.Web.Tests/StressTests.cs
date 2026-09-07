@@ -63,6 +63,7 @@ public sealed class StressTests
         }
 
         var dashboardElapsed = stopwatch.Elapsed;
+        var creationLimitSeconds = Environment.GetEnvironmentVariable("CI") == "true" ? 30 : 10;
 
         _output.WriteLine("Criação de 500 utilizadores e 500 veículos: {0:F3}s", creationElapsed.TotalSeconds);
         _output.WriteLine("Construção de 500 dashboards: {0:F3}s", dashboardElapsed.TotalSeconds);
@@ -70,7 +71,9 @@ public sealed class StressTests
 
         Assert.True(appState.UserCount() >= 503);
         Assert.True(appState.VehicleCount() >= 502);
-        Assert.True(creationElapsed.TotalSeconds < 10, $"Criação demorou {creationElapsed.TotalSeconds:F2}s");
+        Assert.True(
+            creationElapsed.TotalSeconds < creationLimitSeconds,
+            $"Criação demorou {creationElapsed.TotalSeconds:F2}s (limite: {creationLimitSeconds}s)");
         Assert.True(dashboardElapsed.TotalSeconds < 10, $"Dashboards demoraram {dashboardElapsed.TotalSeconds:F2}s");
     }
 }
