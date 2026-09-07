@@ -1,0 +1,36 @@
+---
+title: Pacotes lógicos do OptiDrive
+---
+flowchart TB
+
+    subgraph TOP["Núcleo funcional"]
+      direction LR
+      M01["M01<br/><b>Autenticação e Perfil</b>"]:::identity
+      M02["M02<br/><b>Garagem</b>"]:::core
+      M03["M03<br/><b>Planeamento</b>"]:::core
+      M04["M04<br/><b>Postos e Energia</b>"]:::energy
+      M01 -->|Utilizador| M02
+      M02 -->|Veículo| M03
+      M03 -->|Consulta| M04
+    end
+
+    subgraph SUPPORT["Capacidades transversais"]
+      direction LR
+      M06["M06<br/><b>Social</b>"]:::social
+      M05["M05<br/><b>Smart Save</b>"]:::smart
+      M07["M07<br/><b>Administração e DevOps</b>"]:::admin
+    end
+
+    M06 -->|Viagem colaborativa| M03
+    M03 -->|Cálculo| M05
+    M07 -->|Operação e segurança| M01
+    M07 -.->|Monitorização| M03
+
+    classDef identity fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef core fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    classDef energy fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef smart fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    classDef social fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef admin fill:#EEF1F3,stroke:#526D75,stroke-width:2px;
+    style TOP fill:#F7FAFA,stroke:#B8CCCF
+    style SUPPORT fill:#FBFCFC,stroke:#B8CCCF

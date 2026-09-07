@@ -101,6 +101,7 @@
         "Planeamento inteligente com foco real em combustivel, portagens e poupanca.": "Smart planning focused on real fuel, toll and savings decisions.",
         "Plataforma completa para planear viagens, gerir veiculos, encontrar postos e coordenar deslocacoes em grupo.": "A complete platform to plan trips, manage vehicles, find stations and coordinate group travel.",
         "Tudo com custos, autonomia, carregamentos, portagens e historico num unico cockpit.": "Costs, range, charging, tolls and history in one cockpit.",
+        "Plataforma completa para planear viagens, gerir veiculos, encontrar postos e coordenar deslocacoes em grupo. Tudo com custos, autonomia, carregamentos, portagens e historico num unico cockpit.": "A complete platform to plan trips, manage vehicles, find stations and coordinate group travel, with costs, range, charging, tolls and history in one cockpit.",
         "Compara rota rapida vs rota economica": "Compare fast route vs economical route",
         "Calcula custo total, autonomia, portagens, score de poupanca e sugestao de paragem.": "Calculate total cost, range, tolls, savings score and suggested stops.",
         "Veiculos com consumo real": "Vehicles with real consumption",
@@ -108,6 +109,12 @@
         "Colaboracao": "Collaboration",
         "Partilha e grupos de viagem": "Sharing and travel groups",
         "Circulo de confianca, grupos e split de despesas para roadtrips em caravana.": "Trusted contacts, groups and shared expense splits for convoy road trips.",
+        "Conhece o teu carro": "Know your car",
+        "Regista consumo, autonomia, nivel atual, manutencao e historico para cada veiculo da garagem.": "Record consumption, range, current level, maintenance and history for every vehicle in the garage.",
+        "Escolhe a melhor rota": "Choose the best route",
+        "Combina mapas, postos, carregadores, portagens e velocidade media para prever custos antes de sair.": "Combine maps, stations, chargers, tolls and average speed to forecast costs before departure.",
+        "Viaja em grupo": "Travel as a group",
+        "Cria circulos de confianca, combina viagens colaborativas e divide despesas com mais transparencia.": "Create trusted circles, coordinate collaborative trips and split expenses transparently.",
         "Ola": "Hello",
         "Centro de controlo para rotas, autonomia, postos e colaboracao.": "Control center for routes, range, stations and collaboration.",
         "Terminar sessao": "Sign out",
@@ -444,12 +451,13 @@
             return original;
         }
 
+        const normalized = trimmed.replace(/\s+/g, " ");
         let translated = trimmed;
         if (language === "en") {
-            translated = translations[trimmed] || translateWithRegex(trimmed) || trimmed;
+            translated = translations[trimmed] || translations[normalized] || translateWithRegex(normalized) || trimmed;
         }
 
-        if (!translated || (language === "en" && translated === trimmed && !translations[trimmed])) {
+        if (!translated || (language === "en" && translated === trimmed && !translations[trimmed] && !translations[normalized])) {
             return original;
         }
 

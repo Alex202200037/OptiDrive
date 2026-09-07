@@ -1,0 +1,11 @@
+OptiDrive build Release - 04/09/2026
+Executado em: 2026-09-04 15:27:08 WEST
+
+  OptiDrive.Web -> /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web/bin/Release/net8.0/OptiDrive.Web.dll
+  OptiDrive.Web.Tests -> /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.66

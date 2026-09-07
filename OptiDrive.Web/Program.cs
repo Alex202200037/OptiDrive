@@ -68,6 +68,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddDbContextFactory<OptiDriveDbContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddSingleton<AuthenticatorService>();
 builder.Services.AddSingleton<AppStateService>();
+builder.Services.AddSingleton<ProjectEvidenceService>();
 builder.Services.AddScoped<SmartSaveService>();
 builder.Services.AddHttpClient<ExternalVehicleCatalogService>();
 builder.Services.AddHttpClient<ExternalFuelStationService>();

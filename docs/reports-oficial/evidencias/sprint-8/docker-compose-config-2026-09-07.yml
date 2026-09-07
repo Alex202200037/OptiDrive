@@ -1,0 +1,39 @@
+# Docker Compose configuration validated on 07/09/2026.
+# Secrets are intentionally preserved as environment placeholders.
+
+services:
+  optidrive-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: optidrive-web
+    ports:
+      - "5080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__OptiDrive: Data Source=/app/data/optidrive.db
+      Authentication__Google__ClientId: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      Authentication__Google__ClientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+      Authentication__Microsoft__ClientId: ${MICROSOFT_OAUTH_CLIENT_ID:-}
+      Authentication__Microsoft__ClientSecret: ${MICROSOFT_OAUTH_CLIENT_SECRET:-}
+      Authentication__Apple__ClientId: ${APPLE_OAUTH_CLIENT_ID:-}
+      Authentication__Apple__ClientSecret: ${APPLE_OAUTH_CLIENT_SECRET:-}
+      Authentication__Apple__TeamId: ${APPLE_OAUTH_TEAM_ID:-}
+      Authentication__Apple__KeyId: ${APPLE_OAUTH_KEY_ID:-}
+      Authentication__Apple__PrivateKeyPath: ${APPLE_OAUTH_PRIVATE_KEY_PATH:-}
+      GoogleMaps__ApiKey: ${GOOGLE_MAPS_API_KEY:-}
+      OpenChargeMap__ApiKey: ${OPEN_CHARGE_MAP_API_KEY:-${OPENCHARGEMAP_API_KEY:-}}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 &&
+          printf "GET /health HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n" >&3 &&
+          grep -q "200 OK" <&3'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped

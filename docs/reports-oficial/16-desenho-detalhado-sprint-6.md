@@ -31,7 +31,7 @@
 
 A Sprint 6 consolidou o OptiDrive como produto demonstrável e operacional. O incremento incidiu no endpoint de saúde, separação entre os perfis de condutor e administrador, apresentação visual da landing page, visibilidade do processo DevOps no backoffice e validação do pacote de publicação.
 
-No Jira, a sprint reúne as tarefas `OP-80` a `OP-84`, totalizando 28 story points concluídos. O resultado técnico foi validado por build em Release sem erros, 12 testes automatizados aprovados, teste de carga com 500 utilizadores e 500 veículos, construção integral da imagem Docker e resposta `Healthy` do contentor.
+No Jira, a sprint reúne as tarefas `OP-80` a `OP-84`, totalizando 28 story points concluídos. O resultado técnico foi validado por build em Release sem erros, 16 testes automatizados aprovados após revalidação de RF-M08-04, teste de carga com 500 utilizadores e 500 veículos, construção integral da imagem Docker e resposta `Healthy` do contentor.
 
 ## 2. INTRODUÇÃO
 
@@ -58,7 +58,7 @@ O incremento foi desenvolvido no projeto `OptiDrive.Web`, mantendo a separação
 | RF-M08-01 | M08 | Must | Implementado | O sistema deverá expor `/health` com estado da aplicação, contagens e disponibilidade das integrações, sem revelar segredos. | `OP-80` |
 | RF-M08-02 | M08 | Must | Implementado | O administrador deverá entrar no backoffice e não deverá aceder a fluxos exclusivos de condutor. | `OP-81` |
 | RF-M08-03 | M08 | Should | Implementado | A landing page deverá comunicar os fluxos de garagem, planeamento e colaboração de forma clara e responsiva. | `OP-82` |
-| RF-M08-04 | M08 | Must | Implementado | O backoffice deverá apresentar evidências de pipeline, testes, stress test, roadmap MoSCoW e estado operacional. | `OP-83` |
+| RF-M08-04 | M08 | Must | Revalidado em 02/09/2026 | O backoffice deverá apresentar evidências acionáveis de pipeline, testes, stress, roadmap MoSCoW, estado operacional, Jira e Confluence. | `OP-83` |
 | RF-M08-05 | M08 | Must | Implementado | A solução deverá compilar, testar, publicar e construir em Docker de forma reproduzível. | `OP-84` |
 
 Todos os requisitos previstos para a Sprint 6 foram implementados. O login Apple mantém-se configurável, mas sem credenciais de produção, e CarPlay/Android Auto permanecem classificados como `Won't Have` no âmbito académico atual.
@@ -153,7 +153,7 @@ Esta secção segue a estrutura do template: para cada teste são documentados o
 | Código | UT-S6-001 |
 | Responsável | Alexandre Miguel |
 | Período de teste | 31/08/2026 |
-| Resultados obtidos | 12 testes aprovados, 0 falhados e 0 ignorados, em Debug e Release. |
+| Resultados obtidos | 16 testes aprovados, 0 falhados e 0 ignorados em Release em 02/09/2026. |
 | Observações | Inclui Smart Save, autenticação, MFA, administração, garagem, social e stress local. |
 
 ### 4.2 Testes de Automação
@@ -232,8 +232,8 @@ Estratégia adotada: integração incremental, da camada de domínio para persis
 | --- | --- |
 | Código | REG-S6-001 |
 | Âmbito | Login local, MFA, administração, garagem, rotas, Smart Save, social e persistência. |
-| Procedimento | Executar os 12 testes automáticos após as alterações de UI, autorização e planeamento. |
-| Resultado | 12/12 aprovados em Release; nenhuma regressão bloqueante identificada. |
+| Procedimento | Executar os 16 testes automáticos após as alterações de UI, autorização e planeamento. |
+| Resultado | 16/16 aprovados em Release; nenhuma regressão bloqueante identificada. |
 
 ### 4.5 Testes de Integração com 3rdparty
 
@@ -261,7 +261,7 @@ Estratégia adotada: integração incremental, da camada de domínio para persis
 | --- | --- |
 | Cenário | 500 utilizadores e 500 veículos no estado local. |
 | Critério | Operações concluem sem exceção e dentro do limite definido pelo teste. |
-| Resultado | Aprovado; o teste integra a suite de 12 testes executada em aproximadamente 11 segundos. |
+| Resultado | Aprovado; o teste integra a suite de 16 testes executada em aproximadamente 11 segundos. |
 | Evidência histórica detalhada | `docs/evidence/stress-test-500-users-500-vehicles-2026-07-13.txt` |
 
 #### 4.6.3 Compatibilidade

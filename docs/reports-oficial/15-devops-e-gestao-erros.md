@@ -4,8 +4,8 @@
 | --- | --- |
 | Projeto | OptiDrive |
 | Documento | DevOps e Gestão de Erros |
-| Versão | 3.1 |
-| Data | 13/07/2026 |
+| Versão | 3.3 |
+| Data | 07/09/2026 |
 | Autor | Alexandre Miguel |
 | Stack | ASP.NET Core MVC, .NET 8, EF Core, SQLite, Docker, Azure App Service |
 
@@ -34,7 +34,7 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | --- | --- | --- | --- |
 | Desenvolvimento local | .NET 8 + SQLite | Implementação e testes rápidos | Ativo |
 | Testes locais | xUnit | Validação automatizada | Ativo |
-| Docker | Docker Compose | Execução reproduzível em Mac/ambiente externo | Ativo |
+| Docker | Docker Compose | Execução reproduzível, persistência e healthcheck automático | Ativo e validado em 07/09 |
 | Azure | App Service Linux | Demonstração online | Requer subscrição ativa e App Settings |
 | Confluence/Jira | Atlassian | Documentação e gestão do projeto | Ativo |
 
@@ -47,7 +47,7 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | OpenChargeMap | `.env`/user-secrets | `.env` | Environment variables |
 | OAuth Google/Microsoft | `.env`/user-secrets | `.env` | App Settings + callback público |
 | Logging | Console/dev logs | Container logs | Log stream/App Service logs |
-| Healthcheck | `/health` | `/health` | `/health` público/controlado |
+| Healthcheck | `/health` | Automático no Compose + `/health` | `/health` público/controlado |
 
 ## 5. Variáveis de Ambiente
 
@@ -72,6 +72,11 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | Publicacao | `.github/workflows/ci.yml` + `dotnet publish` | Artefacto web gerado para release |
 | Docker build | `.github/workflows/ci.yml` + Docker | Imagem validada por commit |
 | Deploy Azure | `.github/workflows/azure-deploy.yml` | Deploy manual ou apos CI com sucesso |
+| Formatação | `.github/workflows/ci.yml` + `dotnet format` | Falha se existirem diferenças de formatação |
+| Dependências | `.github/workflows/ci.yml` + auditoria NuGet | Falha se forem reportadas vulnerabilidades conhecidas |
+| Evidência de testes | Artefacto TRX | Resultado preservado em cada execução da CI |
+
+Em 07/09/2026, as duas definições foram revistas e todas as etapas foram reproduzidas localmente com sucesso. A pipeline passou a incluir gates explícitos de formatação, vulnerabilidades, testes com artefacto TRX, publicação e Docker. A execução remota será acionada após a reconciliação sem perda entre a branch local e `origin/main`.
 
 ## 7. Pipeline Manual de Recuperacao e Validacao
 
@@ -79,7 +84,7 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | --- | --- | --- |
 | 1 | `dotnet restore` | Dependencias restauradas |
 | 2 | `dotnet build OptiDrive.sln` | Build sem erros |
-| 3 | `dotnet test OptiDrive.sln` | 11 testes a passar |
+| 3 | `dotnet test OptiDrive.sln --configuration Release` | 16 testes a passar |
 | 4 | `docker compose up --build` | Aplicacao disponivel em container |
 | 5 | Abrir `/health` | JSON/estado saudavel |
 | 6 | Validar login local e MFA | Sessao segura e MFA funcional |
@@ -91,11 +96,11 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 
 | Mecanismo | O que mede | Como usar |
 | --- | --- | --- |
-| `/health` | Estado básico da app, ambiente e dependências | Verificação manual/monitor externo |
+| `/health` | Estado básico da app, ambiente e dependências | Verificação manual e healthcheck automático do Docker Compose |
 | Admin Dashboard | Utilizadores, MFA, locks, sincronizações | Operação e suporte |
 | ApiSyncStatus | Última sincronização de APIs externas | Diagnóstico de dados externos |
 | Logs ASP.NET | Exceções e warnings | Debug local/Azure Log Stream |
-| Testes xUnit | Regressões funcionais | Pré-entrega e pipeline futuro |
+| Testes xUnit | Regressões funcionais | Pré-entrega e pipeline CI implementada |
 
 ## 9. Gestão de Erros - Classificação
 
@@ -177,15 +182,31 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | Critério | Estado | Observação |
 | --- | --- | --- |
 | Build sem erros | Pronto | Validável por `dotnet build` |
-| Testes automatizados | Pronto | 11 testes xUnit, incluindo stress local com 500 utilizadores e 500 veiculos |
-| Docker Compose | Pronto | Execução reproduzível |
+| Testes automatizados | Pronto | 16 testes xUnit, incluindo healthcheck, RF-M08-04 e stress com 500 utilizadores e 500 veículos |
+| Docker Compose | Pronto | Build, arranque, persistência e estado `healthy` validados em 07/09/2026 |
 | Azure App Service | Configurável | Requer App Settings finais |
-| Healthcheck | Pronto | `/health` |
+| Healthcheck | Pronto | `/health` HTTP 200; 8 utilizadores, 8 veículos e 2 rotas mantidos após reinício |
 | OAuth | Configurável | Depende de callbacks por domínio |
 | Documentação | Pronto | Confluence e docs locais |
 | Backups/monitorização avançada | Parcial | Roadmap produção |
 
-## 17. Plano de Melhoria DevOps
+## 17. Evidências de Validação de 07/09/2026
+
+| Verificação | Resultado | Evidência |
+| --- | --- | --- |
+| Build Release | Aprovado: 0 erros e 0 avisos | `evidencias/sprint-8/build-release-2026-09-07.txt` |
+| Testes automatizados | Aprovado: 16/16 | `evidencias/sprint-8/testes-release-2026-09-07.txt` |
+| Configuração Compose | Aprovada | `evidencias/sprint-8/docker-compose-config-2026-09-07.yml` |
+| Build e arranque Docker | Aprovado | Contentor `optidrive-web` em estado `healthy` |
+| Endpoint operacional | Aprovado: HTTP 200 | `evidencias/sprint-8/healthcheck-2026-09-07.json` |
+| Persistência após reinício | Aprovada | `evidencias/sprint-8/docker-persistence-health-2026-09-07.txt` |
+| Interface móvel PT/EN | Aprovada em 390×844 | `evidencias/sprint-8/mobile-light-pt-2026-09-07.png` e `mobile-dark-en-2026-09-07.png` |
+| Dependências NuGet | Sem vulnerabilidades conhecidas nas fontes consultadas | `evidencias/sprint-8/package-vulnerability-scan-2026-09-07.txt` |
+| Execução GitHub Actions | Pendente | Reconciliação segura da branch necessária antes do `push` |
+
+A checklist técnica integral encontra-se em `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`; a reprodução local da pipeline encontra-se em `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`.
+
+## 18. Plano de Melhoria DevOps
 
 | Prioridade | Melhoria | Benefício |
 | --- | --- | --- |
@@ -197,6 +218,6 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | Média | Alertas para falhas de APIs externas | Operação proativa |
 | Baixa | Versionamento semântico de releases | Melhor histórico de entregas |
 
-## 18. Conclusão
+## 19. Conclusão
 
 A abordagem DevOps do OptiDrive é adequada para entrega académica e demonstração: build/test local, Docker, Azure configurável, healthcheck, administração e gestão documentada de erros. Para operacao comercial, a evolucao natural passa por base de dados gerida, Key Vault, monitorizacao estruturada, alertas e testes E2E automatizados.

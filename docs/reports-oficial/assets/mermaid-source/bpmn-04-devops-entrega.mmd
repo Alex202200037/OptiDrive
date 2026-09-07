@@ -1,0 +1,21 @@
+---
+title: BPMN · Integração e entrega contínuas
+---
+flowchart TB
+    START((Início)):::start --> PREPARE["Preparar alteração<br/>e commit"]:::task
+    PREPARE --> BUILD["Executar build<br/>e testes"]:::service
+    BUILD --> OK{"Validação<br/>aprovada?"}:::gateway
+    OK -->|Sim| DEPLOY
+    OK -->|Não| FIX
+    FIX -->|Novo commit| BUILD
+    DEPLOY["Publicar<br/>artefacto"]:::task --> HEALTH["Validar healthcheck<br/>e smoke tests"]:::service
+    HEALTH --> DOCS["Atualizar evidências<br/>e documentação"]:::task
+    DOCS --> END((Fim)):::endNode
+    FIX["Corrigir falha e<br/>repetir validação"]:::exception
+
+    classDef start fill:#DDF3E4,stroke:#2D7A49,stroke-width:3px;
+    classDef endNode fill:#F9DDDD,stroke:#B33A3A,stroke-width:4px;
+    classDef task fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef service fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef gateway fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef exception fill:#FDECEC,stroke:#C94747,stroke-width:2px;

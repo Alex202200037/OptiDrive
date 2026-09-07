@@ -1167,10 +1167,12 @@ public sealed class AppStateService
     public DashboardViewModel BuildDashboard(Guid userId)
     {
         var user = GetUser(userId) ?? throw new InvalidOperationException("Utilizador nao encontrado.");
+        var socialProfile = GetOrCreateSocialProfile(user);
+        var socialDirectory = BuildSocialDirectory(user).ToList();
         return new DashboardViewModel
         {
             User = user,
-            SocialProfile = GetOrCreateSocialProfile(user),
+            SocialProfile = socialProfile,
             Vehicles = _vehicles.Where(vehicle => vehicle.OwnerId == userId).OrderByDescending(vehicle => vehicle.IsDefault).ToList(),
             Stations = _stations.OrderBy(station => station.Price).ToList(),
             Routes = _routes.Where(route => route.OwnerId == userId).OrderByDescending(route => route.CreatedAt).ToList(),
@@ -1182,21 +1184,21 @@ public sealed class AppStateService
             DirectMessages = MessagesForUser(user).OrderByDescending(message => message.SentAtUtc).ToList(),
             CollaborativeTrips = CollaborativeTripsForUser(user).OrderByDescending(trip => trip.CreatedAtUtc).ToList(),
             SocialMembers = _users.Where(member => member.Id != userId && member.Role == UserRole.User).OrderByDescending(member => member.LastLoginAtUtc ?? member.CreatedAtUtc).ToList(),
-            SocialDirectory = BuildSocialDirectory(user).ToList(),
-            IncomingAccessRequests = BuildSocialDirectory(user)
+            SocialDirectory = socialDirectory,
+            IncomingAccessRequests = socialDirectory
                 .Where(member => member.AccessState == "PendingReceived")
                 .ToList(),
             SyncStatuses = new Dictionary<string, ApiSyncStatus>(_syncStatuses),
             AuthenticatorSetup = BuildAuthenticatorSetup(user, false),
             SocialProfileInput = new SocialProfileInputModel
             {
-                DisplayName = GetOrCreateSocialProfile(user).DisplayName,
-                Bio = GetOrCreateSocialProfile(user).Bio,
-                HomeCity = GetOrCreateSocialProfile(user).HomeCity,
-                DrivingStyle = GetOrCreateSocialProfile(user).DrivingStyle,
-                PreferredFuelBrands = GetOrCreateSocialProfile(user).PreferredFuelBrands,
-                IsOpenToCarpool = GetOrCreateSocialProfile(user).IsOpenToCarpool,
-                ShareLiveTripStatus = GetOrCreateSocialProfile(user).ShareLiveTripStatus
+                DisplayName = socialProfile.DisplayName,
+                Bio = socialProfile.Bio,
+                HomeCity = socialProfile.HomeCity,
+                DrivingStyle = socialProfile.DrivingStyle,
+                PreferredFuelBrands = socialProfile.PreferredFuelBrands,
+                IsOpenToCarpool = socialProfile.IsOpenToCarpool,
+                ShareLiveTripStatus = socialProfile.ShareLiveTripStatus
             }
         };
     }
@@ -2219,11 +2221,21 @@ public sealed class AppStateService
     private IEnumerable<SocialMemberCardViewModel> BuildSocialDirectory(UserAccount currentUser)
     {
         var onlineThreshold = DateTime.UtcNow.AddHours(-24);
+        var profilesByUserId = _socialProfiles.ToDictionary(profile => profile.UserId);
+        var vehicleCountsByOwner = _vehicles
+            .GroupBy(vehicle => vehicle.OwnerId)
+            .ToDictionary(group => group.Key, group => group.Count());
+
         return _users
             .Where(member => member.Id != currentUser.Id && member.Role == UserRole.User)
             .Select(member =>
             {
-                var profile = GetOrCreateSocialProfile(member);
+                if (!profilesByUserId.TryGetValue(member.Id, out var profile))
+                {
+                    profile = GetOrCreateSocialProfile(member);
+                    profilesByUserId[member.Id] = profile;
+                }
+
                 var request = _connectionRequests
                     .Where(item =>
                         (item.RequesterId == currentUser.Id && item.TargetUserId == member.Id)
@@ -2252,7 +2264,7 @@ public sealed class AppStateService
                     IsOnline = member.LastLoginAtUtc is not null && member.LastLoginAtUtc >= onlineThreshold,
                     IsOpenToCarpool = profile.IsOpenToCarpool,
                     ShareLiveTripStatus = profile.ShareLiveTripStatus,
-                    VehicleCount = _vehicles.Count(vehicle => vehicle.OwnerId == member.Id),
+                    VehicleCount = vehicleCountsByOwner.GetValueOrDefault(member.Id),
                     SharedTripCount = _collaborativeTrips.Count(trip =>
                         trip.Members.Contains(currentUser.Email, StringComparer.OrdinalIgnoreCase)
                         && trip.Members.Contains(member.Email, StringComparer.OrdinalIgnoreCase)),

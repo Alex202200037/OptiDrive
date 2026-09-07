@@ -239,7 +239,7 @@
                 <p class="eyebrow">Entrega continua</p>
                 <h2>Pipeline e validacao</h2>
             </div>
-            <span class="mini-pill mini-pill--ok">Pronto para CI/CD</span>
+            <span class="mini-pill mini-pill--ok">RF-M08-04 validavel</span>
         </div>
         <p class="text-soft mt-2">Fluxo operacional alinhado com a entrega: codigo, build, testes, pacote e publicacao em Azure App Service.</p>
         <div class="admin-flow mt-4">
@@ -251,11 +251,11 @@
         </div>
         <div class="admin-quality-grid mt-4">
             <div>
-                <strong>12/12</strong>
+                <strong>@Model.ProjectEvidence.AutomatedTestCount/@Model.ProjectEvidence.AutomatedTestCount</strong>
                 <span>testes automatizados</span>
             </div>
             <div>
-                <strong>500 + 500</strong>
+                <strong>@Model.ProjectEvidence.StressUserCount + @Model.ProjectEvidence.StressVehicleCount</strong>
                 <span>users e veiculos em stress local</span>
             </div>
             <div>
@@ -263,6 +263,7 @@
                 <span>monitorizacao rapida</span>
             </div>
         </div>
+        <p class="evidence-verified mt-3">Ultima verificacao: @Model.ProjectEvidence.LastVerifiedOn</p>
     </article>
 
     <article class="panel-card admin-panel admin-quality-card">
@@ -280,6 +281,33 @@
             <div><strong>Won't Have</strong><span>CarPlay e Android Auto ficam como integracao opcional futura.</span></div>
         </div>
     </article>
+</section>
+
+<section class="panel-card mt-4 admin-panel">
+    <div class="panel-top">
+        <div>
+            <p class="eyebrow">Evidencias acionaveis</p>
+            <h2>Qualidade, entrega e rastreabilidade</h2>
+        </div>
+        <span class="mini-pill mini-pill--ok">6 fontes verificaveis</span>
+    </div>
+    <p class="text-soft mt-2">Cada cartao abre a fonte que sustenta o estado apresentado no backoffice.</p>
+    <div class="evidence-grid mt-3">
+        @foreach (var evidence in Model.ProjectEvidence.Items)
+        {
+            <article class="evidence-card evidence-card--@evidence.Severity">
+                <div class="panel-top">
+                    <h3>@evidence.Area</h3>
+                    <span class="mini-pill @(evidence.Severity == "ok" ? "mini-pill--ok" : "mini-pill--warn")">@evidence.Status</span>
+                </div>
+                <p>@evidence.Detail</p>
+                @if (!string.IsNullOrWhiteSpace(evidence.Url))
+                {
+                    <a class="btn btn-soft btn-sm" href="@evidence.Url" target="_blank" rel="noopener noreferrer">@evidence.LinkLabel</a>
+                }
+            </article>
+        }
+    </div>
 </section>
 
 <section class="sync-grid">

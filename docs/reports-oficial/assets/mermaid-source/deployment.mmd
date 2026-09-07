@@ -1,0 +1,28 @@
+---
+title: Deployment do OptiDrive
+---
+flowchart LR
+    CLIENT["Cliente<br/><b>Browser desktop / mobile</b>"]:::client
+    GITHUB["GitHub<br/><b>Repositório e Actions</b>"]:::devops
+
+    subgraph AZURE["Azure App Service · Linux · .NET 8"]
+      APP[["OptiDrive.Web<br/>Artefacto publicado"]]:::web
+      HEALTH["/health<br/>Readiness e monitorização"]:::health
+      APP --> HEALTH
+    end
+
+    DB[("Persistência<br/>SQLite / armazenamento")]:::data
+    EXT["Serviços externos<br/>Google Maps · OCM · OAuth"]:::external
+
+    CLIENT -->|HTTPS| APP
+    GITHUB -.->|CI/CD| APP
+    APP -->|Leitura / escrita| DB
+    APP -.->|HTTPS · JSON| EXT
+
+    classDef client fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    classDef devops fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef web fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef health fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    classDef data fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef external fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    style AZURE fill:#F7FAFA,stroke:#39789A,stroke-width:2px

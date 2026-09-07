@@ -1,0 +1,21 @@
+---
+title: BPMN · Viagem colaborativa e mensagens
+---
+flowchart TB
+    START((Início)):::start --> SEARCH["Pesquisar utilizador<br/>e enviar pedido"]:::task
+    SEARCH --> NOTIFY["Notificar<br/>destinatário"]:::service
+    NOTIFY --> ACCEPTED{"Pedido<br/>aceite?"}:::gateway
+    ACCEPTED -->|Sim| GROUP
+    ACCEPTED -->|Não| INDIVIDUAL
+    GROUP["Criar viagem<br/>colaborativa"]:::task --> CHAT["Trocar<br/>mensagens"]:::task
+    CHAT --> FOLLOW["Acompanhar progresso<br/>da viagem"]:::task
+    FOLLOW --> END((Fim)):::endNode
+    INDIVIDUAL["Manter planeamento<br/>individual"]:::exception
+    INDIVIDUAL --> END
+
+    classDef start fill:#DDF3E4,stroke:#2D7A49,stroke-width:3px;
+    classDef endNode fill:#F9DDDD,stroke:#B33A3A,stroke-width:4px;
+    classDef task fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef service fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef gateway fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef exception fill:#FDECEC,stroke:#C94747,stroke-width:2px;

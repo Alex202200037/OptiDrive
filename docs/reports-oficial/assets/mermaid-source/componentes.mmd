@@ -1,0 +1,45 @@
+---
+title: Diagrama de componentes · OptiDrive
+---
+flowchart TB
+    UI[["OptiDrive.Web<br/><b>Controllers · Razor Views</b>"]]:::web
+
+    subgraph SERVICES["Serviços de aplicação"]
+      direction TB
+      subgraph SERVICE_ROW_1[" "]
+        direction LR
+        STATE[["AppStateService<br/>Sessão · tema · idioma"]]:::service
+        GARAGE[["GarageService<br/>Veículos · histórico"]]:::service
+        ROUTE[["RoutePlanningService<br/>Rotas · autonomia"]]:::service
+      end
+      subgraph SERVICE_ROW_2[" "]
+        direction LR
+        SOCIAL[["SocialService<br/>Contactos · chat · viagens"]]:::service
+        ADMIN[["AdminHealthService<br/>Readiness · métricas"]]:::service
+      end
+      STATE ~~~ GARAGE ~~~ ROUTE
+      SOCIAL ~~~ ADMIN
+    end
+
+    subgraph INFRA["Infraestrutura e integrações"]
+      direction LR
+      DB[("OptiDriveDbContext<br/>EF Core · SQLite")]:::data
+      API[["ExternalApiClients<br/>Google Maps · OpenChargeMap · OAuth"]]:::external
+    end
+
+    UI --> STATE & GARAGE & ROUTE & SOCIAL & ADMIN
+    GARAGE -->|Persistência| DB
+    ROUTE -->|Rotas guardadas| DB
+    SOCIAL -->|Mensagens| DB
+    ADMIN -->|Auditoria| DB
+    STATE -.->|OAuth| API
+    ROUTE -.->|Geocoding e Directions| API
+
+    classDef web fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef service fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    classDef data fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef external fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    style SERVICES fill:#F7FAFA,stroke:#B8CCCF
+    style SERVICE_ROW_1 fill:transparent,stroke:transparent
+    style SERVICE_ROW_2 fill:transparent,stroke:transparent
+    style INFRA fill:#FBFCFC,stroke:#B8CCCF

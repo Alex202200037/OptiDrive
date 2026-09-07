@@ -1,0 +1,90 @@
+=== Docker runtime validation ===
+2026-09-07T21:04:54+01:00
+
+=== Build and start ===
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [optidrive-web internal] load build definition from Dockerfile
+#1 transferring dockerfile: 632B done
+#1 DONE 0.0s
+
+#2 [optidrive-web internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0
+#2 ...
+
+#3 [optidrive-web internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0
+#3 DONE 0.3s
+
+#2 [optidrive-web internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0
+#2 DONE 0.3s
+
+#4 [optidrive-web internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [optidrive-web build 1/8] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:bb32ba3ba3ea36e38572d9d8db76fa15f7cbf722f3f886e06bca6d528bd4fba8
+#5 DONE 0.0s
+
+#6 [optidrive-web runtime 1/4] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:787c228ea85457bec43c8b084e6ac360b26ea43b5c2fcbe861f721f2e8670dd3
+#6 DONE 0.0s
+
+#7 [optidrive-web internal] load build context
+#7 transferring context: 714.12kB 0.2s done
+#7 DONE 0.2s
+
+#8 [optidrive-web build 3/8] COPY OptiDrive.sln ./
+#8 CACHED
+
+#9 [optidrive-web build 4/8] COPY OptiDrive.Web/OptiDrive.Web.csproj OptiDrive.Web/
+#9 CACHED
+
+#10 [optidrive-web build 5/8] COPY OptiDrive.Web.Tests/OptiDrive.Web.Tests.csproj OptiDrive.Web.Tests/
+#10 CACHED
+
+#11 [optidrive-web build 2/8] WORKDIR /src
+#11 CACHED
+
+#12 [optidrive-web build 6/8] RUN dotnet restore OptiDrive.sln
+#12 CACHED
+
+#13 [optidrive-web build 7/8] COPY . .
+#13 DONE 6.0s
+
+#14 [optidrive-web build 8/8] RUN dotnet publish OptiDrive.Web/OptiDrive.Web.csproj -c Release -o /app/publish --no-restore
+#14 4.103   OptiDrive.Web -> /src/OptiDrive.Web/bin/Release/net8.0/OptiDrive.Web.dll
+#14 4.199   OptiDrive.Web -> /app/publish/
+#14 DONE 4.3s
+
+#15 [optidrive-web runtime 2/4] WORKDIR /app
+#15 CACHED
+
+#16 [optidrive-web runtime 3/4] RUN mkdir -p /app/data
+#16 CACHED
+
+#17 [optidrive-web runtime 4/4] COPY --from=build /app/publish .
+#17 CACHED
+
+#18 [optidrive-web] exporting to image
+#18 exporting layers done
+#18 writing image sha256:76c40598ba74ea8ac22bc708d3555d8eae11448b211ccc72f2d576d9718ae5df done
+#18 naming to docker.io/library/optidrive-optidrive-web done
+#18 DONE 0.0s
+
+#19 [optidrive-web] resolving provenance for metadata file
+#19 DONE 0.0s
+ Container optidrive-web  Recreate
+ Container optidrive-web  Recreated
+ Container optidrive-web  Starting
+ Container optidrive-web  Started
+
+=== Wait for healthy ===
+zsh:10: read-only variable: status
+
+=== Wait for healthy (continued) ===
+attempt=1 health=healthy
+
+=== Container status ===
+NAME            IMAGE                     COMMAND                  SERVICE         CREATED          STATUS                    PORTS
+optidrive-web   optidrive-optidrive-web   "dotnet OptiDrive.We…"   optidrive-web   13 seconds ago   Up 13 seconds (healthy)   0.0.0.0:5080->8080/tcp
+
+=== /health response ===
+{"status":"Healthy","product":"OptiDrive","environment":"Docker","checkedAtUtc":"2026-09-07T20:05:18.9125219Z","counts":{"users":8,"vehicles":8,"routes":2},"integrations":{"googleMaps":true,"openChargeMap":true,"googleOAuth":true,"microsoftOAuth":true,"appleOAuth":false,"authenticatorMfa":true,"socialPulse":true}}

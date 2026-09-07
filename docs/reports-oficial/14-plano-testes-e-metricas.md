@@ -8,7 +8,7 @@
 | Versão | 3.1 |
 | Data | 13/07/2026 |
 | Autor | Alexandre Miguel |
-| Stack de testes | xUnit, testes manuais, UAT, usabilidade, validação operacional |
+| Stack de testes | xUnit, testes manuais, UAT, usabilidade, stress e validação operacional |
 
 ## 1. Objetivo
 
@@ -76,6 +76,8 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | `AppStateServiceTests.cs` | `Authenticator_CanBeEnabledAndVerifiedWithTotp` | Validar MFA TOTP |
 | `AppStateServiceTests.cs` | `AdminActions_ManageUserSecurityWithoutAllowingRegularUsers` | Validar permissoes administrativas |
 | `StressTests.cs` | `LocalState_With500UsersAnd500Vehicles_RemainsResponsive` | Validar carga local com 500 utilizadores e 500 veiculos |
+| `ProjectEvidenceServiceTests.cs` | 3 testes de evidência administrativa | Validar fontes acionáveis, métricas e fallback de `RF-M08-04` |
+| `HealthControllerTests.cs` | `Index_ReturnsHealthyStatusWithoutSecrets` | Validar Healthy e ausência de segredos |
 
 ## 7. Testes Unitários
 
@@ -132,7 +134,7 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | TC-ID | Cenário e Perfil | Métricas a Recolher | Threshold | Resultado Esperado |
 | --- | --- | --- | --- | --- |
 | PT-001 | 20 utilizadores a consultar garagem/social | Tempo resposta, erros, CPU | P95 < 1.5s em ambiente local controlado | Sem erros criticos |
-| PT-004 | 500 utilizadores e 500 veiculos em memoria/local state | Tempo de criacao e tempo de dashboards | Criacao < 10s e dashboards < 10s | Validado por teste automatizado |
+| PT-004 | 500 utilizadores e 500 veiculos em memoria/local state | Tempo de criacao e tempo de dashboards | Criacao < 10s e dashboards < 10s | Aprovado: 8,518 s e 0,327 s, respetivamente |
 | PT-002 | 10 utilizadores a calcular rotas | Latência API, fallback, erros | Erro externo deve ser tratado | UI mostra feedback controlado |
 | PT-003 | Refresh de postos/carregadores | Duração sync, nº itens, falhas | Sync não bloqueia UI | Estado visível no Admin |
 
@@ -159,13 +161,13 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 
 | Métrica | Valor |
 | --- | --- |
-| Sprints planeadas | 5 |
-| Sprints documentadas | 5 |
-| Atas documentadas | 5 |
+| Sprints planeadas | 8 |
+| Sprints documentadas | 8 (auditoria técnica da Sprint 8 concluída em 07/09) |
+| Atas documentadas | 8 |
 | Módulos documentados | 7 |
 | Requisitos funcionais | 35 |
 | Use cases | 15 |
-| Testes automatizados | 11 |
+| Testes automatizados | 16 |
 | Tipos de teste cobertos | 8 |
 | Itens de roadmap futuro | 8 |
 
@@ -209,7 +211,19 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | RF-M05-01 a RF-M05-05 | UT-M05-001, UT-M05-002, UT-M05-003, AT-M05-001 |
 | RF-M06-01 a RF-M06-05 | IT-M06-001, ST-003, AT-M06-001 |
 | RF-M07-01 a RF-M07-04 | IT-M07-001, SEC-AUTHZ-001, ST-004 |
+| RF-M08-01, RF-M08-04 | `HealthControllerTests`, `ProjectEvidenceServiceTests`, UAT-013, UAT-014 |
+| RF-M10-01 a RF-M10-05 | UAT-017, UAT-018, UAT-020 e checklist de encerramento da Sprint 8 |
+
+### 18.1 Evidências de execução da Sprint 8
+
+- `evidencias/sprint-8/build-release-2026-09-02.txt`
+- `evidencias/sprint-8/testes-release-2026-09-02.txt`
+- `evidencias/sprint-8/docker-compose-config-2026-09-02.txt`
+- `21-tabela-testes-aceitacao.md`
+- `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`
+- `evidencias/sprint-8/final-2026-09-07/stress-optimized-validation.txt`
+- `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`
 
 ## 19. Conclusão
 
-O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os testes automatizados existentes validam os pontos de maior risco funcional: Smart Save, autonomia, garagem, social, MFA, administracao e stress local com 500 utilizadores/veiculos.
+O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os 16 testes automatizados validados em Release cobrem Smart Save, autonomia, garagem, social, MFA, administração, healthcheck, `RF-M08-04` e stress com 500 utilizadores/veículos. A execução final aprovou a criação 500+500 em 8,518 s e a construção de 500 dashboards em 0,327 s. A matriz UAT está em `21-tabela-testes-aceitacao.md`.

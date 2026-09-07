@@ -1,0 +1,10 @@
+OptiDrive healthcheck - 04/09/2026
+Executado em: 2026-09-04 15:24:40 WEST
+
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Fri, 04 Sep 2026 14:24:40 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"status":"Healthy","product":"OptiDrive","environment":"Development","checkedAtUtc":"2026-09-04T14:24:40.780213Z","counts":{"users":8,"vehicles":15,"routes":10},"integrations":{"googleMaps":true,"openChargeMap":true,"googleOAuth":true,"microsoftOAuth":true,"appleOAuth":false,"authenticatorMfa":true,"socialPulse":true}}

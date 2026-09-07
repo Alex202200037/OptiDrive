@@ -1,52 +1,27 @@
 [Key-Mapping] Duplicated key id: 874
 [Key-Mapping] Duplicated key id: 1638
 [Key-Mapping] Duplicated key id: 1639
-start startup getLicenseKey on 15-Jul-2026
+start startup getLicenseKey on 01-Sep-2026
 getLicenseKey in local ...
 getLicenseKey from server ...
 finish startup getLicenseKey
 getVerifiedLicenseKey: null; state=Evaluating
 Opening Project: /tmp/OptiDrive-Visual-Paradigm.vpp
-[Import BPMN] Started
-[Import BPMN] Finished
-Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
+Exception in thread "main" java.lang.NullPointerException
+	at v.cms.h.b(:141)
+	at v.chq.du.a(:6721)
+	at v.chq.du.a(:6696)
+	at v.awh.b.a(:193)
+	at v.awh.b.a(:177)
+	at com.vp.cmd.ImportBPMN.a(:34)
+	at com.vp.cmd.ImportBPMN.main(:17)
 ---
 [Key-Mapping] Duplicated key id: 874
 [Key-Mapping] Duplicated key id: 1638
 [Key-Mapping] Duplicated key id: 1639
-start startup getLicenseKey on 15-Jul-2026
+start startup getLicenseKey on 01-Sep-2026
 getLicenseKey in local ...
 getLicenseKey from server ...
 finish startup getLicenseKey
 getVerifiedLicenseKey: null; state=Evaluating
 Opening Project: /tmp/OptiDrive-Visual-Paradigm.vpp
-[Import BPMN] Started
-[Import BPMN] Finished
-Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
----
-[Key-Mapping] Duplicated key id: 874
-[Key-Mapping] Duplicated key id: 1638
-[Key-Mapping] Duplicated key id: 1639
-start startup getLicenseKey on 15-Jul-2026
-getLicenseKey in local ...
-getLicenseKey from server ...
-finish startup getLicenseKey
-getVerifiedLicenseKey: null; state=Evaluating
-Opening Project: /tmp/OptiDrive-Visual-Paradigm.vpp
-[Import BPMN] Started
-[Import BPMN] Finished
-Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
----
-[Key-Mapping] Duplicated key id: 874
-[Key-Mapping] Duplicated key id: 1638
-[Key-Mapping] Duplicated key id: 1639
-start startup getLicenseKey on 15-Jul-2026
-getLicenseKey in local ...
-getLicenseKey from server ...
-finish startup getLicenseKey
-getVerifiedLicenseKey: null; state=Evaluating
-Opening Project: /tmp/OptiDrive-Visual-Paradigm.vpp
-[Import BPMN] Started
-[Import BPMN] Finished
-Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
----

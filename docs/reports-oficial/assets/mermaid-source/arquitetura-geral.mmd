@@ -1,0 +1,35 @@
+---
+title: Arquitetura geral OptiDrive · visão por camadas
+---
+flowchart TB
+    CLIENT(["Cliente Web<br/>Desktop e mobile"]):::client
+
+    subgraph PLATFORM["OptiDrive · Azure App Service / Docker"]
+      direction LR
+      WEB["Apresentação<br/><b>ASP.NET Core MVC</b><br/>Razor Views · Controllers"]:::layer
+      APP["Aplicação e domínio<br/><b>Garagem · Rotas · Smart Save</b><br/>Social · Administração"]:::domain
+      DATA[("Persistência<br/><b>Entity Framework Core</b><br/>SQLite / armazenamento Azure")]:::data
+      WEB -->|Pedidos e DTOs| APP
+      APP -->|Repositórios| DATA
+    end
+
+    subgraph EXTERNAL["Serviços externos"]
+      direction LR
+      IDP["Identidade<br/>Google · Microsoft OAuth"]:::external
+      MAPS["Google Maps Platform<br/>Geocoding · Directions · mapas"]:::external
+      STATIONS["OpenChargeMap / postos<br/>Carregadores · combustíveis · preços"]:::external
+      IDP ~~~ MAPS ~~~ STATIONS
+    end
+
+    CLIENT -->|HTTPS| WEB
+    WEB -.->|Autenticação| IDP
+    APP -.->|Rotas| MAPS
+    APP -.->|Postos e energia| STATIONS
+
+    classDef client fill:#E7F5F2,color:#17313A,stroke:#0F766E,stroke-width:2px;
+    classDef layer fill:#EAF2F8,color:#17313A,stroke:#39789A,stroke-width:2px;
+    classDef domain fill:#E7F5F2,color:#17313A,stroke:#0F766E,stroke-width:2px;
+    classDef data fill:#FFF3D6,color:#17313A,stroke:#C58A1D,stroke-width:2px;
+    classDef external fill:#F3EDF9,color:#17313A,stroke:#8064A2,stroke-width:2px;
+    style PLATFORM fill:#F7FAFA,stroke:#8FA9AE,stroke-width:2px
+    style EXTERNAL fill:#FBFAFC,stroke:#C7B7D8,stroke-width:1.5px

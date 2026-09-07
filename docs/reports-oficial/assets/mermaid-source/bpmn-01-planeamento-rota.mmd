@@ -1,0 +1,31 @@
+---
+title: BPMN · Planeamento de rota e Smart Save
+---
+flowchart TB
+    subgraph INPUT_PHASE["1 · Preparação da rota"]
+      direction LR
+      START((Início)):::start --> INPUT["Introduzir origem,<br/>destino e veículo"]:::task
+      INPUT --> VALIDATE["Validar dados e<br/>nível atual"]:::task
+      VALIDATE --> MAPS["Obter geocoding<br/>e direções"]:::service
+    end
+    subgraph DECISION_PHASE["2 · Energia, decisão e resultado"]
+      direction LR
+      STATIONS["Consultar postos<br/>e carregadores"]:::service
+      STATIONS --> SMART["Calcular custo, autonomia<br/>e Smart Save"]:::task
+      SMART --> ENOUGH{"Autonomia<br/>suficiente?"}:::gateway
+      ENOUGH -->|Sim| PRESENT["Apresentar rota<br/>e recomendações"]:::task
+      PRESENT --> END((Fim)):::endNode
+      ENOUGH -->|Não| REFUEL["Adicionar paragem<br/>recomendada"]:::exception
+      REFUEL --> RECALC["Recalcular rota<br/>e autonomia"]:::exception
+      RECALC --> PRESENT
+    end
+    MAPS --> STATIONS
+
+    classDef start fill:#DDF3E4,stroke:#2D7A49,stroke-width:3px;
+    classDef endNode fill:#F9DDDD,stroke:#B33A3A,stroke-width:4px;
+    classDef task fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef service fill:#EAF2F8,stroke:#39789A,stroke-width:2px;
+    classDef gateway fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef exception fill:#FDECEC,stroke:#C94747,stroke-width:2px;
+    style INPUT_PHASE fill:#F7FAFA,stroke:#B8CCCF
+    style DECISION_PHASE fill:#F7FAFA,stroke:#B8CCCF

@@ -1,0 +1,48 @@
+=== Docker Compose validation ===
+2026-09-07T21:03:19+01:00
+name: optidrive
+services:
+  optidrive-web:
+    build:
+      context: /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive
+      dockerfile: Dockerfile
+    container_name: optidrive-web
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      Authentication__Apple__ClientId: "[REDACTED]"
+      Authentication__Apple__ClientSecret: "[REDACTED]"
+      Authentication__Apple__KeyId: "[REDACTED]"
+      Authentication__Apple__PrivateKeyPath: "[REDACTED]"
+      Authentication__Apple__TeamId: "[REDACTED]"
+      Authentication__Google__ClientId: "[REDACTED]"
+      Authentication__Google__ClientSecret: "[REDACTED]"
+      Authentication__Microsoft__ClientId: "[REDACTED]"
+      Authentication__Microsoft__ClientSecret: "[REDACTED]"
+      ConnectionStrings__OptiDrive: Data Source=/app/data/optidrive.db
+      GoogleMaps__ApiKey: "[REDACTED]"
+      OpenChargeMap__ApiKey: "[REDACTED]"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'bash -c ''exec 3<>/dev/tcp/127.0.0.1/8080 && printf "GET /health HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n" >&3 && grep -q "200 OK" <&3'''
+      timeout: 5s
+      interval: 15s
+      retries: 5
+      start_period: 20s
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "5080"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/data
+        target: /app/data
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: optidrive_default

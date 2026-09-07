@@ -1,7 +1,7 @@
 [Key-Mapping] Duplicated key id: 874
 [Key-Mapping] Duplicated key id: 1638
 [Key-Mapping] Duplicated key id: 1639
-start startup getLicenseKey on 15-Jul-2026
+start startup getLicenseKey on 01-Sep-2026
 getLicenseKey in local ...
 getLicenseKey from server ...
 finish startup getLicenseKey
@@ -16,9 +16,5 @@ The project you are opening is an older version of Visual Paradigm. Please run t
 Open Project "/tmp/optidrive-vp-base.vpp", Time Used: 0 seconds, Memory: 256.0 MB (268435456), Project File Size: 1.37 MB (1438720), Diagram Count: 0
 OptiDriveVpGenerator loaded
 Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_000f
-Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_001d
-Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_002d
-Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_003d
-Delete backup file: /tmp/OptiDrive-Visual-Paradigm.vpp.bak_004d
 Saved project "OptiDrive - Diagramas Visual Paradigm" to "/tmp/OptiDrive-Visual-Paradigm.vpp".
 SAVED /tmp/OptiDrive-Visual-Paradigm.vpp diagrams=9

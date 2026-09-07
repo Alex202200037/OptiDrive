@@ -1,0 +1,90 @@
+=== Final CI readiness ===
+2026-09-07T21:11:24+01:00
+
+=== YAML parse ===
+PyYAML not installed; syntax verified by inspection and command replay.
+
+=== Format gate ===
+Formatting: PASS
+
+=== Vulnerability gate ===
+NuGet vulnerabilities: none reported by configured sources
+
+=== Test artifact gate ===
+Test run for /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.11.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/optidrive-test-results-1788811884/optidrive-tests.trx
+
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 8 s - OptiDrive.Web.Tests.dll (net8.0)
+TRX artifact: PASS
+
+=== Docker image gate ===
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 632B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0
+#2 DONE 0.3s
+
+#3 [internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0
+#3 DONE 0.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [build 1/8] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:bb32ba3ba3ea36e38572d9d8db76fa15f7cbf722f3f886e06bca6d528bd4fba8
+#5 DONE 0.0s
+
+#6 [runtime 1/4] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:787c228ea85457bec43c8b084e6ac360b26ea43b5c2fcbe861f721f2e8670dd3
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 578.90kB 0.1s done
+#7 DONE 0.1s
+
+#8 [build 2/8] WORKDIR /src
+#8 CACHED
+
+#9 [build 3/8] COPY OptiDrive.sln ./
+#9 CACHED
+
+#10 [build 4/8] COPY OptiDrive.Web/OptiDrive.Web.csproj OptiDrive.Web/
+#10 CACHED
+
+#11 [build 5/8] COPY OptiDrive.Web.Tests/OptiDrive.Web.Tests.csproj OptiDrive.Web.Tests/
+#11 CACHED
+
+#12 [build 6/8] RUN dotnet restore OptiDrive.sln
+#12 CACHED
+
+#13 [build 7/8] COPY . .
+#13 DONE 2.1s
+
+#14 [build 8/8] RUN dotnet publish OptiDrive.Web/OptiDrive.Web.csproj -c Release -o /app/publish --no-restore
+#14 3.416   OptiDrive.Web -> /src/OptiDrive.Web/bin/Release/net8.0/OptiDrive.Web.dll
+#14 3.512   OptiDrive.Web -> /app/publish/
+#14 DONE 3.7s
+
+#15 [runtime 2/4] WORKDIR /app
+#15 CACHED
+
+#16 [runtime 3/4] RUN mkdir -p /app/data
+#16 CACHED
+
+#17 [runtime 4/4] COPY --from=build /app/publish .
+#17 DONE 0.1s
+
+#18 exporting to image
+#18 exporting layers 0.1s done
+#18 writing image sha256:77177dd961c9903377f64c3412c444e1ca81add5279b01a211e1a9ba99b6dc1d done
+#18 naming to docker.io/library/optidrive:release-candidate done
+#18 DONE 0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/5r5evltbehubu4u4n34nmuqa7
+Docker image: PASS

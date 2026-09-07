@@ -1,0 +1,19 @@
+---
+title: BPMN · Gestão de garagem e histórico
+---
+flowchart TB
+    START((Início)):::start --> SELECT["Criar ou selecionar<br/>veículo"]:::task
+    SELECT --> VALIDATE["Validar dados<br/>do veículo"]:::task
+    VALIDATE --> VALID{"Dados<br/>válidos?"}:::gateway
+    VALID -->|Sim| SAVE
+    VALID -->|Não| ERRORS
+    ERRORS -->|Corrigir| SELECT
+    SAVE["Guardar veículo"]:::task --> HISTORY["Registar atividade<br/>no histórico"]:::task
+    HISTORY --> END((Fim)):::endNode
+    ERRORS["Apresentar erros<br/>e corrigir dados"]:::exception
+
+    classDef start fill:#DDF3E4,stroke:#2D7A49,stroke-width:3px;
+    classDef endNode fill:#F9DDDD,stroke:#B33A3A,stroke-width:4px;
+    classDef task fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px;
+    classDef gateway fill:#F3EDF9,stroke:#8064A2,stroke-width:2px;
+    classDef exception fill:#FDECEC,stroke:#C94747,stroke-width:2px;

@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-  id="Definitions_Process_Route"
-  targetNamespace="https://optidrive.local/bpmn/route">
+<?xml version='1.0' encoding='UTF-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Process_Route" targetNamespace="https://optidrive.local/bpmn/route" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <bpmn:process id="Process_Route" name="bpmn-01-planeamento-rota" isExecutable="false">
     <bpmn:startEvent id="route_start" name="Necessidade de viagem">
       <bpmn:outgoing>route_f1</bpmn:outgoing>
@@ -66,83 +60,83 @@
   <bpmndi:BPMNDiagram id="bpmn-01-planeamento-rota_diagram" name="bpmn-01-planeamento-rota">
     <bpmndi:BPMNPlane id="bpmn-01-planeamento-rota_plane" bpmnElement="Process_Route">
       <bpmndi:BPMNShape id="route_start_di" bpmnElement="route_start">
-        <dc:Bounds x="70" y="220" width="56" height="56" />
+        <dc:Bounds x="60" y="197" width="56" height="56" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_input_di" bpmnElement="route_input">
-        <dc:Bounds x="190" y="190" width="270" height="110" />
+        <dc:Bounds x="150" y="170" width="250" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_validate_di" bpmnElement="route_validate">
-        <dc:Bounds x="540" y="190" width="275" height="110" />
+        <dc:Bounds x="465" y="170" width="250" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_maps_di" bpmnElement="route_maps">
-        <dc:Bounds x="895" y="190" width="260" height="110" />
+        <dc:Bounds x="780" y="170" width="225" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_stations_di" bpmnElement="route_stations">
-        <dc:Bounds x="1235" y="190" width="320" height="110" />
+        <dc:Bounds x="1070" y="170" width="275" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_smart_di" bpmnElement="route_smart">
-        <dc:Bounds x="1640" y="190" width="300" height="110" />
+        <dc:Bounds x="1410" y="170" width="260" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_autonomy_di" bpmnElement="route_autonomy">
-        <dc:Bounds x="2030" y="205" width="82" height="82" />
+        <dc:Bounds x="1735" y="184" width="82" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_present_di" bpmnElement="route_present">
-        <dc:Bounds x="2200" y="190" width="320" height="110" />
+        <dc:Bounds x="1880" y="170" width="260" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_end_di" bpmnElement="route_end">
-        <dc:Bounds x="2610" y="220" width="56" height="56" />
+        <dc:Bounds x="2200" y="197" width="56" height="56" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_refuel_di" bpmnElement="route_refuel">
-        <dc:Bounds x="1885" y="455" width="340" height="110" />
+        <dc:Bounds x="1510" y="420" width="300" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="route_recalc_di" bpmnElement="route_recalc">
-        <dc:Bounds x="2260" y="455" width="310" height="110" />
+        <dc:Bounds x="1870" y="420" width="270" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="route_f1_di" bpmnElement="route_f1">
-        <di:waypoint x="126.0" y="248.0" />
-        <di:waypoint x="190.0" y="245.0" />
+        <di:waypoint x="116.0" y="225.0" />
+        <di:waypoint x="150.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f2_di" bpmnElement="route_f2">
-        <di:waypoint x="460.0" y="245.0" />
-        <di:waypoint x="540.0" y="245.0" />
+        <di:waypoint x="400.0" y="225.0" />
+        <di:waypoint x="465.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f3_di" bpmnElement="route_f3">
-        <di:waypoint x="815.0" y="245.0" />
-        <di:waypoint x="895.0" y="245.0" />
+        <di:waypoint x="715.0" y="225.0" />
+        <di:waypoint x="780.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f4_di" bpmnElement="route_f4">
-        <di:waypoint x="1155.0" y="245.0" />
-        <di:waypoint x="1235.0" y="245.0" />
+        <di:waypoint x="1005.0" y="225.0" />
+        <di:waypoint x="1070.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f5_di" bpmnElement="route_f5">
-        <di:waypoint x="1555.0" y="245.0" />
-        <di:waypoint x="1640.0" y="245.0" />
+        <di:waypoint x="1345.0" y="225.0" />
+        <di:waypoint x="1410.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f6_di" bpmnElement="route_f6">
-        <di:waypoint x="1940.0" y="245.0" />
-        <di:waypoint x="2030.0" y="246.0" />
+        <di:waypoint x="1670.0" y="225.0" />
+        <di:waypoint x="1735.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f7_di" bpmnElement="route_f7">
-        <di:waypoint x="2112.0" y="246.0" />
-        <di:waypoint x="2200.0" y="245.0" />
+        <di:waypoint x="1817.0" y="225.0" />
+        <di:waypoint x="1880.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f8_di" bpmnElement="route_f8">
-        <di:waypoint x="2520.0" y="245.0" />
-        <di:waypoint x="2610.0" y="248.0" />
+        <di:waypoint x="2140.0" y="225.0" />
+        <di:waypoint x="2200.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f9_di" bpmnElement="route_f9">
-        <di:waypoint x="2071.0" y="287.0" />
-        <di:waypoint x="2071.0" y="510.0" />
-        <di:waypoint x="1885.0" y="510.0" />
+        <di:waypoint x="1776.0" y="266.0" />
+        <di:waypoint x="1776.0" y="355.0" />
+        <di:waypoint x="1660.0" y="355.0" />
+        <di:waypoint x="1660.0" y="420.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f10_di" bpmnElement="route_f10">
-        <di:waypoint x="2225.0" y="510.0" />
-        <di:waypoint x="2260.0" y="510.0" />
+        <di:waypoint x="1810.0" y="475.0" />
+        <di:waypoint x="1870.0" y="475.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="route_f11_di" bpmnElement="route_f11">
-        <di:waypoint x="2415.0" y="455.0" />
-        <di:waypoint x="2415.0" y="300.0" />
-        <di:waypoint x="2360.0" y="300.0" />
+        <di:waypoint x="2005.0" y="420.0" />
+        <di:waypoint x="2005.0" y="280.0" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

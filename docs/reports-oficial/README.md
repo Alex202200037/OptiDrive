@@ -5,7 +5,7 @@
 | Projeto | OptiDrive |
 | Finalidade | Documentação oficial da entrega académica |
 | Base documental | Templates fornecidos em ESA + slides de BPMN, UML, AER e Desenho |
-| Data da versão oficial | 31/08/2026 |
+| Data da versão oficial | 07/09/2026 |
 | Regra aplicada | Versão oficial para avaliação e defesa |
 
 ## Índice
@@ -28,6 +28,15 @@
 | 14 | Plano de Testes e Métricas | ESA Test Case Templates + Métricas de Software |
 | 15 | DevOps e Gestão de Erros | Normas de desenho/implantação + gestão de issues |
 | 16 | Desenho Detalhado Sprint 6 | Template - Desenho Detalhado |
+| 17 | Ata Sprint 6 | Template - Ata |
+| 18 | Desenho Detalhado Sprint 7 | Template - Desenho Detalhado |
+| 19 | Ata Sprint 7 | Template - Ata |
+| 20 | Ata Sprint 8 | Template - Ata |
+| 21 | Tabela de Testes de Aceitação | ESA Test Case Templates / UAT |
+| 22 | Desenho Detalhado Sprint 8 | Template - Desenho Detalhado |
+| 23 | Sprint Retrospective 6 | Template - Sprint Retrospective |
+| 24 | Sprint Retrospective 7 | Template - Sprint Retrospective |
+| 25 | Sprint Retrospective 8 | Template - Sprint Retrospective (a fechar em 08/09/2026) |
 
 
 ## Critérios usados na documentação oficial
@@ -38,3 +47,12 @@
 - Iniciar requisitos funcionais com a fórmula "O sistema deverá...".
 - Incluir BPMN nos processos de negócio e diagramas UML nos pontos adequados.
 - Manter rastreabilidade entre requisitos e use cases.
+
+## Estado de validação em 07/09/2026
+
+- Build Release aprovado com zero erros e zero avisos.
+- Suite automatizada aprovada: `16/16` testes.
+- Docker Compose validado com persistência e healthcheck automático em estado `healthy`.
+- Interface móvel validada em PT/claro e EN/escuro no viewport `390×844`.
+- Diagramas e gráficos finais substituídos por exportações limpas e editáveis.
+- Sprint 8: `33/36` story points concluídos no Jira; auditoria técnica de `OP-99` executada antecipadamente em 07/09/2026 e encerramento administrativo preservado para a data planeada de 08/09/2026.

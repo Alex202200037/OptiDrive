@@ -8,6 +8,7 @@ namespace OptiDrive.Web.Controllers;
 public sealed class AdminController(
     AppStateService appState,
     ExternalFuelStationService fuelStations,
+    ProjectEvidenceService projectEvidence,
     IConfiguration configuration,
     IWebHostEnvironment environment) : Controller
 {
@@ -35,7 +36,8 @@ public sealed class AdminController(
             Stations = appState.AllStations(),
             Reports = appState.AllReports().Take(8).ToList(),
             SyncStatuses = appState.SyncStatuses(),
-            Readiness = BuildReadiness()
+            Readiness = BuildReadiness(),
+            ProjectEvidence = projectEvidence.Build()
         });
     }
 

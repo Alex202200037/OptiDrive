@@ -2,11 +2,19 @@ using System.Diagnostics;
 using OptiDrive.Web.Models;
 using OptiDrive.Web.Services;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OptiDrive.Web.Tests;
 
 public sealed class StressTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public StressTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Fact]
     public void LocalState_With500UsersAnd500Vehicles_RemainsResponsive()
     {
@@ -55,6 +63,10 @@ public sealed class StressTests
         }
 
         var dashboardElapsed = stopwatch.Elapsed;
+
+        _output.WriteLine("Criação de 500 utilizadores e 500 veículos: {0:F3}s", creationElapsed.TotalSeconds);
+        _output.WriteLine("Construção de 500 dashboards: {0:F3}s", dashboardElapsed.TotalSeconds);
+        _output.WriteLine("Total observado: {0:F3}s", (creationElapsed + dashboardElapsed).TotalSeconds);
 
         Assert.True(appState.UserCount() >= 503);
         Assert.True(appState.VehicleCount() >= 502);

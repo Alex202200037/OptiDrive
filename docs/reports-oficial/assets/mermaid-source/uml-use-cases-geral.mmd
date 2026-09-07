@@ -1,0 +1,66 @@
+---
+title: Diagrama geral de casos de utilização · OptiDrive
+---
+flowchart TB
+    subgraph IDENTITY["M01 · Identidade"]
+      direction LR
+      VIS(["Visitante"]):::actor
+      UC01(["UC01 · Criar conta"]):::usecase
+      UC02(["UC02 · Iniciar sessão / MFA"]):::usecase
+      VIS --- UC01
+      VIS --- UC02
+    end
+
+    subgraph MOBILITY["M02–M05 · Mobilidade, planeamento e energia"]
+      direction LR
+      DRIVER(["Condutor autenticado"]):::actor
+      UC03(["UC03 · Gerir garagem"]):::usecase
+      UC07(["UC07 · Aplicar viagem ao veículo"]):::usecase
+      UC04(["UC04 · Planear rota"]):::usecase
+      UC06(["UC06 · Calcular Smart Save"]):::usecase
+      UC05(["UC05 · Consultar postos e energia"]):::usecase
+      MAPS(["Google Maps"]):::external
+      OCM(["OpenChargeMap / Postos"]):::external
+      DRIVER --- UC03
+      DRIVER --- UC07
+      DRIVER --- UC04
+      UC04 -. "«include»" .-> UC05
+      UC04 -. "«include»" .-> UC06
+      MAPS --- UC04
+      MAPS --- UC05
+      OCM --- UC05
+    end
+
+    subgraph COMMUNITY["M06 · Social e colaboração"]
+      direction LR
+      SOCIAL(["Participante social"]):::actor
+      UC08(["UC08 · Gerir perfil social"]):::usecase
+      UC09(["UC09 · Trocar mensagens e contactos"]):::usecase
+      UC10(["UC10 · Gerir viagem colaborativa"]):::usecase
+      SOCIAL --- UC08
+      SOCIAL --- UC09
+      SOCIAL --- UC10
+      UC10 -. "«include»" .-> UC09
+    end
+
+    subgraph OPERATIONS["M07 · Administração e operação"]
+      direction LR
+      ADMIN(["Administrador"]):::actor
+      UC11(["UC11 · Gerir backoffice"]):::usecase
+      UC12(["UC12 · Consultar readiness e métricas"]):::usecase
+      ADMIN --- UC11
+      ADMIN --- UC12
+    end
+
+    %% Ligações invisíveis preservam quatro faixas horizontais legíveis.
+    UC01 ~~~ DRIVER
+    UC03 ~~~ SOCIAL
+    UC08 ~~~ ADMIN
+
+    classDef actor fill:#EAF2F8,stroke:#39789A,stroke-width:2px,font-weight:bold;
+    classDef external fill:#FFF3D6,stroke:#C58A1D,stroke-width:2px,font-weight:bold;
+    classDef usecase fill:#E7F5F2,stroke:#0F766E,stroke-width:2px;
+    style IDENTITY fill:#FFFFFF,stroke:#B8CCCF
+    style MOBILITY fill:#FFFFFF,stroke:#B8CCCF
+    style COMMUNITY fill:#FFFFFF,stroke:#B8CCCF
+    style OPERATIONS fill:#FFFFFF,stroke:#B8CCCF

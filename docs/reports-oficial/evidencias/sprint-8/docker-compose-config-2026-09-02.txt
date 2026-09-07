@@ -1,0 +1,4 @@
+OptiDrive - Docker Compose config - 02/09/2026
+
+docker compose config --quiet
+Resultado: configuração válida (exit code 0).

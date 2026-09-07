@@ -1,0 +1,15 @@
+OptiDrive - CI/CD readiness - 07/09/2026
+
+Definições versionadas:
+- .github/workflows/ci.yml: restore, build Release, 16 testes, publish, artifact e Docker build.
+- .github/workflows/azure-deploy.yml: deploy manual ou após CI bem-sucedida.
+
+Validação local:
+- Build Release: aprovado, 0 erros, 0 avisos.
+- Testes Release: 16/16 aprovados.
+- Docker Compose: build e arranque aprovados; estado healthy.
+- /health: HTTP 200.
+
+Estado remoto:
+- Nenhuma execução GitHub Actions disponível no repositório remoto em 07/09/2026.
+- A branch local e origin/main estão divergentes; é necessária reconciliação antes do push que acionará a pipeline.

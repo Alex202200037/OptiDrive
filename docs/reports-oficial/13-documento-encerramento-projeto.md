@@ -5,8 +5,8 @@
 | Projeto | OptiDrive |
 | Documento | Project Closure Report |
 | Template base | Documento de Encerramento de Projeto v2.1 |
-| Versão | 3.1 |
-| Data | 13/07/2026 |
+| Versão | 3.3 |
+| Data | 07/09/2026 |
 | Autor | Alexandre Miguel |
 | Classificação | Académico / Interno |
 | Repositório documental | Confluence - Espaço OptiDrive |
@@ -18,14 +18,16 @@
 | 1.0 | 30/06/2026 | Alexandre Miguel | Todas | Encerramento inicial do projeto académico | Autor/PM |
 | 2.0 | 08/07/2026 | Alexandre Miguel | Âmbito, qualidade, riscos, métricas | Consolidação após revisão documental | Autor/PM |
 | 3.1 | 13/07/2026 | Alexandre Miguel | Todas | Versão final alinhada com estrutura de Project Closure Report | A validar pelo docente |
+| 3.2 | 02/09/2026 | Alexandre Miguel | Qualidade, cronograma e entregáveis | Atualização controlada para as Sprints 6 a 8 e validação final | A validar pelo docente |
+| 3.3 | 07/09/2026 | Alexandre Miguel | Qualidade, testes, DevOps e encerramento | Auditoria final antecipada e consolidação das evidências da Sprint 8 | Autor/PM |
 
 ## 1. Sumário Executivo
 
 ### 1.1 Declaração de Encerramento
 
-O projeto OptiDrive é formalmente encerrado como produto académico funcional. A solução foi implementada como aplicação web ASP.NET Core MVC com autenticação, garagem de veículos, planeamento de viagens, Smart Save, postos de combustível, carregadores elétricos, área social, administração, Docker, Azure e documentação em Jira/Confluence.
+O projeto OptiDrive encontra-se no ciclo final de aceitação como produto académico funcional. A solução foi implementada como aplicação web ASP.NET Core MVC com autenticação, garagem de veículos, planeamento de viagens, Smart Save, postos de combustível, carregadores elétricos, área social, administração, Docker, Azure e documentação em Jira/Confluence.
 
-O encerramento é normal e corresponde ao fecho da fase académica. O produto fica com base técnica suficiente para demonstração e evolução futura, mas com riscos residuais identificados para uma eventual passagem a produção comercial.
+A auditoria técnica de encerramento foi concluída antecipadamente em 07/09/2026. O encerramento administrativo do Sprint 8 mantém-se planeado para 08/09/2026, após a publicação das evidências finais no Jira e Confluence. O produto dispõe de base técnica suficiente para demonstração e evolução futura, mantendo condicionantes externas de OAuth/Azure e riscos residuais identificados para uma eventual passagem a produção comercial.
 
 ### 1.2 Ficha de Identidade do Projeto
 
@@ -46,9 +48,9 @@ O encerramento é normal e corresponde ao fecho da fase académica. O produto fi
 | Dimensão | Meta | Resultado Real | Desvio | Avaliação |
 | --- | --- | --- | --- | --- |
 | Âmbito | Entregar módulos essenciais definidos na AER | 7 módulos documentados e funcionalidade principal implementada | Roadmap futuro identificado | Aceite |
-| Prazo | Trabalho estruturado em 5 sprints | 5 sprints documentadas entre 11/05 e 30/06 | Consolidação documental posterior | Aceite com observação |
-| Qualidade | Build, testes, revisao funcional e documentacao | 11 testes automatizados, healthcheck, stress local, testes manuais e avaliacao de usabilidade | Hardening E2E futuro | Aceite |
-| Documentação | Confluence com templates e artefactos finais | AER, DAN, 5 DD, 5 Atas, Encerramento, Testes/Métricas, DevOps/Erros | Revisões adicionais feitas | Aceite |
+| Prazo | Trabalho estruturado em 8 sprints | 7 sprints encerradas; Sprint 8 tecnicamente concluída antes do final planeado | Fecho administrativo em 08/09 | Aceite tecnicamente |
+| Qualidade | Build, testes, revisão funcional e documentação | 16 testes automatizados aprovados, healthcheck, stress 500+500 e matriz UAT com 20 casos | OAuth/Azure condicionados ao ambiente externo | Aceite tecnicamente |
+| Documentação | Confluence com templates e artefactos finais | AER, DAN, DD/Atas/Retrospetivas, Encerramento, Testes/Métricas, DevOps/Erros e UAT auditados | Publicação final da Sprint 8 | Preparada |
 | Benefícios | Produto demonstrável e coerente com requisitos | Produto funcional com demo online e base social relevante | Hardening futuro necessário | Aceite |
 
 ### 1.4 Principais Realizações
@@ -139,8 +141,8 @@ O OptiDrive responde à necessidade de planear viagens de forma mais inteligente
 | --- | --- | --- | --- | --- | --- |
 | AER | Requisitos por módulo, atores, use cases e rastreabilidade | 11/05/2026 | 13/07/2026 | Docente | A validar |
 | DAN | Arquitetura, processos, persistência e deployment | 30/05/2026 | 13/07/2026 | Docente | A validar |
-| Desenhos detalhados | 5 sprints documentadas com testes e interfaces | 30/06/2026 | 13/07/2026 | Docente | A validar |
-| Atas | 5 atas correspondentes às sprints | 30/06/2026 | 13/07/2026 | Docente | A validar |
+| Desenhos detalhados | 8 sprints documentadas com testes e interfaces | 08/09/2026 | Concluído tecnicamente em 07/09 | Docente | Preparado |
+| Atas | 8 atas correspondentes às sprints | 08/09/2026 | Concluído tecnicamente em 07/09 | Docente | Preparado |
 | Aplicação web | Fluxos principais demonstráveis | 30/06/2026 | 30/06/2026 | Autor/Docente | Preparado |
 | Plano de Testes e Métricas | Test cases, métricas e gráficos | 13/07/2026 | 13/07/2026 | Docente | A validar |
 | DevOps e Gestão de Erros | Deploy, configuração, healthcheck e processo de incidentes | 13/07/2026 | 13/07/2026 | Docente | A validar |
@@ -157,7 +159,7 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | KPI | Fórmula / Definição | Meta | Resultado | Status |
 | --- | --- | --- | --- | --- |
 | Taxa de módulos documentados | Módulos documentados / módulos previstos | 100% | 7/7 | OK |
-| Taxa de sprints documentadas | Sprints com relatório+ata / sprints planeadas | 100% | 5/5 | OK |
+| Taxa de sprints documentadas | Sprints com relatório+ata / sprints planeadas | 100% | 8/8 documentadas | OK |
 | Requisitos funcionais rastreados | Requisitos com use case associado | 100% | 35/35 | OK |
 | Use cases documentados | Use cases identificados | >= 12 | 15 | OK |
 | Roadmap residual explícito | Itens futuros identificados | Sim | Sim | OK |
@@ -183,7 +185,9 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | Sprint 3 | 01/06/2026 - 08/06/2026 | Smart Save e histórico operacional | Fechada |
 | Sprint 4 | 09/06/2026 - 16/06/2026 | Social, OAuth e viagens colaborativas | Fechada |
 | Sprint 5 | 17/06/2026 - 30/06/2026 | DevOps, administração e entrega final | Fechada |
-| Consolidação | 01/07/2026 - 13/07/2026 | Revisão documental e preparação de defesa | Fechada |
+| Sprint 6 | 29/08/2026 - 31/08/2026 | Melhorias de código, UI e readiness | Fechada |
+| Sprint 7 | 29/08/2026 - 31/08/2026 | Polimento e estabilidade | Fechada |
+| Sprint 8 | 02/09/2026 - 08/09/2026 | Auditoria final, aceitação e entrega | Concluída tecnicamente; fecho Jira em 08/09 |
 
 ![Figura 1 - Burndown geral](assets/diagrams/burndown-geral.png)
 
@@ -197,11 +201,11 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 
 | KPI | Alvo | Resultado |
 | --- | --- | --- |
-| Sprints planeadas | 5 | 5 |
-| Sprints encerradas | 5 | 5 |
-| Documentos de sprint | 10 | 10 |
-| Ata por sprint | 5 | 5 |
-| Revisão final documental | Sim | Sim |
+| Sprints planeadas | 8 | 8 |
+| Sprints encerradas | 8 | 7 no Jira; Sprint 8 concluída tecnicamente e com fecho planeado em 08/09 |
+| Desenhos detalhados | 8 | 8 concluídos |
+| Ata por sprint | 8 | 8 concluídas |
+| Revisão final documental | Sim | Concluída em 07/09/2026 |
 
 ## 6. Desempenho de Orçamento
 
@@ -222,7 +226,7 @@ O projeto não teve orçamento comercial formal. Foram usados recursos gratuitos
 | Evidência | Resultado |
 | --- | --- |
 | `dotnet build` | Validável na solução `OptiDrive.sln` |
-| `dotnet test` | 11 testes automatizados, incluindo stress local com 500 utilizadores e 500 veiculos |
+| `dotnet test` | 16 testes automatizados aprovados em Release; stress 500+500 com criação em 8,518 s e 500 dashboards em 0,327 s |
 | Testes SmartSaveService | Autonomia, reforços e consumo por velocidade |
 | Testes AppStateService | Garagem, rotas aplicadas, social, MFA e admin |
 | Healthcheck | Endpoint `/health` disponível |
@@ -232,7 +236,7 @@ O projeto não teve orçamento comercial formal. Foram usados recursos gratuitos
 
 | KPI | Meta | Resultado | Status |
 | --- | --- | --- | --- |
-| Testes automatizados executaveis | Sim | Sim, 11 testes | OK |
+| Testes automatizados executáveis | Sim | Sim, 16 testes aprovados | OK |
 | Falhas críticas conhecidas no fecho | 0 | 0 documentadas | OK |
 | Fluxos críticos demonstráveis | >= 5 | Login, garagem, planeamento, social, admin | OK |
 | Avaliação média de usabilidade | >= 4/5 | 4.44/5 | OK |

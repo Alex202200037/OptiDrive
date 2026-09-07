@@ -329,6 +329,7 @@ public sealed class AdminViewModel
     public IReadOnlyList<PriceReport> Reports { get; set; } = [];
     public IReadOnlyDictionary<string, ApiSyncStatus> SyncStatuses { get; set; } = new Dictionary<string, ApiSyncStatus>();
     public IReadOnlyList<SystemReadinessItem> Readiness { get; set; } = [];
+    public ProjectEvidenceViewModel ProjectEvidence { get; set; } = new();
 }
 
 public sealed class AdminUserSummaryViewModel
@@ -384,5 +385,24 @@ public sealed class SystemReadinessItem
     public string Area { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
     public string Detail { get; set; } = string.Empty;
+    public string Severity { get; set; } = "ok";
+}
+
+public sealed class ProjectEvidenceViewModel
+{
+    public int AutomatedTestCount { get; set; }
+    public int StressUserCount { get; set; }
+    public int StressVehicleCount { get; set; }
+    public string LastVerifiedOn { get; set; } = string.Empty;
+    public IReadOnlyList<ProjectEvidenceItem> Items { get; set; } = [];
+}
+
+public sealed class ProjectEvidenceItem
+{
+    public string Area { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public string Detail { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty;
+    public string LinkLabel { get; set; } = string.Empty;
     public string Severity { get; set; } = "ok";
 }

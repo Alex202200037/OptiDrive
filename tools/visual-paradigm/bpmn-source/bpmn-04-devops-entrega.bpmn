@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-  id="Definitions_Process_DevOps"
-  targetNamespace="https://optidrive.local/bpmn/devops">
+<?xml version='1.0' encoding='UTF-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Process_DevOps" targetNamespace="https://optidrive.local/bpmn/devops" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <bpmn:process id="Process_DevOps" name="bpmn-04-devops-entrega" isExecutable="false">
     <bpmn:startEvent id="devops_start" name="Necessidade de publicar entrega">
       <bpmn:outgoing>devops_f1</bpmn:outgoing>
@@ -56,68 +50,69 @@
   <bpmndi:BPMNDiagram id="bpmn-04-devops-entrega_diagram" name="bpmn-04-devops-entrega">
     <bpmndi:BPMNPlane id="bpmn-04-devops-entrega_plane" bpmnElement="Process_DevOps">
       <bpmndi:BPMNShape id="devops_start_di" bpmnElement="devops_start">
-        <dc:Bounds x="70" y="220" width="56" height="56" />
+        <dc:Bounds x="60" y="197" width="56" height="56" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_prepare_di" bpmnElement="devops_prepare">
-        <dc:Bounds x="190" y="190" width="310" height="110" />
+        <dc:Bounds x="150" y="170" width="280" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_build_di" bpmnElement="devops_build">
-        <dc:Bounds x="590" y="190" width="300" height="110" />
+        <dc:Bounds x="500" y="170" width="270" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_ok_di" bpmnElement="devops_ok">
-        <dc:Bounds x="980" y="205" width="82" height="82" />
+        <dc:Bounds x="840" y="184" width="82" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_deploy_di" bpmnElement="devops_deploy">
-        <dc:Bounds x="1150" y="190" width="350" height="110" />
+        <dc:Bounds x="990" y="170" width="300" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_health_di" bpmnElement="devops_health">
-        <dc:Bounds x="1590" y="190" width="340" height="110" />
+        <dc:Bounds x="1360" y="170" width="280" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_package_di" bpmnElement="devops_package">
-        <dc:Bounds x="2020" y="190" width="300" height="110" />
+        <dc:Bounds x="1710" y="170" width="260" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_end_di" bpmnElement="devops_end">
-        <dc:Bounds x="2410" y="220" width="56" height="56" />
+        <dc:Bounds x="2040" y="197" width="56" height="56" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="devops_fix_di" bpmnElement="devops_fix">
-        <dc:Bounds x="590" y="455" width="300" height="110" />
+        <dc:Bounds x="500" y="420" width="270" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="devops_f1_di" bpmnElement="devops_f1">
-        <di:waypoint x="126.0" y="248.0" />
-        <di:waypoint x="190.0" y="245.0" />
+        <di:waypoint x="116.0" y="225.0" />
+        <di:waypoint x="150.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f2_di" bpmnElement="devops_f2">
-        <di:waypoint x="500.0" y="245.0" />
-        <di:waypoint x="590.0" y="245.0" />
+        <di:waypoint x="430.0" y="225.0" />
+        <di:waypoint x="500.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f3_di" bpmnElement="devops_f3">
-        <di:waypoint x="890.0" y="245.0" />
-        <di:waypoint x="980.0" y="246.0" />
+        <di:waypoint x="770.0" y="225.0" />
+        <di:waypoint x="840.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f4_di" bpmnElement="devops_f4">
-        <di:waypoint x="1062.0" y="246.0" />
-        <di:waypoint x="1150.0" y="245.0" />
+        <di:waypoint x="922.0" y="225.0" />
+        <di:waypoint x="990.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f5_di" bpmnElement="devops_f5">
-        <di:waypoint x="1500.0" y="245.0" />
-        <di:waypoint x="1590.0" y="245.0" />
+        <di:waypoint x="1290.0" y="225.0" />
+        <di:waypoint x="1360.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f6_di" bpmnElement="devops_f6">
-        <di:waypoint x="1930.0" y="245.0" />
-        <di:waypoint x="2020.0" y="245.0" />
+        <di:waypoint x="1640.0" y="225.0" />
+        <di:waypoint x="1710.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f7_di" bpmnElement="devops_f7">
-        <di:waypoint x="2320.0" y="245.0" />
-        <di:waypoint x="2410.0" y="248.0" />
+        <di:waypoint x="1970.0" y="225.0" />
+        <di:waypoint x="2040.0" y="225.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f8_di" bpmnElement="devops_f8">
-        <di:waypoint x="1021.0" y="287.0" />
-        <di:waypoint x="1021.0" y="510.0" />
-        <di:waypoint x="890.0" y="510.0" />
+        <di:waypoint x="881.0" y="266.0" />
+        <di:waypoint x="881.0" y="355.0" />
+        <di:waypoint x="635.0" y="355.0" />
+        <di:waypoint x="635.0" y="420.0" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="devops_f9_di" bpmnElement="devops_f9">
-        <di:waypoint x="740.0" y="455.0" />
-        <di:waypoint x="740.0" y="300.0" />
+        <di:waypoint x="635.0" y="420.0" />
+        <di:waypoint x="635.0" y="280.0" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
