@@ -1,0 +1,69 @@
+name: OptiDrive CI
+
+permissions:
+  contents: read
+
+concurrency:
+  group: optidrive-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-test-package:
+    name: Build, Test and Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore OptiDrive.sln
+
+      - name: Build solution
+        run: dotnet build OptiDrive.sln --configuration Release --no-restore
+
+      - name: Verify code formatting
+        run: dotnet format OptiDrive.sln --verify-no-changes --no-restore
+
+      - name: Audit NuGet dependencies
+        shell: bash
+        run: |
+          dotnet list OptiDrive.sln package --vulnerable --include-transitive --format json > vulnerable-packages.json
+          if grep -q '"vulnerabilities"' vulnerable-packages.json; then
+            cat vulnerable-packages.json
+            exit 1
+          fi
+
+      - name: Run automated tests
+        run: dotnet test OptiDrive.sln --configuration Release --no-build --results-directory artifacts/test-results --logger "trx;LogFileName=optidrive-tests.trx"
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: optidrive-test-results
+          path: artifacts/test-results/optidrive-tests.trx
+
+      - name: Publish web application
+        run: dotnet publish OptiDrive.Web/OptiDrive.Web.csproj --configuration Release --no-build --output artifacts/azure-publish /p:UseAppHost=false
+
+      - name: Upload published artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: optidrive-web-release
+          path: artifacts/azure-publish
+
+      - name: Build Docker image
+        run: docker build -t optidrive:${{ github.sha }} .
