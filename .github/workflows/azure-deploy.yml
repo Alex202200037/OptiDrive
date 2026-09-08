@@ -37,7 +37,22 @@ jobs:
       - name: Publish web application
         run: dotnet publish OptiDrive.Web/OptiDrive.Web.csproj --configuration Release --output artifacts/azure-publish /p:UseAppHost=false
 
+      - name: Check Azure deployment configuration
+        id: azure-config
+        shell: bash
+        env:
+          AZURE_WEBAPP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
+          AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        run: |
+          if [[ -n "$AZURE_WEBAPP_NAME" && -n "$AZURE_WEBAPP_PUBLISH_PROFILE" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Azure deployment skipped: configure AZURE_WEBAPP_NAME and AZURE_WEBAPP_PUBLISH_PROFILE in the production environment."
+          fi
+
       - name: Deploy package to Azure Web App
+        if: steps.azure-config.outputs.configured == 'true'
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ vars.AZURE_WEBAPP_NAME }}
