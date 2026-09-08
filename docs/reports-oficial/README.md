@@ -5,7 +5,7 @@
 | Projeto | OptiDrive |
 | Finalidade | Documentação oficial da entrega académica |
 | Base documental | Templates fornecidos em ESA + slides de BPMN, UML, AER e Desenho |
-| Data da versão oficial | 07/09/2026 |
+| Data da versão oficial | 08/09/2026 |
 | Regra aplicada | Versão oficial para avaliação e defesa |
 
 ## Índice
@@ -36,7 +36,7 @@
 | 22 | Desenho Detalhado Sprint 8 | Template - Desenho Detalhado |
 | 23 | Sprint Retrospective 6 | Template - Sprint Retrospective |
 | 24 | Sprint Retrospective 7 | Template - Sprint Retrospective |
-| 25 | Sprint Retrospective 8 | Template - Sprint Retrospective (a fechar em 08/09/2026) |
+| 25 | Sprint Retrospective 8 | Template - Sprint Retrospective |
 
 
 ## Critérios usados na documentação oficial
@@ -48,11 +48,12 @@
 - Incluir BPMN nos processos de negócio e diagramas UML nos pontos adequados.
 - Manter rastreabilidade entre requisitos e use cases.
 
-## Estado de validação em 07/09/2026
+## Estado de validação em 08/09/2026
 
 - Build Release aprovado com zero erros e zero avisos.
 - Suite automatizada aprovada: `16/16` testes.
 - Docker Compose validado com persistência e healthcheck automático em estado `healthy`.
 - Interface móvel validada em PT/claro e EN/escuro no viewport `390×844`.
 - Diagramas e gráficos finais substituídos por exportações limpas e editáveis.
-- Sprint 8: `33/36` story points concluídos no Jira; auditoria técnica de `OP-99` executada antecipadamente em 07/09/2026 e encerramento administrativo preservado para a data planeada de 08/09/2026.
+- Sprint 8 encerrado antecipadamente em 07/09/2026: `8/8` itens e `36/36` story points concluídos, sem itens incompletos ou concluídos fora do sprint.
+- GitHub Actions CI `34164627808` aprovada; publicação Azure condicionada pela ausência de credenciais ativas.

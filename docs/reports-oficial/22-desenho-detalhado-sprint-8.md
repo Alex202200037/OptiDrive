@@ -7,7 +7,7 @@
 | Sprint Jira | Sprint `304` - S8 - Auditoria Final |
 | Epic Jira | `OP-91` - Sprint 8 - Auditoria Final, Aceitação e Entrega |
 | Período | 02/09/2026 a 08/09/2026 |
-| Estado | Validação técnica concluída; encerramento Jira em 08/09/2026 |
+| Estado | Validação técnica concluída; CI remota aprovada; encerramento antecipado autorizado em 07/09/2026 |
 | Módulo | M10 - Qualidade, Aceitação e Fecho |
 | Versão | 1.0 |
 | Autor | Alexandre Miguel |
@@ -32,7 +32,7 @@
 
 ## 1. SUMÁRIO EXECUTIVO
 
-A Sprint 8 é o último ciclo de validação. Corrige `RF-M08-04`, executa a matriz UAT, reforça a cobertura automatizada, revê diagramas/tabelas/documentos e valida DevOps, Docker, pipeline, Jira, Confluence e entrega. A auditoria técnica final foi antecipada para 07/09/2026; o encerramento administrativo mantém a data planeada de 08/09/2026.
+A Sprint 8 é o último ciclo de validação. Corrige `RF-M08-04`, executa a matriz UAT, reforça a cobertura automatizada, revê diagramas/tabelas/documentos e valida DevOps, Docker, pipeline, Jira, Confluence e entrega. A auditoria técnica e o encerramento foram antecipados para 07/09/2026 após conclusão integral do âmbito.
 
 ## 2. INTRODUÇÃO
 
@@ -49,7 +49,7 @@ O docente pediu evidência funcional de `RF-M08-04` e uma tabela formal de teste
 | RF-M10-02 | Must | Concluído | Regressão, integração, stress, compatibilidade e segurança documentados |
 | RF-M10-03 | Must | Concluído | Diagramas e tabelas legíveis e coerentes |
 | RF-M10-04 | Must | Concluído tecnicamente | Jira, Confluence, Git e documentos reconciliados |
-| RF-M10-05 | Must | Concluído localmente | Pipeline, Docker, health e release validados; deploy externo depende do ambiente |
+| RF-M10-05 | Must | Concluído | Pipeline CI, Docker, health e release validados; deploy Azure condicionado a credenciais externas |
 
 ### 3.2 Alteração RF-M08-04
 
@@ -108,7 +108,7 @@ Total comprometido: **8 tarefas / 36 story points**.
 
 Em 04/09/2026 foram repetidos o smoke visual de `RF-M08-04`, o healthcheck e a suite Release. A matriz registou 13 casos aprovados, 1 em validação, 2 condicionados por serviços externos e 4 planeados para os dias seguintes.
 
-Em 07/09/2026, foram aprovados o build Release, `16/16` testes, o arranque e healthcheck automático do Docker Compose, a persistência após reinício e o smoke móvel PT/EN. O teste 500+500 registou 8,518 s na criação dos dados e 0,327 s na construção de 500 dashboards. A pipeline foi reforçada com gates de formatação, vulnerabilidades, testes TRX, publicação e Docker; a implantação Azure continua condicionada ao ambiente externo.
+Em 07/09/2026, foram aprovados o build Release, `16/16` testes, o arranque e healthcheck automático do Docker Compose, a persistência após reinício e o smoke móvel PT/EN. O teste 500+500 registou 8,518 s na criação dos dados e 0,327 s na construção de 500 dashboards. A execução remota `34164627808` aprovou formatação, vulnerabilidades, testes TRX, publicação e Docker; a implantação Azure continua condicionada à configuração de credenciais externas.
 
 A matriz global encontra-se em `21-tabela-testes-aceitacao.md`.
 

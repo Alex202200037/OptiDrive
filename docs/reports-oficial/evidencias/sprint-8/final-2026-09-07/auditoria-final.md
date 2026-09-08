@@ -50,7 +50,7 @@ Os valores são próprios do ambiente local de validação e não constituem um 
 - A matriz UAT, o desenho detalhado, a ata, o relatório Jira e a retrospetiva da Sprint 8 foram reconciliados com a evidência de execução.
 - As condicionantes OAuth/Azure permanecem identificadas como dependências externas e não são apresentadas como testes executados.
 
-## 5. Estado Jira observado
+## 5. Estado Jira observado antes do encerramento
 
 No momento da auditoria, o relatório automático apresenta 7 tarefas concluídas, correspondentes a 33/36 story points, e apenas `OP-99` com 3 pontos por concluir. Não existem itens na tabela de trabalho concluído fora do sprint.
 
@@ -66,4 +66,10 @@ O Burndown contém alterações de âmbito associadas à correção da vinculaç
 
 ## 7. Decisão de release
 
-Não foram encontrados defeitos bloqueantes no código, build, testes ou Docker. A release está tecnicamente preparada para demonstração e para a conclusão de `OP-99`. O encerramento formal do sprint deve preservar a data planeada de 08/09/2026 e o histórico automático do Jira.
+Não foram encontrados defeitos bloqueantes no código, build, testes ou Docker. A release ficou tecnicamente preparada para demonstração e para a conclusão de `OP-99`.
+
+## 8. Registo de encerramento
+
+Após a publicação da evidência final, `OP-99` foi transitada para Done e o Sprint 8 foi encerrado antecipadamente em 07/09/2026. O Sprint Report automático confirmou 8/8 itens, 36/36 story points, zero itens incompletos e zero itens concluídos fora do sprint. O histórico automático do Burndown foi preservado sem novos movimentos corretivos.
+
+A execução remota GitHub Actions `34164627808` aprovou build, formatação, auditoria NuGet, 16/16 testes, artefacto TRX, publicação e Docker. A implantação Azure permaneceu condicionada pela ausência de credenciais ativas.

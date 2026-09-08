@@ -138,6 +138,13 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | PT-002 | 10 utilizadores a calcular rotas | Latência API, fallback, erros | Erro externo deve ser tratado | UI mostra feedback controlado |
 | PT-003 | Refresh de postos/carregadores | Duração sync, nº itens, falhas | Sync não bloqueia UI | Estado visível no Admin |
 
+### 12.1 Evidência de execução final
+
+- Execução local: criação de 500 utilizadores e 500 veículos em 8,518 s; construção de 500 dashboards em 0,327 s; total de 8,845 s.
+- Execução remota: GitHub Actions CI [`34164627808`](https://github.com/Alex202200037/OptiDrive/actions/runs/34164627808) aprovada com `16/16` testes, artefacto TRX, publicação e imagem Docker.
+- Portabilidade: o limite do teste mantém-se em 10 s no ambiente local controlado e em 30 s no runner partilhado da CI, sem alterar o volume de 500+500.
+- Azure: a preparação do artefacto foi aprovada; o deploy ficou condicionado pela ausência de credenciais ativas e não é declarado como publicação concluída.
+
 ## 13. Testes de Segurança
 
 | TC-ID | Ameaça / Alvo | Pré-condições | Vetor | Evidência de Pass | Severidade |
@@ -226,4 +233,4 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 
 ## 19. Conclusão
 
-O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os 16 testes automatizados validados em Release cobrem Smart Save, autonomia, garagem, social, MFA, administração, healthcheck, `RF-M08-04` e stress com 500 utilizadores/veículos. A execução final aprovou a criação 500+500 em 8,518 s e a construção de 500 dashboards em 0,327 s. A matriz UAT está em `21-tabela-testes-aceitacao.md`.
+O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os 16 testes automatizados validados em Release cobrem Smart Save, autonomia, garagem, social, MFA, administração, healthcheck, `RF-M08-04` e stress com 500 utilizadores/veículos. A execução final aprovou a criação 500+500 em 8,518 s e a construção de 500 dashboards em 0,327 s; a CI remota `34164627808` confirmou build, testes, publicação e Docker. A matriz UAT está em `21-tabela-testes-aceitacao.md`.

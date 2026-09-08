@@ -5,8 +5,8 @@
 | Projeto | OptiDrive |
 | Documento | Project Closure Report |
 | Template base | Documento de Encerramento de Projeto v2.1 |
-| Versão | 3.3 |
-| Data | 07/09/2026 |
+| Versão | 3.4 |
+| Data | 08/09/2026 |
 | Autor | Alexandre Miguel |
 | Classificação | Académico / Interno |
 | Repositório documental | Confluence - Espaço OptiDrive |
@@ -20,6 +20,7 @@
 | 3.1 | 13/07/2026 | Alexandre Miguel | Todas | Versão final alinhada com estrutura de Project Closure Report | A validar pelo docente |
 | 3.2 | 02/09/2026 | Alexandre Miguel | Qualidade, cronograma e entregáveis | Atualização controlada para as Sprints 6 a 8 e validação final | A validar pelo docente |
 | 3.3 | 07/09/2026 | Alexandre Miguel | Qualidade, testes, DevOps e encerramento | Auditoria final antecipada e consolidação das evidências da Sprint 8 | Autor/PM |
+| 3.4 | 08/09/2026 | Alexandre Miguel | Encerramento e evidências | Registo do fecho Jira, CI remota e publicação documental final | Autor/PM |
 
 ## 1. Sumário Executivo
 
@@ -27,7 +28,7 @@
 
 O projeto OptiDrive encontra-se no ciclo final de aceitação como produto académico funcional. A solução foi implementada como aplicação web ASP.NET Core MVC com autenticação, garagem de veículos, planeamento de viagens, Smart Save, postos de combustível, carregadores elétricos, área social, administração, Docker, Azure e documentação em Jira/Confluence.
 
-A auditoria técnica de encerramento foi concluída antecipadamente em 07/09/2026. O encerramento administrativo do Sprint 8 mantém-se planeado para 08/09/2026, após a publicação das evidências finais no Jira e Confluence. O produto dispõe de base técnica suficiente para demonstração e evolução futura, mantendo condicionantes externas de OAuth/Azure e riscos residuais identificados para uma eventual passagem a produção comercial.
+A auditoria técnica e o encerramento administrativo do Sprint 8 foram concluídos antecipadamente em 07/09/2026, após a publicação das evidências finais no Jira e Confluence. O Sprint Report confirma `8/8` itens e `36/36` story points concluídos, sem trabalho incompleto ou concluído fora do sprint. O produto dispõe de base técnica suficiente para demonstração local/Docker e evolução futura, mantendo condicionantes externas de OAuth/Azure e riscos residuais identificados para uma eventual passagem a produção comercial.
 
 ### 1.2 Ficha de Identidade do Projeto
 
@@ -48,16 +49,16 @@ A auditoria técnica de encerramento foi concluída antecipadamente em 07/09/202
 | Dimensão | Meta | Resultado Real | Desvio | Avaliação |
 | --- | --- | --- | --- | --- |
 | Âmbito | Entregar módulos essenciais definidos na AER | 7 módulos documentados e funcionalidade principal implementada | Roadmap futuro identificado | Aceite |
-| Prazo | Trabalho estruturado em 8 sprints | 7 sprints encerradas; Sprint 8 tecnicamente concluída antes do final planeado | Fecho administrativo em 08/09 | Aceite tecnicamente |
+| Prazo | Trabalho estruturado em 8 sprints | 8 ciclos concluídos; Sprint 8 encerrado no Jira em 07/09/2026 | Encerramento um dia antes do limite planeado | Aceite |
 | Qualidade | Build, testes, revisão funcional e documentação | 16 testes automatizados aprovados, healthcheck, stress 500+500 e matriz UAT com 20 casos | OAuth/Azure condicionados ao ambiente externo | Aceite tecnicamente |
-| Documentação | Confluence com templates e artefactos finais | AER, DAN, DD/Atas/Retrospetivas, Encerramento, Testes/Métricas, DevOps/Erros e UAT auditados | Publicação final da Sprint 8 | Preparada |
-| Benefícios | Produto demonstrável e coerente com requisitos | Produto funcional com demo online e base social relevante | Hardening futuro necessário | Aceite |
+| Documentação | Confluence com templates e artefactos finais | AER, DAN, DD/Atas/Retrospetivas, Encerramento, Testes/Métricas, DevOps/Erros e UAT auditados e publicados | Sem desvio documental em aberto | Concluída |
+| Benefícios | Produto demonstrável e coerente com requisitos | Produto funcional em execução local/Docker e base social relevante | Publicação Azure requer credenciais ativas | Aceite tecnicamente |
 
 ### 1.4 Principais Realizações
 
 | ID | Realização | Evidência |
 | --- | --- | --- |
-| R-01 | Aplicação ASP.NET Core MVC funcional | Código fonte, execução local/Docker/Azure |
+| R-01 | Aplicação ASP.NET Core MVC funcional | Código fonte, execução local/Docker e CI remota aprovada |
 | R-02 | Garagem com veículos, nível de combustível/carga e histórico | Módulo Garagem, testes AppStateService |
 | R-03 | Planeamento com mapa, custos, autonomia e reforços | Módulo Planeamento, testes SmartSaveService |
 | R-04 | Área social com perfis, contactos, mensagens e viagens colaborativas | Módulo Social, dados seed e testes |
@@ -132,7 +133,7 @@ O OptiDrive responde à necessidade de planear viagens de forma mais inteligente
 | WP04 | Postos de combustível e carregadores elétricos | Concluído com dados externos/fallback |
 | WP05 | Smart Save, autonomia e consumo por velocidade | Concluído |
 | WP06 | Área social e viagens colaborativas | Concluído |
-| WP07 | Administração, DevOps, Docker e Azure | Concluído |
+| WP07 | Administração, DevOps, Docker e Azure | Concluído; publicação Azure condicionada a credenciais externas |
 | WP08 | Documentação, Jira, Confluence e apresentação | Concluído |
 
 ### 3.3 Entregáveis Finais - Registo de Aceitação
@@ -141,8 +142,8 @@ O OptiDrive responde à necessidade de planear viagens de forma mais inteligente
 | --- | --- | --- | --- | --- | --- |
 | AER | Requisitos por módulo, atores, use cases e rastreabilidade | 11/05/2026 | 13/07/2026 | Docente | A validar |
 | DAN | Arquitetura, processos, persistência e deployment | 30/05/2026 | 13/07/2026 | Docente | A validar |
-| Desenhos detalhados | 8 sprints documentadas com testes e interfaces | 08/09/2026 | Concluído tecnicamente em 07/09 | Docente | Preparado |
-| Atas | 8 atas correspondentes às sprints | 08/09/2026 | Concluído tecnicamente em 07/09 | Docente | Preparado |
+| Desenhos detalhados | 8 sprints documentadas com testes e interfaces | 08/09/2026 | 07/09/2026 | Docente | Concluído; a validar |
+| Atas | 8 atas correspondentes às sprints | 08/09/2026 | 07/09/2026 | Docente | Concluído; a validar |
 | Aplicação web | Fluxos principais demonstráveis | 30/06/2026 | 30/06/2026 | Autor/Docente | Preparado |
 | Plano de Testes e Métricas | Test cases, métricas e gráficos | 13/07/2026 | 13/07/2026 | Docente | A validar |
 | DevOps e Gestão de Erros | Deploy, configuração, healthcheck e processo de incidentes | 13/07/2026 | 13/07/2026 | Docente | A validar |
@@ -187,7 +188,7 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | Sprint 5 | 17/06/2026 - 30/06/2026 | DevOps, administração e entrega final | Fechada |
 | Sprint 6 | 29/08/2026 - 31/08/2026 | Melhorias de código, UI e readiness | Fechada |
 | Sprint 7 | 29/08/2026 - 31/08/2026 | Polimento e estabilidade | Fechada |
-| Sprint 8 | 02/09/2026 - 08/09/2026 | Auditoria final, aceitação e entrega | Concluída tecnicamente; fecho Jira em 08/09 |
+| Sprint 8 | 02/09/2026 - 08/09/2026 | Auditoria final, aceitação e entrega | Encerrada antecipadamente no Jira em 07/09/2026 |
 
 ![Figura 1 - Burndown geral](assets/diagrams/burndown-geral.png)
 
@@ -202,7 +203,7 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | KPI | Alvo | Resultado |
 | --- | --- | --- |
 | Sprints planeadas | 8 | 8 |
-| Sprints encerradas | 8 | 7 no Jira; Sprint 8 concluída tecnicamente e com fecho planeado em 08/09 |
+| Sprints encerradas | 8 | 8 ciclos concluídos; Sprint 8 fechado no Jira em 07/09/2026 |
 | Desenhos detalhados | 8 | 8 concluídos |
 | Ata por sprint | 8 | 8 concluídas |
 | Revisão final documental | Sim | Concluída em 07/09/2026 |

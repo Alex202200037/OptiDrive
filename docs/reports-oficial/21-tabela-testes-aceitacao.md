@@ -36,7 +36,7 @@
 | UAT-014 | RF-M08-01 Health | Consultar `/health` | 200, Healthy e sem segredos | Aprovado | `HealthControllerTests` + `healthcheck-2026-09-04.txt` |
 | UAT-015 | UI | Alternar tema/idioma em desktop/mobile | Sem perda de navegação | Aprovado | Smoke mobile 390×844 em PT/claro e EN/escuro; tradução residual da homepage corrigida em 07/09 |
 | UAT-016 | Persistência | Reiniciar aplicação/contentor | Dados mantidos | Aprovado | `docker-persistence-health-2026-09-07.txt`: 8 utilizadores, 8 veículos e 2 rotas antes/depois do reinício |
-| UAT-017 | CI | Executar workflow | Build, testes, publish e Docker | A executar | Workflows validados localmente; execução remota pendente de reconciliação e push da branch |
+| UAT-017 | CI | Executar workflow | Build, testes, publish e Docker | Aprovado | GitHub Actions `34164627808`: restore, build, formatação, auditoria NuGet, 16/16 testes, TRX, publish e Docker aprovados |
 | UAT-018 | Docker | Build e arranque Compose | Contentor e health operacionais | Aprovado | Compose reconstruído; contentor `healthy`, `/health` HTTP 200 e healthcheck automático ativo em 07/09 |
 | UAT-019 | Stress | 500 users + 500 veículos | Operações < 10 s, sem exceções | Aprovado | 8,518 s para criação e 0,327 s para 500 dashboards após otimização em 07/09 |
 | UAT-020 | Documentação | Cruzar requisitos/issues/testes/páginas | Sem vazios ou contradições | Aprovado | Auditoria final: 25 documentos verificados e 0 destinos Markdown locais inexistentes |
@@ -46,13 +46,13 @@
 | Indicador | Valor |
 | --- | ---: |
 | Casos definidos | 20 |
-| Aprovados com evidência | 17 |
+| Aprovados com evidência | 18 |
 | Em validação | 0 |
 | Condicionados | 2 |
-| A executar | 1 |
+| A executar | 0 |
 | Reprovados | 0 |
 
-A matriz será atualizada durante a Sprint 8. Só muda para **Aprovado** depois da execução e identificação da evidência.
+A matriz foi encerrada após execução e identificação da evidência. Os dois casos condicionados dependem de credenciais e serviços OAuth externos, não representando falhas funcionais do produto validado.
 
 ## Execução de aceitação de 07/09/2026
 
@@ -62,7 +62,8 @@ A matriz será atualizada durante a Sprint 8. Só muda para **Aprovado** depois 
 - Persistência confirmada: mantiveram-se 8 utilizadores, 8 veículos e 2 rotas após o reinício.
 - Homepage validada em viewport móvel `390×844`, nos modos PT/claro e EN/escuro, sem perda de navegação.
 - Foram corrigidas traduções residuais da homepage e normalizada a tradução de blocos com quebras de linha.
-- Workflows CI e Azure Deploy revistos e reforçados com gates de formatação, dependências, testes TRX, publicação e Docker; a execução local equivalente foi aprovada.
+- Workflow CI remoto aprovado no GitHub Actions: restore, build, formatação, dependências, `16/16` testes, artefacto TRX, publicação e imagem Docker concluídos com sucesso.
+- O workflow Azure executou restore e publicação, mas o deploy foi bloqueado pela ausência de credenciais Azure no repositório; a condicionante externa ficou registada sem expor segredos.
 - Teste 500+500 otimizado e repetido: criação em 8,518 s, 500 dashboards em 0,327 s e total em 8,845 s.
 - Auditoria documental concluída: 25 documentos oficiais inspecionados e zero destinos Markdown locais inexistentes.
 
@@ -98,3 +99,4 @@ A matriz será atualizada durante a Sprint 8. Só muda para **Aprovado** depois 
 - Auditoria final e checklist de release: `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`.
 - Teste detalhado após otimização: `evidencias/sprint-8/final-2026-09-07/stress-optimized-validation.txt`.
 - Readiness final da pipeline: `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`.
+- Execução remota CI/CD: `evidencias/sprint-8/final-2026-09-07/github-actions-validation.md`.

@@ -76,7 +76,7 @@ Este documento descreve a abordagem DevOps e o processo de gestão de erros do O
 | Dependências | `.github/workflows/ci.yml` + auditoria NuGet | Falha se forem reportadas vulnerabilidades conhecidas |
 | Evidência de testes | Artefacto TRX | Resultado preservado em cada execução da CI |
 
-Em 07/09/2026, as duas definições foram revistas e todas as etapas foram reproduzidas localmente com sucesso. A pipeline passou a incluir gates explícitos de formatação, vulnerabilidades, testes com artefacto TRX, publicação e Docker. A execução remota será acionada após a reconciliação sem perda entre a branch local e `origin/main`.
+Em 07/09/2026, as duas definições foram revistas e todas as etapas foram reproduzidas localmente. A execução remota `34164627808` aprovou restore, build, formatação, auditoria de dependências, `16/16` testes, artefacto TRX, publicação e Docker. O workflow Azure foi acionado automaticamente e validou restore/publicação, ficando o deploy condicionado pela ausência de credenciais Azure no repositório.
 
 ## 7. Pipeline Manual de Recuperacao e Validacao
 
@@ -202,9 +202,10 @@ Em 07/09/2026, as duas definições foram revistas e todas as etapas foram repro
 | Persistência após reinício | Aprovada | `evidencias/sprint-8/docker-persistence-health-2026-09-07.txt` |
 | Interface móvel PT/EN | Aprovada em 390×844 | `evidencias/sprint-8/mobile-light-pt-2026-09-07.png` e `mobile-dark-en-2026-09-07.png` |
 | Dependências NuGet | Sem vulnerabilidades conhecidas nas fontes consultadas | `evidencias/sprint-8/package-vulnerability-scan-2026-09-07.txt` |
-| Execução GitHub Actions | Pendente | Reconciliação segura da branch necessária antes do `push` |
+| Execução GitHub Actions | Aprovada | Execução `34164627808` no commit `0459b4a` |
+| Deploy Azure | Condicionado | Execução `34164714698`: sem credenciais Azure configuradas no repositório |
 
-A checklist técnica integral encontra-se em `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`; a reprodução local da pipeline encontra-se em `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`.
+A checklist técnica integral encontra-se em `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`; a reprodução local está em `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt` e a execução remota em `evidencias/sprint-8/final-2026-09-07/github-actions-validation.md`.
 
 ## 18. Plano de Melhoria DevOps
 

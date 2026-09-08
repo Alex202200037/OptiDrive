@@ -5,7 +5,7 @@
 | Sprint | Sprint 8 - Auditoria Final, Aceitação e Entrega |
 | Período | 02/09/2026 a 08/09/2026 |
 | Data | 07/09/2026 (execução antecipada) |
-| Estado | Concluída tecnicamente; fecho administrativo em 08/09/2026 |
+| Estado | Concluída e encerrada antecipadamente em 07/09/2026 |
 
 ## O que correu bem
 
@@ -38,7 +38,7 @@
 | --- | --- |
 | Otimizar construção do dashboard social | Concluído em 07/09/2026 |
 | Repetir build, formatação, vulnerabilidades, testes e Docker | Concluído com evidência final |
-| Atualizar UAT, Desenho Detalhado, DevOps, Encerramento e relatório Jira | Preparado para publicação final |
+| Atualizar UAT, Desenho Detalhado, DevOps, Encerramento e relatório Jira | Concluído e publicado |
 | Não voltar a movimentar tarefas concluídas entre sprints | Regra de gestão adotada |
 | Manter OAuth/Azure como condicionantes externas explícitas | Roadmap operacional |
-| Encerrar administrativamente o Sprint 8 na data planeada | 08/09/2026 |
+| Encerrar administrativamente o Sprint 8 após conclusão integral | Concluído em 07/09/2026 |
