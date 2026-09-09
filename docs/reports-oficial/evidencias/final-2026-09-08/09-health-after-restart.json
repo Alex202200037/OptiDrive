@@ -1,0 +1,1 @@
+{"status":"Healthy","product":"OptiDrive","environment":"Docker","checkedAtUtc":"2026-09-08T13:28:52.7068384Z","counts":{"users":8,"vehicles":8,"routes":2},"integrations":{"googleMaps":true,"openChargeMap":true,"googleOAuth":true,"microsoftOAuth":true,"appleOAuth":false,"authenticatorMfa":true,"socialPulse":true}}

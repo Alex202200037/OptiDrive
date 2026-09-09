@@ -1,0 +1,32 @@
+OptiDrive - Auditoria técnica das imagens oficiais
+Data: 08/09/2026
+
+Ficheiro | Dimensões | Tamanho | Cores aproximadas
+arquitetura-geral.png | 1700x920 | 155661 bytes
+bpmn-01-planeamento-rota.png | 2300x760 | 128266 bytes
+bpmn-02-garagem-veiculo.png | 1850x760 | 99629 bytes
+bpmn-03-social-viagem.png | 2050x760 | 102672 bytes
+bpmn-04-devops-entrega.png | 2150x760 | 117490 bytes
+burndown-geral.png | 1600x900 | 95732 bytes
+classes-dominio.png | 1650x1070 | 120151 bytes
+componentes.png | 1840x1040 | 108202 bytes
+deployment.png | 1740x900 | 103198 bytes
+gantt-oficial.png | 1800x1160 | 127335 bytes
+uml-pacotes-logicos.png | 1660x820 | 71220 bytes
+uml-use-cases-geral.png | 1780x1120 | 188848 bytes
+velocity-geral.png | 1600x900 | 67252 bytes
+
+Fontes Mermaid:
+13 ficheiros
+PNG oficiais:
+13 ficheiros
+
+Tesseract indisponível; inspeção visual manual usada para marcas de avaliação.
+
+Resultado da inspeção visual:
+- Nenhum diagrama apresenta marcas de água ou referências a edições de avaliação.
+- Títulos, nós, relações e legendas permanecem legíveis à resolução original.
+- Os quatro BPMN possuem início, sequência coerente, decisões identificadas e fim alcançável.
+- Arquitetura, componentes, deployment, classes, pacotes e casos de utilização usam relações visíveis e sem sobreposição impeditiva.
+- Gantt, Burndown global e Velocity distinguem dados documentados dos resultados automáticos do Jira.
+- Contact sheet de controlo: 26-diagram-contact-sheet.png.

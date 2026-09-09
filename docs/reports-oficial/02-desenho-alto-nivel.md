@@ -70,7 +70,7 @@ A interface organiza a experiência em páginas principais: Perfil, Garagem, Pla
 
 #### 3.5.2 Protótipo/mock-up em alternativa
 
-A aplicação implementada funciona como protótipo navegável. As páginas Razor representam o mock-up funcional: `Home/Login`, `Profile`, `Garage`, `Planning`, `Social` e `Admin`.
+A aplicação implementada corresponde à versão final navegável. As páginas Razor materializam a interface funcional: `Home/Login`, `Profile`, `Garage`, `Planning`, `Social` e `Admin`.
 
 #### 3.5.3 Normas
 

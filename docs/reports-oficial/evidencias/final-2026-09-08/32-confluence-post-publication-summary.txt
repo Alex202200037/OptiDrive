@@ -1,0 +1,19 @@
+OptiDrive - Auditoria pós-publicação no Confluence
+Data da auditoria: 09/09/2026
+
+- 36 páginas finais auditadas
+- 0 páginas vazias
+- 0 páginas por sincronizar
+- 0 marcadores de diagramas por substituir
+- 0 métricas finais desatualizadas no corpo publicado
+- 0 alegações incorretas de Azure online
+- 15 colocações gráficas críticas verificadas em 7 páginas
+- 15/15 imagens após a respetiva legenda e fora de tabelas
+- Desenhos Detalhados 1-8, Atas 1-8 e Relatórios Jira 1-8 ligados na página principal
+- Retrospectives 6-8 ligadas na página principal
+- Sprint 8: 8/8 itens e 36/36 story points concluídos
+- Sprints 1-5 preservados sem alterações retroativas
+
+Limitações externas declaradas:
+- Publicação Azure condicionada por credenciais ativas
+- OAuth de produção condicionado por configuração dos fornecedores externos

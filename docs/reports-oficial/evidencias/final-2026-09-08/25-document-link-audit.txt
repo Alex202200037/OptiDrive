@@ -1,0 +1,23 @@
+OptiDrive - Auditoria documental local
+Data: 08/09/2026
+
+Documentos Markdown oficiais: 25
+Referências locais verificadas: 33
+Colocações de imagem: 33
+Destinos inexistentes: 0
+
+Estrutura dos desenhos detalhados:
+- 03-desenho-detalhado-sprint-1.md: 19 títulos; 49 linhas de tabela; 2 imagens
+- 04-desenho-detalhado-sprint-2.md: 19 títulos; 50 linhas de tabela; 2 imagens
+- 05-desenho-detalhado-sprint-3.md: 19 títulos; 48 linhas de tabela; 2 imagens
+- 06-desenho-detalhado-sprint-4.md: 19 títulos; 48 linhas de tabela; 2 imagens
+- 07-desenho-detalhado-sprint-5.md: 19 títulos; 46 linhas de tabela; 2 imagens
+- 16-desenho-detalhado-sprint-6.md: 47 títulos; 180 linhas de tabela; 3 imagens
+- 18-desenho-detalhado-sprint-7.md: 45 títulos; 174 linhas de tabela; 2 imagens
+- 22-desenho-detalhado-sprint-8.md: 47 títulos; 200 linhas de tabela; 3 imagens
+
+Pesquisa de marcadores editoriais proibidos:
+Nenhum marcador editorial proibido encontrado nos 25 documentos oficiais.
+
+Colocações de diagramas oficiais: 33
+Diagramas únicos referenciados: 13

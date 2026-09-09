@@ -54,6 +54,6 @@
 - Suite automatizada aprovada: `16/16` testes.
 - Docker Compose validado com persistência e healthcheck automático em estado `healthy`.
 - Interface móvel validada em PT/claro e EN/escuro no viewport `390×844`.
-- Diagramas e gráficos finais substituídos por exportações limpas e editáveis.
+- Treze diagramas únicos, usados em 33 colocações documentais, revistos; Gantt, Burndown global e Velocity atualizados para os oito sprints.
 - Sprint 8 encerrado antecipadamente em 07/09/2026: `8/8` itens e `36/36` story points concluídos, sem itens incompletos ou concluídos fora do sprint.
-- GitHub Actions CI `34164627808` aprovada; publicação Azure condicionada pela ausência de credenciais ativas.
+- GitHub Actions CI `34206950037` aprovada; workflow Azure `34207149170` concluído com deploy corretamente omitido por ausência de credenciais ativas.

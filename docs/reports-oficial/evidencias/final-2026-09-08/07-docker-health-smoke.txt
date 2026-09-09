@@ -1,0 +1,16 @@
+Timestamp UTC: 2026-09-08T13:28:47Z
+NAME            IMAGE                     COMMAND                  SERVICE         CREATED         STATUS                   PORTS
+optidrive-web   optidrive-optidrive-web   "dotnet OptiDrive.We…"   optidrive-web   6 seconds ago   Up 5 seconds (healthy)   0.0.0.0:5080->8080/tcp
+
+Container health: healthy
+
+GET /health
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Tue, 08 Sep 2026 13:28:46 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"status":"Healthy","product":"OptiDrive","environment":"Docker","checkedAtUtc":"2026-09-08T13:28:47.2047435Z","counts":{"users":8,"vehicles":8,"routes":2},"integrations":{"googleMaps":true,"openChargeMap":true,"googleOAuth":true,"microsoftOAuth":true,"appleOAuth":false,"authenticatorMfa":true,"socialPulse":true}}
+GET /
+HTTP 200; time_total=0.033810s; size=5390 bytes

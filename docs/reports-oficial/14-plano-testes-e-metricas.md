@@ -6,7 +6,7 @@
 | Documento | Plano de Testes e Métricas |
 | Template base | ESA Test Case Templates |
 | Versão | 3.1 |
-| Data | 13/07/2026 |
+| Data | 08/09/2026 |
 | Autor | Alexandre Miguel |
 | Stack de testes | xUnit, testes manuais, UAT, usabilidade, stress e validação operacional |
 
@@ -134,14 +134,14 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | TC-ID | Cenário e Perfil | Métricas a Recolher | Threshold | Resultado Esperado |
 | --- | --- | --- | --- | --- |
 | PT-001 | 20 utilizadores a consultar garagem/social | Tempo resposta, erros, CPU | P95 < 1.5s em ambiente local controlado | Sem erros criticos |
-| PT-004 | 500 utilizadores e 500 veiculos em memoria/local state | Tempo de criacao e tempo de dashboards | Criacao < 10s e dashboards < 10s | Aprovado: 8,518 s e 0,327 s, respetivamente |
+| PT-004 | 500 utilizadores e 500 veiculos em memoria/local state | Tempo de criacao e tempo de dashboards | Criacao < 10s e dashboards < 10s | Aprovado: 7,998 s e 0,405 s, respetivamente |
 | PT-002 | 10 utilizadores a calcular rotas | Latência API, fallback, erros | Erro externo deve ser tratado | UI mostra feedback controlado |
 | PT-003 | Refresh de postos/carregadores | Duração sync, nº itens, falhas | Sync não bloqueia UI | Estado visível no Admin |
 
 ### 12.1 Evidência de execução final
 
-- Execução local: criação de 500 utilizadores e 500 veículos em 8,518 s; construção de 500 dashboards em 0,327 s; total de 8,845 s.
-- Execução remota: GitHub Actions CI [`34164627808`](https://github.com/Alex202200037/OptiDrive/actions/runs/34164627808) aprovada com `16/16` testes, artefacto TRX, publicação e imagem Docker.
+- Execução local final: criação de 500 utilizadores e 500 veículos em 7,998 s; construção de 500 dashboards em 0,405 s; total de 8,402 s.
+- Execução remota: GitHub Actions CI [`34206950037`](https://github.com/Alex202200037/OptiDrive/actions/runs/34206950037) aprovada com `16/16` testes, artefacto TRX, publicação e imagem Docker.
 - Portabilidade: o limite do teste mantém-se em 10 s no ambiente local controlado e em 30 s no runner partilhado da CI, sem alterar o volume de 500+500.
 - Azure: a preparação do artefacto foi aprovada; o deploy ficou condicionado pela ausência de credenciais ativas e não é declarado como publicação concluída.
 
@@ -169,7 +169,7 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 | Métrica | Valor |
 | --- | --- |
 | Sprints planeadas | 8 |
-| Sprints documentadas | 8 (auditoria técnica da Sprint 8 concluída em 07/09) |
+| Sprints documentadas | 8 (revalidação técnica final concluída em 08/09) |
 | Atas documentadas | 8 |
 | Módulos documentados | 7 |
 | Requisitos funcionais | 35 |
@@ -180,11 +180,11 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 
 ![Figura 1 - Burndown geral](assets/diagrams/burndown-geral.png)
 
-*Figura 1 - Burndown geral.*
+*Figura 1 - Burndown global documentado do âmbito consolidado. Os gráficos automáticos de cada sprint são preservados no Jira.*
 
 ![Figura 2 - Velocity geral](assets/diagrams/velocity-geral.png)
 
-*Figura 2 - Velocity geral.*
+*Figura 2 - Velocity documentada: S1-S5 usam as estimativas registadas na documentação; S6-S8 usam os resultados dos Sprint Reports do Jira.*
 
 ## 16. Métricas de Produto e Usabilidade
 
@@ -229,8 +229,10 @@ Este documento define a estratégia de testes e as métricas usadas para validar
 - `21-tabela-testes-aceitacao.md`
 - `evidencias/sprint-8/final-2026-09-07/auditoria-final.md`
 - `evidencias/sprint-8/final-2026-09-07/stress-optimized-validation.txt`
+- `evidencias/final-2026-09-08/04-stress-500x500.txt`
+- `evidencias/final-2026-09-08/20-validacao-usabilidade-visual.md`
 - `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`
 
 ## 19. Conclusão
 
-O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os 16 testes automatizados validados em Release cobrem Smart Save, autonomia, garagem, social, MFA, administração, healthcheck, `RF-M08-04` e stress com 500 utilizadores/veículos. A execução final aprovou a criação 500+500 em 8,518 s e a construção de 500 dashboards em 0,327 s; a CI remota `34164627808` confirmou build, testes, publicação e Docker. A matriz UAT está em `21-tabela-testes-aceitacao.md`.
+O plano de testes cobre os níveis principais exigidos para uma aplicação académica com ambição de produto real: unitário, integração, sistema, aceitação, regressão, desempenho, segurança e usabilidade. Os 16 testes automatizados validados em Release cobrem Smart Save, autonomia, garagem, social, MFA, administração, healthcheck, `RF-M08-04` e stress com 500 utilizadores/veículos. A execução final aprovou a criação 500+500 em 7,998 s e a construção de 500 dashboards em 0,405 s; a CI remota `34206950037` confirmou build, testes, publicação e Docker. A matriz UAT está em `21-tabela-testes-aceitacao.md`.

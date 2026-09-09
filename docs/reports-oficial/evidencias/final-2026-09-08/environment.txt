@@ -1,0 +1,5 @@
+OptiDrive - Validação técnica final
+Data UTC: 2026-09-08T09:18:16Z
+Commit: 5b5bc61d693c259802bfdcbd514b7817b154a647
+Branch: main
+8.0.404

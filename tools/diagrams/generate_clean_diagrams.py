@@ -290,84 +290,94 @@ def architecture() -> None:
 
 
 def burndown() -> None:
-    c = Canvas(1500, 850)
-    c.title("Burndown geral", "Esforço restante por sprint")
+    c = Canvas(1600, 900)
+    c.title("Burndown global documentado", "Âmbito consolidado dos oito incrementos")
     left, top, right, bottom = 180, 180, 1390, 690
-    max_value = 52
-    for value in [52, 39, 26, 13, 0]:
+    max_value = 180
+    for value in [0, 40, 80, 120, 160, 180]:
         y = bottom - (value / max_value) * (bottom - top)
         c.line([(left, y), (right, y)], GRID, 1)
         c.label(str(value), left - 30, round(y), 14, False, MUTED, "rm")
     c.line([(left, top), (left, bottom), (right, bottom)], INK, 2)
-    values = [52, 39, 26, 13, 0]
+    values = [177, 159, 137, 113, 92, 72, 44, 16, 0]
+    labels = ["Início", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]
     points = []
     for i, value in enumerate(values):
-        x = left + 100 + i * 260
+        x = left + 30 + i * 145
         y = bottom - (value / max_value) * (bottom - top)
         points.append((x, y))
-        c.label(f"Sprint {i + 1}", x, bottom + 42, 15, False, INK)
+        c.label(labels[i], x, bottom + 42, 15, False, INK)
     c.line(points, TEAL, 5)
     for (x, y), value in zip(points, values):
         c.draw.ellipse((c.s(x - 10), c.s(y - 10), c.s(x + 10), c.s(y + 10)), fill=TEAL, outline=WHITE, width=c.s(3))
         c.label(str(value), round(x), round(y - 28), 14, True, TEAL)
-    c.label("Esforço restante (horas)", 55, 435, 15, True, INK, "lm")
-    c.card(Box(280, 755, 940, 55), "Leitura: o trabalho remanescente reduz-se progressivamente até zero no final do ciclo planeado.", PALE_GREEN, GREEN, 14)
+    c.label("Story points restantes", 55, 435, 15, True, INK, "lm")
+    c.card(Box(220, 755, 1160, 78), "Visão consolidada do âmbito entregue. Os Burndowns automáticos de cada sprint permanecem no Jira; o Sprint 8 inclui eventos de remoção e reinserção sem alteração líquida do âmbito.", PALE_GREEN, GREEN, 14)
     c.save("burndown-geral.png")
 
 
 def velocity() -> None:
-    c = Canvas(1500, 850)
-    c.title("Velocity geral", "Pontos concluídos por sprint")
+    c = Canvas(1600, 900)
+    c.title("Velocity documentada", "Pontos concluídos por sprint")
     left, top, right, bottom = 170, 180, 1390, 690
-    for value in [0, 5, 10, 15, 20, 25]:
-        y = bottom - value / 25 * (bottom - top)
+    for value in [0, 10, 20, 30, 40]:
+        y = bottom - value / 40 * (bottom - top)
         c.line([(left, y), (right, y)], GRID, 1)
         c.label(str(value), left - 25, round(y), 14, False, MUTED, "rm")
     c.line([(left, top), (left, bottom), (right, bottom)], INK, 2)
-    values = [18, 22, 24, 21, 20]
+    values = [18, 22, 24, 21, 20, 28, 28, 36]
     for i, value in enumerate(values):
-        x = 270 + i * 235
-        height = value / 25 * (bottom - top)
-        box = Box(x, round(bottom - height), 120, round(height))
-        c.rounded(box, 10, PALE_BLUE if i % 2 == 0 else PALE_GREEN, BLUE if i % 2 == 0 else GREEN, 2)
+        x = 205 + i * 150
+        height = value / 40 * (bottom - top)
+        box = Box(x, round(bottom - height), 92, round(height))
+        fill, stroke = (PALE_BLUE, BLUE) if i < 5 else (PALE_GREEN, GREEN)
+        c.rounded(box, 10, fill, stroke, 2)
         c.label(f"{value} pts", box.cx, box.top - 24, 14, True, INK)
-        c.label(f"Sprint {i + 1}", box.cx, bottom + 42, 15, False, INK)
-    c.card(Box(270, 755, 330, 55), "Média: 21 pontos/sprint", PALE_GOLD, GOLD, 14, True)
-    c.card(Box(650, 755, 590, 55), "Capacidade estável, sem oscilações abruptas.", PALE_GREEN, GREEN, 14)
+        c.label(f"S{i + 1}", box.cx, bottom + 42, 15, False, INK)
+    c.card(Box(190, 755, 350, 70), "S1-S5: estimativas documentadas", PALE_BLUE, BLUE, 14, True)
+    c.card(Box(575, 755, 350, 70), "S6-S8: resultados Jira", PALE_GREEN, GREEN, 14, True)
+    c.card(Box(960, 755, 430, 70), "Média consolidada: 22,1 pts/sprint", PALE_GOLD, GOLD, 14, True)
     c.save("velocity-geral.png")
 
 
 def gantt() -> None:
-    c = Canvas(1700, 930)
-    c.title("Plano temporal do projeto OptiDrive", "11/05/2026 — 14/07/2026")
+    c = Canvas(1800, 1160)
+    c.title("Plano temporal consolidado do projeto OptiDrive", "11/05/2026 — 08/09/2026")
     labels = [
         "Sprint 1 — base, autenticação e garagem",
         "Sprint 2 — mapas, postos e energia",
         "Sprint 3 — Smart Save e autonomia",
         "Sprint 4 — social e viagens em grupo",
         "Sprint 5 — administração, DevOps e entrega",
-        "Revisão documental, testes e diagramas",
+        "Consolidação documental e técnica",
+        "Sprint 6 — melhorias de código e UI",
+        "Sprint 7 — polimento e estabilidade",
+        "Sprint 8 — auditoria final e aceitação",
     ]
-    weeks = ["11/05", "18/05", "25/05", "01/06", "08/06", "15/06", "22/06", "29/06", "06/07", "13/07"]
-    spans = [(0, 2), (1, 3), (3, 2), (4, 2), (5, 3), (7, 3)]
-    colors = [(PALE_BLUE, BLUE), (PALE_GREEN, GREEN), (PALE_GOLD, GOLD), (PALE_LILAC, LILAC), (PALE_BLUE, BLUE), (PALE_GREEN, GREEN)]
-    label_x, label_w = 55, 440
-    timeline_x, col_w = 515, 111
+    periods = ["11-20/05", "21-31/05", "01-08/06", "09-16/06", "17-30/06", "Jul-Ago", "29-31/08", "03-08/09"]
+    spans = [(0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 2), (6, 1), (6, 1), (7, 1)]
+    colors = [
+        (PALE_BLUE, BLUE), (PALE_GREEN, GREEN), (PALE_GOLD, GOLD),
+        (PALE_LILAC, LILAC), (PALE_BLUE, BLUE), (PALE_GREY, MUTED),
+        (PALE_GREEN, GREEN), (PALE_LILAC, LILAC), (PALE_GOLD, GOLD),
+    ]
+    label_x, label_w = 55, 480
+    timeline_x, col_w = 555, 145
     c.rect(Box(label_x, 145, label_w, 58), PALE_GREY, GRID, 1)
     c.label("Atividade", label_x + 18, 174, 15, True, INK, "lm")
-    for i, week in enumerate(weeks):
+    for i, period in enumerate(periods):
         c.rect(Box(timeline_x + i * col_w, 145, col_w, 58), PALE_BLUE, GRID, 1)
-        c.label(week, timeline_x + i * col_w + col_w // 2, 174, 14, True, INK)
+        c.label(period, timeline_x + i * col_w + col_w // 2, 174, 13, True, INK)
     for row, label in enumerate(labels):
-        y = 225 + row * 100
+        y = 220 + row * 92
         c.rect(Box(label_x, y, label_w, 65), PALE_GREY, GRID, 1)
         c.label(label, label_x + 18, y + 33, 14, False, INK, "lm")
-        for i in range(len(weeks)):
+        for i in range(len(periods)):
             c.rect(Box(timeline_x + i * col_w, y, col_w, 65), WHITE, GRID, 1)
         start, length = spans[row]
         fill, stroke = colors[row]
         c.rounded(Box(timeline_x + start * col_w + 8, y + 11, length * col_w - 16, 43), 10, fill, stroke, 2)
-    c.card(Box(1240, 835, 390, 55), "Marco final — entrega validada", PALE_GOLD, GOLD, 15, True)
+    c.card(Box(1120, 1065, 560, 55), "Marco final — entrega validada em 08/09/2026", PALE_GOLD, GOLD, 15, True)
     c.save("gantt-oficial.png")
 
 

@@ -4,10 +4,10 @@
 | --- | --- |
 | Documento | Sprint Report |
 | Sprint | S8 - Auditoria Final |
-| Período planeado | 02/09/2026 a 08/09/2026 |
+| Período planeado | 03/09/2026 a 08/09/2026 |
 | Ativação no Jira | 03/09/2026 |
 | Estado | Encerrado antecipadamente em 07/09/2026 |
-| Sprint Jira | `304` |
+| Sprint Jira | S8 - Auditoria Final |
 | Epic Jira | `OP-91` |
 | Fonte | Board, Burndown, Sprint Report e Velocity automáticos do Jira |
 | Responsável | Alexandre Miguel |
@@ -83,8 +83,8 @@ O log de âmbito contém duas sequências de remoção e reposição de `OP-92`,
 
 ### Ligações do Jira
 
-- [Burndown automático da Sprint 8](https://estudantes-team-jwsj3xh7.atlassian.net/jira/software/projects/OP/boards/68/reports/burndown?source=overview&sprint=304)
-- [Sprint Report automático da Sprint 8](https://estudantes-team-jwsj3xh7.atlassian.net/jira/software/projects/OP/boards/68/reports/sprint-retrospective?source=overview&sprint=304)
+- [Relatório de Burndown](https://estudantes-team-jwsj3xh7.atlassian.net/jira/software/projects/OP/boards/68/reports/burndown?source=overview) — confirmar `S8 - Auditoria Final` no seletor Sprint, porque o Jira pode conservar a última seleção da sessão.
+- [Sprint Report automático](https://estudantes-team-jwsj3xh7.atlassian.net/jira/software/projects/OP/boards/68/reports/sprint-retrospective?source=overview) — confirmar `S8 - Auditoria Final` no seletor Sprint.
 - [Velocity automática](https://estudantes-team-jwsj3xh7.atlassian.net/jira/software/projects/OP/boards/68/reports/velocity?source=overview)
 
 Os valores finais foram confirmados no Sprint Report após o encerramento antecipado em 07/09/2026. O relatório distingue os dados automáticos do Jira da interpretação da anomalia histórica do Burndown.
@@ -98,4 +98,10 @@ Os valores finais foram confirmados no Sprint Report após o encerramento anteci
 - Diagramas, gráficos e tabelas legíveis e coerentes.
 - Jira, Confluence, Git, DevOps e documentos finais reconciliados.
 - Ata, Desenho Detalhado, Sprint Report e Retrospective atualizados e publicados.
-- Execução GitHub Actions CI `34164627808` aprovada.
+- Execução GitHub Actions CI `34206950037` aprovada na revalidação de 08/09/2026.
+
+## 6. Revalidação Técnica de 08/09/2026
+
+Após o encerramento do sprint, foi executada uma auditoria final sem alterar o histórico do Jira. A solução manteve `16/16` testes aprovados, build sem erros ou avisos, contentor `healthy`, persistência de 8 utilizadores, 8 veículos e 2 rotas e stress 500+500 em 8,402 s no total. O Gantt, o Burndown global documentado e a Velocity documentada foram atualizados para os oito sprints.
+
+Durante a correção da associação ao Sprint 8, `OP-92`, `OP-93` e `OP-95` foram retiradas inadvertidamente e reinseridas duas vezes. O Jira guarda seis remoções e seis adições, num saldo líquido de 0 story points, e não recalcula retroativamente a linha vermelha. Assim, a descontinuidade visual deve ser lida como histórico de âmbito, não como trabalho reaberto. O Sprint Report final é a confirmação do resultado: 8/8 itens, 36/36 story points, 0 incompletos e 0 concluídos fora da sprint.

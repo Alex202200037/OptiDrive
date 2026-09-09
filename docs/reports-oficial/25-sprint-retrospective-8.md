@@ -3,7 +3,7 @@
 | Campo | Valor |
 | --- | --- |
 | Sprint | Sprint 8 - Auditoria Final, Aceitação e Entrega |
-| Período | 02/09/2026 a 08/09/2026 |
+| Período | 03/09/2026 a 08/09/2026 |
 | Data | 07/09/2026 (execução antecipada) |
 | Estado | Concluída e encerrada antecipadamente em 07/09/2026 |
 
@@ -12,7 +12,7 @@
 - `RF-M08-04` foi transformado numa área funcional e acionável, com fontes de pipeline, testes, stress, health, Jira e Confluence.
 - A matriz UAT passou a concentrar 20 cenários com requisito, resultado, estado e evidência.
 - O build Release terminou com zero erros e zero avisos e os 16 testes automatizados foram aprovados.
-- O cenário de stress 500+500 ficou abaixo dos limites: 8,518 s para criação e 0,327 s para 500 dashboards.
+- A revalidação de stress 500+500 ficou abaixo dos limites: 7,998 s para criação, 0,405 s para 500 dashboards e 8,402 s no total.
 - Docker Compose, persistência e `/health` foram validados em ambiente reproduzível.
 - A pipeline passou a verificar formatação, vulnerabilidades, testes TRX, publicação e imagem Docker.
 - A auditoria documental verificou 25 documentos oficiais e não encontrou ligações Markdown locais inexistentes.

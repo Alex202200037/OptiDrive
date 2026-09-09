@@ -1,0 +1,70 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [optidrive-web internal] load build definition from Dockerfile
+#1 transferring dockerfile: 632B done
+#1 DONE 0.0s
+
+#2 [optidrive-web internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0
+#2 DONE 0.4s
+
+#3 [optidrive-web internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0
+#3 DONE 0.4s
+
+#4 [optidrive-web internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [optidrive-web build 1/8] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:bb32ba3ba3ea36e38572d9d8db76fa15f7cbf722f3f886e06bca6d528bd4fba8
+#5 DONE 0.0s
+
+#6 [optidrive-web runtime 1/4] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:787c228ea85457bec43c8b084e6ac360b26ea43b5c2fcbe861f721f2e8670dd3
+#6 DONE 0.0s
+
+#7 [optidrive-web internal] load build context
+#7 transferring context: 4.81MB 0.2s done
+#7 DONE 0.2s
+
+#8 [optidrive-web build 3/8] COPY OptiDrive.sln ./
+#8 CACHED
+
+#9 [optidrive-web build 4/8] COPY OptiDrive.Web/OptiDrive.Web.csproj OptiDrive.Web/
+#9 CACHED
+
+#10 [optidrive-web build 5/8] COPY OptiDrive.Web.Tests/OptiDrive.Web.Tests.csproj OptiDrive.Web.Tests/
+#10 CACHED
+
+#11 [optidrive-web build 2/8] WORKDIR /src
+#11 CACHED
+
+#12 [optidrive-web build 6/8] RUN dotnet restore OptiDrive.sln
+#12 CACHED
+
+#13 [optidrive-web build 7/8] COPY . .
+#13 DONE 1.3s
+
+#14 [optidrive-web build 8/8] RUN dotnet publish OptiDrive.Web/OptiDrive.Web.csproj -c Release -o /app/publish --no-restore
+#14 3.369   OptiDrive.Web -> /src/OptiDrive.Web/bin/Release/net8.0/OptiDrive.Web.dll
+#14 3.427   OptiDrive.Web -> /app/publish/
+#14 DONE 3.5s
+
+#15 [optidrive-web runtime 2/4] WORKDIR /app
+#15 CACHED
+
+#16 [optidrive-web runtime 3/4] RUN mkdir -p /app/data
+#16 CACHED
+
+#17 [optidrive-web runtime 4/4] COPY --from=build /app/publish .
+#17 DONE 0.1s
+
+#18 [optidrive-web] exporting to image
+#18 exporting layers 0.1s done
+#18 writing image sha256:ccad92a3fdb1ade60a546830e56ca28045a5f627726e6c79e26ac95fff3da9a1 done
+#18 naming to docker.io/library/optidrive-optidrive-web done
+#18 DONE 0.1s
+
+#19 [optidrive-web] resolving provenance for metadata file
+#19 DONE 0.0s
+ Container optidrive-web  Recreate
+ Container optidrive-web  Recreated
+ Container optidrive-web  Starting
+ Container optidrive-web  Started

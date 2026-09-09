@@ -1,0 +1,4 @@
+OptiDrive - Auditoria de marcadores no código próprio
+Data: 08/09/2026
+Ficheiros analisados: 52
+Resultado: nenhum marcador TODO/FIXME/HACK/XXX encontrado no código próprio.

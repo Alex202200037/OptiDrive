@@ -6,8 +6,8 @@
 | Projeto | OptiDrive |
 | Documento | Análise e Especificação de Requisitos |
 | Template base | Template - Análise e Especificação de Requisitos |
-| Versão | 3.0 |
-| Data | 08/07/2026 |
+| Versão | 3.1 |
+| Data | 08/09/2026 |
 | Autor | Alexandre Miguel |
 
 ## Versões do Trabalho
@@ -17,6 +17,7 @@
 | 1.0 | 11/05/2026 | Alexandre Miguel | Primeira análise enviada para validação docente |
 | 2.0 | 30/06/2026 | Alexandre Miguel | Consolidação da entrega final |
 | 3.0 | 08/07/2026 | Alexandre Miguel | Versão oficial segundo templates e normas dos slides |
+| 3.1 | 08/09/2026 | Alexandre Miguel | Atualização do planeamento e rastreabilidade para os oito sprints |
 
 ## 1. Introdução
 
@@ -34,9 +35,9 @@ O sistema encontra-se implementado em ASP.NET Core MVC/.NET 8, com persistência
 | --- | --- |
 | Requisitos | Análise e Especificação de Requisitos |
 | Desenho | Desenho de Alto Nível |
-| Implementação incremental | Desenho Detalhado Sprint 1 a 5 |
-| Gestão | Atas Sprint 1 a 5, Project Manager, Métricas |
-| Qualidade | Plano de Testes e Gestão de Erros |
+| Implementação incremental | Desenho Detalhado Sprint 1 a 8 |
+| Gestão | Atas Sprint 1 a 8, relatórios Jira e Sprint Retrospectives |
+| Qualidade | Plano de Testes e Métricas, Gestão de Erros e Matriz UAT |
 | Encerramento | Documento de Encerramento do Projeto |
 
 ### 2.1 Histórico e Motivação
@@ -96,11 +97,14 @@ O código está estruturado em solução .NET com projetos separados para aplica
 | 3 | Smart Save e Histórico Operacional | 01/06/2026 | 08/06/2026 | M02, M05 | Consumo por velocidade, autonomia, reforços, aplicar viagem ao veículo |
 | 4 | Social, OAuth e Viagens Colaborativas | 09/06/2026 | 16/06/2026 | M01, M06 | Perfis sociais, contactos, mensagens, viagens em grupo e autenticação externa |
 | 5 | DevOps, Administração e Entrega Final | 17/06/2026 | 30/06/2026 | M07 | Docker, Azure, backoffice, i18n, tema, métricas e documentação |
+| 6 | Melhorias de Código, UI e Readiness | 29/08/2026 | 31/08/2026 | M08 | Healthcheck, separação de perfis, hardening e pacote de release |
+| 7 | Polimento e Estabilidade | 29/08/2026 | 31/08/2026 | M09 | Responsividade, acessibilidade, regressão e estabilização |
+| 8 | Auditoria Final, Aceitação e Entrega | 03/09/2026 | 08/09/2026 | M10 | UAT, stress, segurança, DevOps e reconciliação documental |
 
 
 ![Figura 1 - Gantt](assets/diagrams/gantt-oficial.png)
 
-*Figura 1 - Gantt.*
+*Figura 1 - Plano temporal consolidado dos oito incrementos e da fase de consolidação documental.*
 
 ## 4. Especificação dos requisitos do software
 

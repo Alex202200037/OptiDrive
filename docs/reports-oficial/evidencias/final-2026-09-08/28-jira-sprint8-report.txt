@@ -1,0 +1,485 @@
+- generic: "Skip to:"
+- list:
+  - link "Top Bar":
+    - /url: "#jira-page-layout-top-nav"
+  - link "Sidebar":
+    - /url: "#jira-page-layout-side-nav"
+  - link "Main Content":
+    - /url: "#jira-page-layout-main"
+- banner:
+  - button "Expand sidebar":
+    - generic: Expand sidebar
+  - button "Switch sites or apps":
+    - generic: Switch sites or apps
+  - link "Go to your Jira homepage":
+    - /url: /jira
+  - search:
+    - button "Search":
+      - generic: Search
+  - button "Create":
+    - generic: Create
+  - navigation "Actions":
+    - button "Show more":
+      - generic: Show more
+- main:
+  - navigation "Breadcrumbs":
+    - list:
+      - link "Spaces":
+        - /url: /jira/projects
+        - generic: Spaces
+      - text: /
+      - link "OptiDrive":
+        - /url: /browse/OP
+        - generic: OptiDrive
+      - text: /
+      - link "Reports":
+        - /url: /jira/software/projects/OP/boards/68/reports
+        - generic: Reports
+  - heading "Sprint burndown chart" [level=1]:
+    - generic: Sprint burndown chart
+  - button "How to read this report":
+    - generic: How to read this report
+  - button "Share"
+  - heading "What it is" [level=2]
+  - paragraph: Shows the total work remaining for the current sprint, and the likelihood of your team completing the sprint on time. Also shows a summary of scope changes and work done throughout the sprint.
+  - heading "How to read it" [level=2]
+  - paragraph:
+    - text: The red line shows how much work remains in the sprint. The grey line shows the ideal progress rate.
+    - link "Learn more about the burndown chart , (opens new window)":
+      - /url: https://confluence.atlassian.com/display/JIRASOFTWARECLOUD/Sprint+burndown+%28next-gen%29
+      - text: Learn more
+  - generic: Sprint
+  - status: option S8 - Auditoria Final, selected.
+  - generic: S8 - Auditoria Final
+  - combobox "Sprint" [active]
+  - generic: Estimation field
+  - status
+  - generic: Story points
+  - combobox "Estimation field"
+  - button "Sprint actions":
+    - img "Sprint actions"
+  - generic: Date - September 3rd, 2026 - September 8th, 2026
+  - generic: Date - September 3rd, 2026 to September 8th, 2026
+  - generic: Sprint goal - Auditar código, testes, DevOps e documentação final do OptiDrive para entrega.
+  - heading "Remaining work" [level=3]
+  - paragraph: Number of story points left to complete this sprint
+  - heading "Guideline" [level=3]
+  - paragraph: Ideal burn rate
+  - 'heading "Report: S8 - Auditoria Final" [level=2]'
+  - generic: "*Work item added after sprint start"
+  - heading "Scope changes log" [level=3]
+  - link "View in All work navigator":
+    - /url: /issues/?jql=issueKey%20in%20(OP-94%2COP-92%2COP-93%2COP-95%2COP-96%2COP-97%2COP-98%2COP-99)
+  - table:
+    - rowgroup:
+      - row "Date Key Summary Work type Epic Details of scope change Change in estimation":
+        - columnheader "Date":
+          - button "Date":
+            - generic: Date
+        - columnheader "Key":
+          - button "Key":
+            - generic: Key
+        - columnheader "Summary":
+          - button "Summary":
+            - generic: Summary
+        - columnheader "Work type":
+          - button "Work type":
+            - generic: Work type
+        - columnheader "Epic":
+          - button "Epic":
+            - generic: Epic
+        - columnheader "Details of scope change":
+          - button "Details of scope change":
+            - generic: Details of scope change
+        - columnheader "Change in estimation"
+    - rowgroup:
+      - row "2026-09-07 OP-92 , (opens new window) S8.1 - Auditar requisitos, documentação e rastreabilidade Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -3":
+        - cell "2026-09-07"
+        - cell "OP-92 , (opens new window)":
+          - link "OP-92 , (opens new window)":
+            - /url: /browse/OP-92
+            - text: OP-92
+            - generic: ", (opens new window)"
+        - cell "S8.1 - Auditar requisitos, documentação e rastreabilidade"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-3":
+          - generic: "-3"
+      - row "2026-09-07 OP-93 , (opens new window) S8.2 - Corrigir e validar RF-M08-04 no backoffice Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -5":
+        - cell "2026-09-07"
+        - cell "OP-93 , (opens new window)":
+          - link "OP-93 , (opens new window)":
+            - /url: /browse/OP-93
+            - text: OP-93
+            - generic: ", (opens new window)"
+        - cell "S8.2 - Corrigir e validar RF-M08-04 no backoffice"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-5":
+          - generic: "-5"
+      - row "2026-09-07 OP-95 , (opens new window) S8.4 - Reforçar testes automatizados, integração e regressão Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -5":
+        - cell "2026-09-07"
+        - cell "OP-95 , (opens new window)":
+          - link "OP-95 , (opens new window)":
+            - /url: /browse/OP-95
+            - text: OP-95
+            - generic: ", (opens new window)"
+        - cell "S8.4 - Reforçar testes automatizados, integração e regressão"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-5":
+          - generic: "-5"
+      - row "2026-09-07 OP-92 , (opens new window) S8.1 - Auditar requisitos, documentação e rastreabilidade Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 3":
+        - cell "2026-09-07"
+        - cell "OP-92 , (opens new window)":
+          - link "OP-92 , (opens new window)":
+            - /url: /browse/OP-92
+            - text: OP-92
+            - generic: ", (opens new window)"
+        - cell "S8.1 - Auditar requisitos, documentação e rastreabilidade"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "3":
+          - generic: "3"
+      - row "2026-09-07 OP-93 , (opens new window) S8.2 - Corrigir e validar RF-M08-04 no backoffice Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 5":
+        - cell "2026-09-07"
+        - cell "OP-93 , (opens new window)":
+          - link "OP-93 , (opens new window)":
+            - /url: /browse/OP-93
+            - text: OP-93
+            - generic: ", (opens new window)"
+        - cell "S8.2 - Corrigir e validar RF-M08-04 no backoffice"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "5":
+          - generic: "5"
+      - row "2026-09-07 OP-95 , (opens new window) S8.4 - Reforçar testes automatizados, integração e regressão Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 5":
+        - cell "2026-09-07"
+        - cell "OP-95 , (opens new window)":
+          - link "OP-95 , (opens new window)":
+            - /url: /browse/OP-95
+            - text: OP-95
+            - generic: ", (opens new window)"
+        - cell "S8.4 - Reforçar testes automatizados, integração e regressão"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "5":
+          - generic: "5"
+      - row "2026-09-07 OP-92 , (opens new window) S8.1 - Auditar requisitos, documentação e rastreabilidade Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -3":
+        - cell "2026-09-07"
+        - cell "OP-92 , (opens new window)":
+          - link "OP-92 , (opens new window)":
+            - /url: /browse/OP-92
+            - text: OP-92
+            - generic: ", (opens new window)"
+        - cell "S8.1 - Auditar requisitos, documentação e rastreabilidade"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-3":
+          - generic: "-3"
+      - row "2026-09-07 OP-93 , (opens new window) S8.2 - Corrigir e validar RF-M08-04 no backoffice Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -5":
+        - cell "2026-09-07"
+        - cell "OP-93 , (opens new window)":
+          - link "OP-93 , (opens new window)":
+            - /url: /browse/OP-93
+            - text: OP-93
+            - generic: ", (opens new window)"
+        - cell "S8.2 - Corrigir e validar RF-M08-04 no backoffice"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-5":
+          - generic: "-5"
+      - row "2026-09-07 OP-95 , (opens new window) S8.4 - Reforçar testes automatizados, integração e regressão Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item removed from sprint -5":
+        - cell "2026-09-07"
+        - cell "OP-95 , (opens new window)":
+          - link "OP-95 , (opens new window)":
+            - /url: /browse/OP-95
+            - text: OP-95
+            - generic: ", (opens new window)"
+        - cell "S8.4 - Reforçar testes automatizados, integração e regressão"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item removed from sprint"
+        - cell "-5":
+          - generic: "-5"
+      - row "2026-09-07 OP-92 , (opens new window) S8.1 - Auditar requisitos, documentação e rastreabilidade Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 3":
+        - cell "2026-09-07"
+        - cell "OP-92 , (opens new window)":
+          - link "OP-92 , (opens new window)":
+            - /url: /browse/OP-92
+            - text: OP-92
+            - generic: ", (opens new window)"
+        - cell "S8.1 - Auditar requisitos, documentação e rastreabilidade"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "3":
+          - generic: "3"
+      - row "2026-09-07 OP-93 , (opens new window) S8.2 - Corrigir e validar RF-M08-04 no backoffice Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 5":
+        - cell "2026-09-07"
+        - cell "OP-93 , (opens new window)":
+          - link "OP-93 , (opens new window)":
+            - /url: /browse/OP-93
+            - text: OP-93
+            - generic: ", (opens new window)"
+        - cell "S8.2 - Corrigir e validar RF-M08-04 no backoffice"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "5":
+          - generic: "5"
+      - row "2026-09-07 OP-95 , (opens new window) S8.4 - Reforçar testes automatizados, integração e regressão Task Sprint 8 - Auditoria Final, Aceitação e Entrega Work item added to sprint 5":
+        - cell "2026-09-07"
+        - cell "OP-95 , (opens new window)":
+          - link "OP-95 , (opens new window)":
+            - /url: /browse/OP-95
+            - text: OP-95
+            - generic: ", (opens new window)"
+        - cell "S8.4 - Reforçar testes automatizados, integração e regressão"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Work item added to sprint"
+        - cell "5":
+          - generic: "5"
+  - heading "Incomplete work items" [level=3]
+  - table:
+    - rowgroup:
+      - row "Key Summary Work type Epic Status Assignee Story points":
+        - columnheader "Key":
+          - button "Key":
+            - generic: Key
+        - columnheader "Summary":
+          - button "Summary":
+            - generic: Summary
+        - columnheader "Work type":
+          - button "Work type":
+            - generic: Work type
+        - columnheader "Epic":
+          - button "Epic":
+            - generic: Epic
+        - columnheader "Status":
+          - button "Status":
+            - generic: Status
+        - columnheader "Assignee":
+          - button "Assignee":
+            - generic: Assignee
+        - columnheader "Story points"
+  - generic: All work items in sprint have been completed
+  - heading "Completed work items" [level=3]
+  - link "View in All work navigator":
+    - /url: /issues/?jql=issueKey%20in%20(OP-92%2COP-93%2COP-95%2COP-99%2COP-97%2COP-98%2COP-94%2COP-96)
+  - table:
+    - rowgroup:
+      - row "Key Summary Work type Epic Status Assignee Story points":
+        - columnheader "Key":
+          - button "Key":
+            - generic: Key
+        - columnheader "Summary":
+          - button "Summary":
+            - generic: Summary
+        - columnheader "Work type":
+          - button "Work type":
+            - generic: Work type
+        - columnheader "Epic":
+          - button "Epic":
+            - generic: Epic
+        - columnheader "Status":
+          - button "Status":
+            - generic: Status
+        - columnheader "Assignee":
+          - button "Assignee":
+            - generic: Assignee
+        - columnheader "Story points"
+    - rowgroup:
+      - row "OP-92 , (opens new window) S8.1 - Auditar requisitos, documentação e rastreabilidade Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 3":
+        - cell "OP-92 , (opens new window)":
+          - link "OP-92 , (opens new window)":
+            - /url: /browse/OP-92
+            - text: OP-92
+            - generic: ", (opens new window)"
+        - cell "S8.1 - Auditar requisitos, documentação e rastreabilidade"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "3":
+          - generic: "3"
+      - row "OP-93 , (opens new window) S8.2 - Corrigir e validar RF-M08-04 no backoffice Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-93 , (opens new window)":
+          - link "OP-93 , (opens new window)":
+            - /url: /browse/OP-93
+            - text: OP-93
+            - generic: ", (opens new window)"
+        - cell "S8.2 - Corrigir e validar RF-M08-04 no backoffice"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+      - row "OP-95 , (opens new window) S8.4 - Reforçar testes automatizados, integração e regressão Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-95 , (opens new window)":
+          - link "OP-95 , (opens new window)":
+            - /url: /browse/OP-95
+            - text: OP-95
+            - generic: ", (opens new window)"
+        - cell "S8.4 - Reforçar testes automatizados, integração e regressão"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+      - row "OP-99 , (opens new window) S8.8 - Auditoria final, demonstração e encerramento Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 3":
+        - cell "OP-99 , (opens new window)":
+          - link "OP-99 , (opens new window)":
+            - /url: /browse/OP-99
+            - text: OP-99
+            - generic: ", (opens new window)"
+        - cell "S8.8 - Auditoria final, demonstração e encerramento"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "3":
+          - generic: "3"
+      - row "OP-97 , (opens new window) S8.6 - Auditar e corrigir diagramas, gráficos e tabelas Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-97 , (opens new window)":
+          - link "OP-97 , (opens new window)":
+            - /url: /browse/OP-97
+            - text: OP-97
+            - generic: ", (opens new window)"
+        - cell "S8.6 - Auditar e corrigir diagramas, gráficos e tabelas"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+      - row "OP-98 , (opens new window) S8.7 - Rever documentação, DevOps e pacote Confluence Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-98 , (opens new window)":
+          - link "OP-98 , (opens new window)":
+            - /url: /browse/OP-98
+            - text: OP-98
+            - generic: ", (opens new window)"
+        - cell "S8.7 - Rever documentação, DevOps e pacote Confluence"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+      - row "OP-94 , (opens new window) S8.3 - Criar e executar a matriz formal de testes de aceitação Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-94 , (opens new window)":
+          - link "OP-94 , (opens new window)":
+            - /url: /browse/OP-94
+            - text: OP-94
+            - generic: ", (opens new window)"
+        - cell "S8.3 - Criar e executar a matriz formal de testes de aceitação"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+      - row "OP-96 , (opens new window) S8.5 - Executar stress, compatibilidade, segurança e Docker Task Sprint 8 - Auditoria Final, Aceitação e Entrega Done Alexandre Miguel 5":
+        - cell "OP-96 , (opens new window)":
+          - link "OP-96 , (opens new window)":
+            - /url: /browse/OP-96
+            - text: OP-96
+            - generic: ", (opens new window)"
+        - cell "S8.5 - Executar stress, compatibilidade, segurança e Docker"
+        - cell "Task":
+          - generic: Task
+        - cell "Sprint 8 - Auditoria Final, Aceitação e Entrega":
+          - generic: Sprint 8 - Auditoria Final, Aceitação e Entrega
+        - cell "Done":
+          - generic: Done
+        - cell "Alexandre Miguel":
+          - img "Alexandre Miguel":
+        - cell "5":
+          - generic: "5"
+  - heading "Work items completed outside of sprint" [level=3]
+  - table:
+    - rowgroup:
+      - row "Key Summary Work type Epic Status Assignee Story points":
+        - columnheader "Key":
+          - button "Key":
+            - generic: Key
+        - columnheader "Summary":
+          - button "Summary":
+            - generic: Summary
+        - columnheader "Work type":
+          - button "Work type":
+            - generic: Work type
+        - columnheader "Epic":
+          - button "Epic":
+            - generic: Epic
+        - columnheader "Status":
+          - button "Status":
+            - generic: Status
+        - columnheader "Assignee":
+          - button "Assignee":
+            - generic: Assignee
+        - columnheader "Story points"
+  - generic: No work items have been completed outside of the sprint

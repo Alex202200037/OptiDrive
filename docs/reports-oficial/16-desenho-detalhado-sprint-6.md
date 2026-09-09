@@ -58,7 +58,7 @@ O incremento foi desenvolvido no projeto `OptiDrive.Web`, mantendo a separação
 | RF-M08-01 | M08 | Must | Implementado | O sistema deverá expor `/health` com estado da aplicação, contagens e disponibilidade das integrações, sem revelar segredos. | `OP-80` |
 | RF-M08-02 | M08 | Must | Implementado | O administrador deverá entrar no backoffice e não deverá aceder a fluxos exclusivos de condutor. | `OP-81` |
 | RF-M08-03 | M08 | Should | Implementado | A landing page deverá comunicar os fluxos de garagem, planeamento e colaboração de forma clara e responsiva. | `OP-82` |
-| RF-M08-04 | M08 | Must | Revalidado em 02/09/2026 | O backoffice deverá apresentar evidências acionáveis de pipeline, testes, stress, roadmap MoSCoW, estado operacional, Jira e Confluence. | `OP-83` |
+| RF-M08-04 | M08 | Must | Revalidado em 08/09/2026 | O backoffice deverá apresentar evidências acionáveis de pipeline, testes, stress, healthcheck, Jira e Confluence. | `OP-83` |
 | RF-M08-05 | M08 | Must | Implementado | A solução deverá compilar, testar, publicar e construir em Docker de forma reproduzível. | `OP-84` |
 
 Todos os requisitos previstos para a Sprint 6 foram implementados. O login Apple mantém-se configurável, mas sem credenciais de produção, e CarPlay/Android Auto permanecem classificados como `Won't Have` no âmbito académico atual.
@@ -379,4 +379,3 @@ Manter `GOOGLE_MAPS_BROWSER_ENABLED=false` quando a faturação/API JavaScript n
 | Testes | `OptiDrive.Web.Tests` |
 | Stress test | `docs/evidence/stress-test-500-users-500-vehicles-2026-07-13.txt` |
 | Pipeline | `.github/workflows/ci.yml` e `.github/workflows/azure-deploy.yml` |
-

@@ -1,0 +1,34 @@
+OptiDrive - Resumo da validação final
+Data: 08/09/2026
+
+Código e operação:
+- Formatação: APROVADA
+- Build Release: APROVADO (0 erros; 0 avisos)
+- Testes automatizados: APROVADOS (16/16)
+- Stress 500+500: APROVADO (7,998 s + 0,405 s; total 8,402 s)
+- Vulnerabilidades NuGet conhecidas: 0
+- Docker: healthy; HTTP /health 200
+- Persistência após reinício: APROVADA (8 users; 8 vehicles; 2 routes)
+- Última validação apresentada no Backoffice: 08/09/2026
+
+Documentação e diagramas:
+- Documentos oficiais locais: 25
+- Colocações de diagramas: 33
+- Diagramas únicos: 13
+- Ligações locais inexistentes: 0
+- Marcadores editoriais proibidos: 0
+- Páginas Confluence lidas: 36
+- Páginas Confluence vazias: 0
+- Páginas Confluence a sincronizar: 0
+- Colocações gráficas críticas auditadas no Confluence: 15 em 7 páginas
+- Gráficos colocados após a respetiva legenda e fora de tabelas: 15/15
+- Marcadores de diagrama por substituir no Confluence: 0
+- Página principal e dashboard técnico: ATUALIZADOS
+- Estado Azure publicado: CONDICIONADO (sem credenciais ativas)
+
+Jira Sprint 8:
+- 8/8 itens concluídos; 36/36 story points
+- 0 itens incompletos; 0 concluídos fora da sprint
+- Histórico do Jira preservado; Sprints 1-5 não alterados
+- Descontinuidade do Burndown explicada por 6 remoções + 6 reinserções (saldo 0 SP)
+- Revalidação adicional de stress em 09/09/2026: APROVADA (8,666 s total)

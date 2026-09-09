@@ -1,0 +1,5 @@
+Before: {'users': 8, 'vehicles': 8, 'routes': 2}
+After:  {'users': 8, 'vehicles': 8, 'routes': 2}
+Persistent counts unchanged: True
+Health before: Healthy
+Health after:  Healthy

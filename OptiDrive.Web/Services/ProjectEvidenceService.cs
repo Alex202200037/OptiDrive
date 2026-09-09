@@ -9,7 +9,7 @@ public sealed class ProjectEvidenceService(IConfiguration configuration)
         var automatedTests = PositiveValue("ProjectEvidence:AutomatedTestCount", 16);
         var stressUsers = PositiveValue("ProjectEvidence:StressUserCount", 500);
         var stressVehicles = PositiveValue("ProjectEvidence:StressVehicleCount", 500);
-        var lastVerifiedOn = configuration["ProjectEvidence:LastVerifiedOn"] ?? "02/09/2026";
+        var lastVerifiedOn = configuration["ProjectEvidence:LastVerifiedOn"] ?? "08/09/2026";
 
         return new ProjectEvidenceViewModel
         {

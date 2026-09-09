@@ -4,8 +4,8 @@
 | --- | --- |
 | Documento | Matriz de Testes de Aceitação (UAT) |
 | Projeto | OptiDrive |
-| Versão | 1.2 |
-| Data | 07/09/2026 |
+| Versão | 1.3 |
+| Data | 08/09/2026 |
 | Responsável | Alexandre Miguel |
 
 ## Critério de classificação
@@ -18,7 +18,7 @@
 
 ## Matriz de aceitação
 
-| ID | Requisito/Área | Cenário | Resultado esperado | Estado 07/09 | Evidência |
+| ID | Requisito/Área | Cenário | Resultado esperado | Estado 08/09 | Evidência |
 | --- | --- | --- | --- | --- | --- |
 | UAT-001 | RF-M01-01 Login | Autenticar conta local válida | Sessão e dashboard corretos | Aprovado | `Register_StoresHashedPasswordAndValidatesLogin` |
 | UAT-002 | RF-M01-05 MFA | Introduzir TOTP válido | Segundo fator aceite; inválido bloqueado | Aprovado | `Authenticator_CanBeEnabledAndVerifiedWithTotp` |
@@ -34,11 +34,11 @@
 | UAT-012 | RF-M07 Autorização | Tentar ação admin com dois papéis | Só admin altera segurança | Aprovado | `AdminActions_ManageUserSecurityWithoutAllowingRegularUsers` |
 | UAT-013 | RF-M08-04 Evidências | Abrir seis cartões do backoffice | Fontes corretas e sem segredos | Aprovado | `ProjectEvidenceServiceTests` + smoke visual local de 04/09 |
 | UAT-014 | RF-M08-01 Health | Consultar `/health` | 200, Healthy e sem segredos | Aprovado | `HealthControllerTests` + `healthcheck-2026-09-04.txt` |
-| UAT-015 | UI | Alternar tema/idioma em desktop/mobile | Sem perda de navegação | Aprovado | Smoke mobile 390×844 em PT/claro e EN/escuro; tradução residual da homepage corrigida em 07/09 |
-| UAT-016 | Persistência | Reiniciar aplicação/contentor | Dados mantidos | Aprovado | `docker-persistence-health-2026-09-07.txt`: 8 utilizadores, 8 veículos e 2 rotas antes/depois do reinício |
-| UAT-017 | CI | Executar workflow | Build, testes, publish e Docker | Aprovado | GitHub Actions `34164627808`: restore, build, formatação, auditoria NuGet, 16/16 testes, TRX, publish e Docker aprovados |
-| UAT-018 | Docker | Build e arranque Compose | Contentor e health operacionais | Aprovado | Compose reconstruído; contentor `healthy`, `/health` HTTP 200 e healthcheck automático ativo em 07/09 |
-| UAT-019 | Stress | 500 users + 500 veículos | Operações < 10 s, sem exceções | Aprovado | 8,518 s para criação e 0,327 s para 500 dashboards após otimização em 07/09 |
+| UAT-015 | UI | Alternar tema/idioma em desktop/mobile | Sem perda de navegação | Aprovado | Smoke desktop repetido em 08/09; evidências mobile 390×844 em PT/claro e EN/escuro preservadas |
+| UAT-016 | Persistência | Reiniciar aplicação/contentor | Dados mantidos | Aprovado | `10-persistence-comparison.txt`: 8 utilizadores, 8 veículos e 2 rotas antes/depois do reinício |
+| UAT-017 | CI | Executar workflow | Build, testes, publish e Docker | Aprovado | GitHub Actions `34206950037`: restore, build, formatação, auditoria NuGet, 16/16 testes, TRX, publish e Docker aprovados |
+| UAT-018 | Docker | Build e arranque Compose | Contentor e health operacionais | Aprovado | Compose reconstruído; contentor `healthy`, `/health` HTTP 200 e persistência revalidada em 08/09 |
+| UAT-019 | Stress | 500 users + 500 veículos | Operações < 10 s, sem exceções | Aprovado | Criação em 7,998 s, 500 dashboards em 0,405 s e total em 8,402 s em 08/09 |
 | UAT-020 | Documentação | Cruzar requisitos/issues/testes/páginas | Sem vazios ou contradições | Aprovado | Auditoria final: 25 documentos verificados e 0 destinos Markdown locais inexistentes |
 
 ## Resultado atual
@@ -53,6 +53,18 @@
 | Reprovados | 0 |
 
 A matriz foi encerrada após execução e identificação da evidência. Os dois casos condicionados dependem de credenciais e serviços OAuth externos, não representando falhas funcionais do produto validado.
+
+## Execução de aceitação de 08/09/2026
+
+- Formatação verificada sem alterações pendentes; build Release com zero erros e zero avisos.
+- Suite final com `16/16` testes aprovados e resultado TRX guardado.
+- Auditoria NuGet sem pacotes vulneráveis conhecidos.
+- Stress 500+500 aprovado: criação em 7,998 s, 500 dashboards em 0,405 s e total em 8,402 s.
+- Docker Compose reconstruído e iniciado; contentor confirmado como `healthy`.
+- `/health` respondeu HTTP 200; 8 utilizadores, 8 veículos e 2 rotas foram preservados após reinício.
+- Smoke visual concluído como visitante, condutor e administrador em PT/EN e claro/escuro.
+- Treze diagramas únicos, usados em 33 colocações documentais, foram revistos; Gantt, Burndown global e Velocity foram atualizados para os oito sprints.
+- Execução CI `34206950037` aprovada; workflow Azure `34207149170` terminou corretamente com o deploy omitido por ausência de credenciais externas.
 
 ## Execução de aceitação de 07/09/2026
 
@@ -100,3 +112,4 @@ A matriz foi encerrada após execução e identificação da evidência. Os dois
 - Teste detalhado após otimização: `evidencias/sprint-8/final-2026-09-07/stress-optimized-validation.txt`.
 - Readiness final da pipeline: `evidencias/sprint-8/final-2026-09-07/ci-readiness-final.txt`.
 - Execução remota CI/CD: `evidencias/sprint-8/final-2026-09-07/github-actions-validation.md`.
+- Pacote de evidências final de 08/09: `evidencias/final-2026-09-08/`.

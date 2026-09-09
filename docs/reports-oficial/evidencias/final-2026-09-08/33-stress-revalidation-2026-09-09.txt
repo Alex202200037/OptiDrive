@@ -1,0 +1,24 @@
+$ dotnet test OptiDrive.Web.Tests/OptiDrive.Web.Tests.csproj -c Release --no-build --filter FullyQualifiedName~StressTests --logger "console;verbosity=detailed"
+Test run for /Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.11.1 (arm64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.11)
+[xUnit.net 00:00:00.02]   Discovering: OptiDrive.Web.Tests
+[xUnit.net 00:00:00.03]   Discovered:  OptiDrive.Web.Tests
+[xUnit.net 00:00:00.04]   Starting:    OptiDrive.Web.Tests
+[xUnit.net 00:00:08.88]   Finished:    OptiDrive.Web.Tests
+  Passed OptiDrive.Web.Tests.StressTests.LocalState_With500UsersAnd500Vehicles_RemainsResponsive [8 s]
+  Standard Output Messages:
+ Criação de 500 utilizadores e 500 veículos: 8.273s
+ Construção de 500 dashboards: 0.393s
+ Total observado: 8.666s
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 9.0918 Seconds

@@ -28,7 +28,7 @@
 
 O projeto OptiDrive encontra-se no ciclo final de aceitação como produto académico funcional. A solução foi implementada como aplicação web ASP.NET Core MVC com autenticação, garagem de veículos, planeamento de viagens, Smart Save, postos de combustível, carregadores elétricos, área social, administração, Docker, Azure e documentação em Jira/Confluence.
 
-A auditoria técnica e o encerramento administrativo do Sprint 8 foram concluídos antecipadamente em 07/09/2026, após a publicação das evidências finais no Jira e Confluence. O Sprint Report confirma `8/8` itens e `36/36` story points concluídos, sem trabalho incompleto ou concluído fora do sprint. O produto dispõe de base técnica suficiente para demonstração local/Docker e evolução futura, mantendo condicionantes externas de OAuth/Azure e riscos residuais identificados para uma eventual passagem a produção comercial.
+A auditoria técnica foi revalidada em 08/09/2026, após o encerramento administrativo do Sprint 8 no Jira em 07/09/2026. O Sprint Report confirma `8/8` itens e `36/36` story points concluídos, sem trabalho incompleto ou concluído fora do sprint. O produto dispõe de base técnica suficiente para demonstração local/Docker e evolução futura, mantendo condicionantes externas de OAuth/Azure e riscos residuais identificados para uma eventual passagem a produção comercial.
 
 ### 1.2 Ficha de Identidade do Projeto
 
@@ -188,15 +188,15 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | Sprint 5 | 17/06/2026 - 30/06/2026 | DevOps, administração e entrega final | Fechada |
 | Sprint 6 | 29/08/2026 - 31/08/2026 | Melhorias de código, UI e readiness | Fechada |
 | Sprint 7 | 29/08/2026 - 31/08/2026 | Polimento e estabilidade | Fechada |
-| Sprint 8 | 02/09/2026 - 08/09/2026 | Auditoria final, aceitação e entrega | Encerrada antecipadamente no Jira em 07/09/2026 |
+| Sprint 8 | 03/09/2026 - 08/09/2026 | Auditoria final, aceitação e entrega | Encerrada antecipadamente no Jira em 07/09/2026 |
 
 ![Figura 1 - Burndown geral](assets/diagrams/burndown-geral.png)
 
-*Figura 1 - Burndown geral.*
+*Figura 1 - Burndown global documentado do âmbito consolidado. Os Burndowns automáticos de cada sprint mantêm-se no Jira como fonte operacional.*
 
 ![Figura 2 - Velocity geral](assets/diagrams/velocity-geral.png)
 
-*Figura 2 - Velocity geral.*
+*Figura 2 - Velocity documentada: S1-S5 correspondem às estimativas históricas do projeto e S6-S8 aos resultados automáticos do Jira.*
 
 ### 5.2 KPIs de Cronograma
 
@@ -206,7 +206,7 @@ O âmbito entregue corresponde aos módulos definidos na AER: identidade, garage
 | Sprints encerradas | 8 | 8 ciclos concluídos; Sprint 8 fechado no Jira em 07/09/2026 |
 | Desenhos detalhados | 8 | 8 concluídos |
 | Ata por sprint | 8 | 8 concluídas |
-| Revisão final documental | Sim | Concluída em 07/09/2026 |
+| Revisão final documental | Sim | Revalidada em 08/09/2026 |
 
 ## 6. Desempenho de Orçamento
 
@@ -217,7 +217,7 @@ O projeto não teve orçamento comercial formal. Foram usados recursos gratuitos
 | Recursos humanos | N/A | Esforço individual elevado | Trabalho acumulado por um elemento |
 | Licenças software | 0 EUR | 0 EUR | Uso de ferramentas gratuitas/académicas |
 | Infraestrutura local | 0 EUR | 0 EUR | MacBook + Docker local |
-| Azure/App Service | Crédito/conta académica | Controlado | Ambiente de apresentação |
+| Azure/App Service | Crédito/conta académica | Sem custo confirmado | Configuração preparada; ambiente público não ativo no fecho |
 | APIs externas | Chaves próprias/quotas | Controlado | Google Maps/OpenChargeMap |
 
 ## 7. Desempenho de Qualidade
@@ -227,7 +227,7 @@ O projeto não teve orçamento comercial formal. Foram usados recursos gratuitos
 | Evidência | Resultado |
 | --- | --- |
 | `dotnet build` | Validável na solução `OptiDrive.sln` |
-| `dotnet test` | 16 testes automatizados aprovados em Release; stress 500+500 com criação em 8,518 s e 500 dashboards em 0,327 s |
+| `dotnet test` | 16 testes automatizados aprovados em Release; stress 500+500 com criação em 7,998 s e 500 dashboards em 0,405 s |
 | Testes SmartSaveService | Autonomia, reforços e consumo por velocidade |
 | Testes AppStateService | Garagem, rotas aplicadas, social, MFA e admin |
 | Healthcheck | Endpoint `/health` disponível |
@@ -320,7 +320,7 @@ A execução foi concentrada em Alexandre Miguel, acumulando funções de Projec
 | --- | --- | --- | --- | --- | --- | --- |
 | B-001 | Planear viagens com custo/autonomia | Fluxo planeamento | Funcional | Funcional | 100% | Produto |
 | B-002 | Associar rota ao veículo real | Histórico e nível | Funcional | Funcional | 100% | Produto |
-| B-003 | Apoiar viagens colaborativas | Social/viagens | Protótipo funcional | Funcional | 90% | Produto |
+| B-003 | Apoiar viagens colaborativas | Social/viagens | Funcionalidade implementada | Funcional | 90% | Produto |
 | B-004 | Ter base vendável/demonstrável | Demo + documentação | Apresentável | Apresentável | 85% | Produto/DevOps |
 | B-005 | Reduzir incerteza em combustível/carga | Smart Save | Funcional | Funcional com dados externos | 85% | Produto |
 
@@ -348,7 +348,7 @@ Não existem contratos comerciais ativos. Para passagem a produção seriam nece
 | Fontes de combustível | Postos/preços | Parcial/fallback | Contratualizar ou validar fonte oficial |
 | Google OAuth | Login externo | Configurável | Validar domínio final |
 | Microsoft OAuth | Login externo | Configurável | Validar app registration final |
-| Azure App Service | Hosting | Criado para demonstração | Hardening e monitorização |
+| Azure App Service | Hosting | Configuração e workflow preparados; ambiente público não ativo | Adicionar credenciais, publicar e ativar monitorização |
 
 ## 16. Plano de Transição e Suporte
 

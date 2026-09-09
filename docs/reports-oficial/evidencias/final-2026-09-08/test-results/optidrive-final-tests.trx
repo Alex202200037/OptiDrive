@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="49b9c0b6-8b80-4318-90d3-0355967cb3c8" name="@MacBook-Pro-de-Alexandre 2026-09-09 11:04:20" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-09T11:04:20.7955430+01:00" queuing="2026-09-09T11:04:20.7955430+01:00" start="2026-09-09T11:04:20.2847780+01:00" finish="2026-09-09T11:04:29.3799330+01:00" />
+  <TestSettings name="default" id="7059b307-2662-4550-beab-107ad75f355d">
+    <Deployment runDeploymentRoot="_MacBook-Pro-de-Alexandre_2026-09-09_11_04_20" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9b874ffc-1838-47f5-8c03-d1179ed5d870" testId="140f5b61-887a-e146-017c-90b90a057b51" testName="OptiDrive.Web.Tests.AppStateServiceTests.RefuelVehicle_UpdatesLevelCostAndGarageHistory" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1750162" startTime="2026-09-09T11:04:21.2973590+01:00" endTime="2026-09-09T11:04:21.2973590+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9b874ffc-1838-47f5-8c03-d1179ed5d870" />
+    <UnitTestResult executionId="f8530824-0e07-49b4-bfd4-e115b0d969a2" testId="17dc7293-379a-395b-d090-b7684d4f2ac3" testName="OptiDrive.Web.Tests.AppStateServiceTests.Authenticator_CanBeEnabledAndVerifiedWithTotp" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1998940" startTime="2026-09-09T11:04:21.4973200+01:00" endTime="2026-09-09T11:04:21.4973200+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f8530824-0e07-49b4-bfd4-e115b0d969a2" />
+    <UnitTestResult executionId="9985aebe-7d45-4428-933e-ced8c6d389f6" testId="8761c955-5e9f-f42f-537e-104a962a6e85" testName="OptiDrive.Web.Tests.AppStateServiceTests.ApplyRouteToVehicle_UpdatesVehicleStateAndMarksRouteAsApplied" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1776552" startTime="2026-09-09T11:04:20.9478790+01:00" endTime="2026-09-09T11:04:20.9478790+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9985aebe-7d45-4428-933e-ced8c6d389f6" />
+    <UnitTestResult executionId="599605f9-9fcc-455b-8452-e03fdf530593" testId="65b23e43-65a6-62f7-d775-8c15329b95fe" testName="OptiDrive.Web.Tests.AppStateServiceTests.AdminActions_ManageUserSecurityWithoutAllowingRegularUsers" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.2267410" startTime="2026-09-09T11:04:20.7701620+01:00" endTime="2026-09-09T11:04:20.7701620+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="599605f9-9fcc-455b-8452-e03fdf530593" />
+    <UnitTestResult executionId="e2284edc-fbd4-409d-9c3a-da94fb1f4154" testId="9a97d59d-22b5-1256-d573-5707cf46a017" testName="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_WithEnoughAutonomy_RecommendsStationWithoutIntermediateStops" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0380131" startTime="2026-09-09T11:04:20.5813820+01:00" endTime="2026-09-09T11:04:20.5813820+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2284edc-fbd4-409d-9c3a-da94fb1f4154" />
+    <UnitTestResult executionId="8e4e9a22-5f42-4371-b114-3cc23689cfe8" testId="fcbcb72d-7175-1b50-ad3c-959bd8a2fa97" testName="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_UsesConfiguredQualityMetrics" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0009099" startTime="2026-09-09T11:04:20.5595170+01:00" endTime="2026-09-09T11:04:20.5595170+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e4e9a22-5f42-4371-b114-3cc23689cfe8" />
+    <UnitTestResult executionId="620308c8-1070-475b-b3d2-7b89618014a2" testId="7701ec63-4f89-c2ed-d30b-c92adec1264b" testName="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_ForLowBatteryEv_PlansIntermediateStops" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0037540" startTime="2026-09-09T11:04:20.5851780+01:00" endTime="2026-09-09T11:04:20.5851780+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="620308c8-1070-475b-b3d2-7b89618014a2" />
+    <UnitTestResult executionId="dadd5cc0-0a25-4f44-9b2a-aeccddaadd9e" testId="ead8957d-54b8-ffc8-23fc-caf3da1c7474" testName="OptiDrive.Web.Tests.AppStateServiceTests.Register_StoresHashedPasswordAndValidatesLogin" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1862754" startTime="2026-09-09T11:04:22.0365620+01:00" endTime="2026-09-09T11:04:22.0365620+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dadd5cc0-0a25-4f44-9b2a-aeccddaadd9e" />
+    <UnitTestResult executionId="0cdf1e46-b39a-42c8-8d51-923f5f3231c2" testId="ffe5f03e-985c-4d0e-e7c3-92569050d694" testName="OptiDrive.Web.Tests.AppStateServiceTests.SendDirectMessage_AddsConversationToSocialDashboard" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1713534" startTime="2026-09-09T11:04:21.8502010+01:00" endTime="2026-09-09T11:04:21.8502010+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0cdf1e46-b39a-42c8-8d51-923f5f3231c2" />
+    <UnitTestResult executionId="b3e3d776-338b-4543-a9b7-155d3a020628" testId="48ffcec7-00f2-3028-9b81-b521da69cfa0" testName="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_FallsBackWhenMetricsAreInvalid" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0000556" startTime="2026-09-09T11:04:20.5596280+01:00" endTime="2026-09-09T11:04:20.5596280+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b3e3d776-338b-4543-a9b7-155d3a020628" />
+    <UnitTestResult executionId="e7492c6e-91b2-4bcd-93ee-670e6cf39005" testId="776cf889-228f-2f1f-d1be-5b8e2096def3" testName="OptiDrive.Web.Tests.HealthControllerTests.Index_ReturnsHealthyStatusWithoutSecrets" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1811815" startTime="2026-09-09T11:04:20.7245660+01:00" endTime="2026-09-09T11:04:20.7245660+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7492c6e-91b2-4bcd-93ee-670e6cf39005" />
+    <UnitTestResult executionId="d50b600b-6bc8-4545-a947-1632b4aa7e8a" testId="2877a2a6-e915-e7cd-8c18-27ed59f5ec93" testName="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_ReturnsAllActionableEvidenceSources" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0138498" startTime="2026-09-09T11:04:20.5583060+01:00" endTime="2026-09-09T11:04:20.5583130+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d50b600b-6bc8-4545-a947-1632b4aa7e8a" />
+    <UnitTestResult executionId="1288ac8f-1a8a-4114-a482-4bb0ad8d6877" testId="7538261b-394d-3da6-9a7c-a0988a6dd6b3" testName="OptiDrive.Web.Tests.AppStateServiceTests.AddVehicle_ForNewUser_CreatesDefaultVehicleAndHistoryEntry" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1813263" startTime="2026-09-09T11:04:21.6787690+01:00" endTime="2026-09-09T11:04:21.6787690+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1288ac8f-1a8a-4114-a482-4bb0ad8d6877" />
+    <UnitTestResult executionId="2a2703cf-3ebd-46ae-926a-35acc3e4bcb7" testId="46631bcf-ee3c-e362-3c9d-8575e78ad777" testName="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_HigherSpeed_IncreasesConsumptionEstimate" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.0004663" startTime="2026-09-09T11:04:20.5856690+01:00" endTime="2026-09-09T11:04:20.5856690+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a2703cf-3ebd-46ae-926a-35acc3e4bcb7" />
+    <UnitTestResult executionId="d102b18a-c51c-422f-9270-6fed16e89969" testId="dbe75cc7-5e63-eee2-e461-dece54bf47d8" testName="OptiDrive.Web.Tests.AppStateServiceTests.CollaborativeTrip_CanBeCreatedJoinedAndStarted" computerName="MacBook-Pro-de-Alexandre" duration="00:00:00.1742911" startTime="2026-09-09T11:04:21.1222530+01:00" endTime="2026-09-09T11:04:21.1222530+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d102b18a-c51c-422f-9270-6fed16e89969" />
+    <UnitTestResult executionId="d8379fac-d5fa-46ef-ba9b-d101411f4b8e" testId="bc29fc34-1088-f8da-d08a-8e9a2dde12c6" testName="OptiDrive.Web.Tests.StressTests.LocalState_With500UsersAnd500Vehicles_RemainsResponsive" computerName="MacBook-Pro-de-Alexandre" duration="00:00:08.8128667" startTime="2026-09-09T11:04:29.3564260+01:00" endTime="2026-09-09T11:04:29.3564260+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d8379fac-d5fa-46ef-ba9b-d101411f4b8e">
+      <Output>
+        <StdOut>Criação de 500 utilizadores e 500 veículos: 8.302s
+Construção de 500 dashboards: 0.335s
+Total observado: 8.636s</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.SendDirectMessage_AddsConversationToSocialDashboard" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="ffe5f03e-985c-4d0e-e7c3-92569050d694">
+      <Execution id="0cdf1e46-b39a-42c8-8d51-923f5f3231c2" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="SendDirectMessage_AddsConversationToSocialDashboard" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.ApplyRouteToVehicle_UpdatesVehicleStateAndMarksRouteAsApplied" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="8761c955-5e9f-f42f-537e-104a962a6e85">
+      <Execution id="9985aebe-7d45-4428-933e-ced8c6d389f6" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="ApplyRouteToVehicle_UpdatesVehicleStateAndMarksRouteAsApplied" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_HigherSpeed_IncreasesConsumptionEstimate" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="46631bcf-ee3c-e362-3c9d-8575e78ad777">
+      <Execution id="2a2703cf-3ebd-46ae-926a-35acc3e4bcb7" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.SmartSaveServiceTests" name="BuildRouteAsync_HigherSpeed_IncreasesConsumptionEstimate" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.CollaborativeTrip_CanBeCreatedJoinedAndStarted" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="dbe75cc7-5e63-eee2-e461-dece54bf47d8">
+      <Execution id="d102b18a-c51c-422f-9270-6fed16e89969" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="CollaborativeTrip_CanBeCreatedJoinedAndStarted" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.StressTests.LocalState_With500UsersAnd500Vehicles_RemainsResponsive" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="bc29fc34-1088-f8da-d08a-8e9a2dde12c6">
+      <Execution id="d8379fac-d5fa-46ef-ba9b-d101411f4b8e" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.StressTests" name="LocalState_With500UsersAnd500Vehicles_RemainsResponsive" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_FallsBackWhenMetricsAreInvalid" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="48ffcec7-00f2-3028-9b81-b521da69cfa0">
+      <Execution id="b3e3d776-338b-4543-a9b7-155d3a020628" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.ProjectEvidenceServiceTests" name="Build_FallsBackWhenMetricsAreInvalid" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_UsesConfiguredQualityMetrics" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="fcbcb72d-7175-1b50-ad3c-959bd8a2fa97">
+      <Execution id="8e4e9a22-5f42-4371-b114-3cc23689cfe8" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.ProjectEvidenceServiceTests" name="Build_UsesConfiguredQualityMetrics" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.AdminActions_ManageUserSecurityWithoutAllowingRegularUsers" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="65b23e43-65a6-62f7-d775-8c15329b95fe">
+      <Execution id="599605f9-9fcc-455b-8452-e03fdf530593" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="AdminActions_ManageUserSecurityWithoutAllowingRegularUsers" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.ProjectEvidenceServiceTests.Build_ReturnsAllActionableEvidenceSources" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="2877a2a6-e915-e7cd-8c18-27ed59f5ec93">
+      <Execution id="d50b600b-6bc8-4545-a947-1632b4aa7e8a" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.ProjectEvidenceServiceTests" name="Build_ReturnsAllActionableEvidenceSources" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.Register_StoresHashedPasswordAndValidatesLogin" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="ead8957d-54b8-ffc8-23fc-caf3da1c7474">
+      <Execution id="dadd5cc0-0a25-4f44-9b2a-aeccddaadd9e" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="Register_StoresHashedPasswordAndValidatesLogin" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_ForLowBatteryEv_PlansIntermediateStops" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="7701ec63-4f89-c2ed-d30b-c92adec1264b">
+      <Execution id="620308c8-1070-475b-b3d2-7b89618014a2" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.SmartSaveServiceTests" name="BuildRouteAsync_ForLowBatteryEv_PlansIntermediateStops" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.Authenticator_CanBeEnabledAndVerifiedWithTotp" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="17dc7293-379a-395b-d090-b7684d4f2ac3">
+      <Execution id="f8530824-0e07-49b4-bfd4-e115b0d969a2" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="Authenticator_CanBeEnabledAndVerifiedWithTotp" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.SmartSaveServiceTests.BuildRouteAsync_WithEnoughAutonomy_RecommendsStationWithoutIntermediateStops" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="9a97d59d-22b5-1256-d573-5707cf46a017">
+      <Execution id="e2284edc-fbd4-409d-9c3a-da94fb1f4154" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.SmartSaveServiceTests" name="BuildRouteAsync_WithEnoughAutonomy_RecommendsStationWithoutIntermediateStops" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.RefuelVehicle_UpdatesLevelCostAndGarageHistory" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="140f5b61-887a-e146-017c-90b90a057b51">
+      <Execution id="9b874ffc-1838-47f5-8c03-d1179ed5d870" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="RefuelVehicle_UpdatesLevelCostAndGarageHistory" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.HealthControllerTests.Index_ReturnsHealthyStatusWithoutSecrets" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="776cf889-228f-2f1f-d1be-5b8e2096def3">
+      <Execution id="e7492c6e-91b2-4bcd-93ee-670e6cf39005" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.HealthControllerTests" name="Index_ReturnsHealthyStatusWithoutSecrets" />
+    </UnitTest>
+    <UnitTest name="OptiDrive.Web.Tests.AppStateServiceTests.AddVehicle_ForNewUser_CreatesDefaultVehicleAndHistoryEntry" storage="/users/alexandremiguel/documents/documents - macbook pro de alexandre/gitrepositorios/optidrive/optidrive.web.tests/bin/release/net8.0/optidrive.web.tests.dll" id="7538261b-394d-3da6-9a7c-a0988a6dd6b3">
+      <Execution id="1288ac8f-1a8a-4114-a482-4bb0ad8d6877" />
+      <TestMethod codeBase="/Users/alexandremiguel/Documents/Documents - MacBook Pro de Alexandre/GitRepositorios/OptiDrive/OptiDrive.Web.Tests/bin/Release/net8.0/OptiDrive.Web.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="OptiDrive.Web.Tests.AppStateServiceTests" name="AddVehicle_ForNewUser_CreatesDefaultVehicleAndHistoryEntry" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="140f5b61-887a-e146-017c-90b90a057b51" executionId="9b874ffc-1838-47f5-8c03-d1179ed5d870" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17dc7293-379a-395b-d090-b7684d4f2ac3" executionId="f8530824-0e07-49b4-bfd4-e115b0d969a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8761c955-5e9f-f42f-537e-104a962a6e85" executionId="9985aebe-7d45-4428-933e-ced8c6d389f6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65b23e43-65a6-62f7-d775-8c15329b95fe" executionId="599605f9-9fcc-455b-8452-e03fdf530593" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a97d59d-22b5-1256-d573-5707cf46a017" executionId="e2284edc-fbd4-409d-9c3a-da94fb1f4154" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fcbcb72d-7175-1b50-ad3c-959bd8a2fa97" executionId="8e4e9a22-5f42-4371-b114-3cc23689cfe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7701ec63-4f89-c2ed-d30b-c92adec1264b" executionId="620308c8-1070-475b-b3d2-7b89618014a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ead8957d-54b8-ffc8-23fc-caf3da1c7474" executionId="dadd5cc0-0a25-4f44-9b2a-aeccddaadd9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ffe5f03e-985c-4d0e-e7c3-92569050d694" executionId="0cdf1e46-b39a-42c8-8d51-923f5f3231c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="48ffcec7-00f2-3028-9b81-b521da69cfa0" executionId="b3e3d776-338b-4543-a9b7-155d3a020628" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="776cf889-228f-2f1f-d1be-5b8e2096def3" executionId="e7492c6e-91b2-4bcd-93ee-670e6cf39005" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2877a2a6-e915-e7cd-8c18-27ed59f5ec93" executionId="d50b600b-6bc8-4545-a947-1632b4aa7e8a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7538261b-394d-3da6-9a7c-a0988a6dd6b3" executionId="1288ac8f-1a8a-4114-a482-4bb0ad8d6877" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="46631bcf-ee3c-e362-3c9d-8575e78ad777" executionId="2a2703cf-3ebd-46ae-926a-35acc3e4bcb7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dbe75cc7-5e63-eee2-e461-dece54bf47d8" executionId="d102b18a-c51c-422f-9270-6fed16e89969" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bc29fc34-1088-f8da-d08a-8e9a2dde12c6" executionId="d8379fac-d5fa-46ef-ba9b-d101411f4b8e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="16" executed="16" passed="16" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.11)
+[xUnit.net 00:00:00.03]   Discovering: OptiDrive.Web.Tests
+[xUnit.net 00:00:00.04]   Discovered:  OptiDrive.Web.Tests
+[xUnit.net 00:00:00.04]   Starting:    OptiDrive.Web.Tests
+[xUnit.net 00:00:08.87]   Finished:    OptiDrive.Web.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

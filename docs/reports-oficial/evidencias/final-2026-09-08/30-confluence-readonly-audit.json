@@ -1,0 +1,256 @@
+{
+  "audited_at": "2026-09-09",
+  "scope": "Corpo publicado e anexos da documentação final do OptiDrive no Confluence",
+  "summary": {
+    "pages_audited": 36,
+    "pages_failed": 0,
+    "empty_pages": 0,
+    "pages_to_sync": 0,
+    "diagram_placeholders": 0,
+    "stale_final_metrics": 0,
+    "false_azure_online_claims": 0,
+    "final_product_described_as_prototype": 0,
+    "root_links_complete": true,
+    "sprints_1_to_5_untouched": true
+  },
+  "graphic_placement_audit": {
+    "pages": 7,
+    "placements": 15,
+    "all_after_caption": true,
+    "all_outside_tables": true,
+    "all_visible": true,
+    "details": [
+      {
+        "id": "96960547",
+        "document": "AER",
+        "placements": 2,
+        "status": "ok"
+      },
+      {
+        "id": "112754692",
+        "document": "Desenho Detalhado Sprint 6",
+        "placements": 3,
+        "status": "ok"
+      },
+      {
+        "id": "118063105",
+        "document": "Desenho Detalhado Sprint 7",
+        "placements": 2,
+        "status": "ok"
+      },
+      {
+        "id": "113934345",
+        "document": "Desenho Detalhado Sprint 8",
+        "placements": 3,
+        "status": "ok"
+      },
+      {
+        "id": "97058954",
+        "document": "Documento de Encerramento",
+        "placements": 2,
+        "status": "ok"
+      },
+      {
+        "id": "96927874",
+        "document": "Plano de Testes e Métricas",
+        "placements": 2,
+        "status": "ok"
+      },
+      {
+        "id": "96567433",
+        "document": "DevOps e Gestão de Erros",
+        "placements": 1,
+        "status": "ok"
+      }
+    ]
+  },
+  "checks": {
+    "root_page": "Índice final, ligações, métricas, estado do Sprint 8 e limitações atualizados",
+    "dashboard": "Azure apresentado como condicionado; sem alegação de serviço público ativo",
+    "sprint_8": "8/8 itens, 36/36 story points, 0 incompletos e 0 concluídos fora da sprint",
+    "burndown": "Descontinuidade documentada como histórico preservado de remoções e reinserções de âmbito",
+    "comments": "Preservados como histórico de colaboração; não constituem o corpo documental final"
+  },
+  "pages": [
+    {
+      "id": "97189889",
+      "title": "OptiDrive - Documentação Final",
+      "status": "ok"
+    },
+    {
+      "id": "80806184",
+      "title": "OptiDrive - Dashboard Técnico",
+      "status": "ok"
+    },
+    {
+      "id": "96960547",
+      "title": "OptiDrive - Análise e Especificação de Requisitos - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96993295",
+      "title": "OptiDrive - Desenho de Alto Nível - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96567339",
+      "title": "OptiDrive - Desenho Detalhado Sprint 1 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "97058831",
+      "title": "OptiDrive - Desenho Detalhado Sprint 2 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96894987",
+      "title": "OptiDrive - Desenho Detalhado Sprint 3 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96829485",
+      "title": "OptiDrive - Desenho Detalhado Sprint 4 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "97091594",
+      "title": "OptiDrive - Desenho Detalhado Sprint 5 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "112754692",
+      "title": "OptiDrive - Desenho Detalhado Sprint 6 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "118063105",
+      "title": "OptiDrive - Desenho Detalhado Sprint 7 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "113934345",
+      "title": "OptiDrive - Desenho Detalhado Sprint 8 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96993332",
+      "title": "OptiDrive - Ata Sprint 1 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96927773",
+      "title": "OptiDrive - Ata Sprint 2 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96993350",
+      "title": "OptiDrive - Ata Sprint 3 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "97222657",
+      "title": "OptiDrive - Ata Sprint 4 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "97189924",
+      "title": "OptiDrive - Ata Sprint 5 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "118194177",
+      "title": "OptiDrive - Ata Sprint 6 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "117899278",
+      "title": "OptiDrive - Ata Sprint 7 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "113999873",
+      "title": "OptiDrive - Ata Sprint 8 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96567433",
+      "title": "OptiDrive - DevOps e Gestão de Erros - Final",
+      "status": "ok"
+    },
+    {
+      "id": "97058954",
+      "title": "OptiDrive - Documento de Encerramento do Projeto - Final",
+      "status": "ok"
+    },
+    {
+      "id": "96927874",
+      "title": "OptiDrive - Plano de Testes e Métricas - Final",
+      "status": "ok"
+    },
+    {
+      "id": "93323265",
+      "title": "OptiDrive - Avaliação de Usabilidade e NPS",
+      "status": "ok"
+    },
+    {
+      "id": "113967106",
+      "title": "OptiDrive - Tabela de Testes de Aceitação",
+      "status": "ok"
+    },
+    {
+      "id": "113115137",
+      "title": "OptiDrive - Relatório Jira Sprint 1",
+      "status": "ok"
+    },
+    {
+      "id": "113049603",
+      "title": "OptiDrive - Relatório Jira Sprint 2",
+      "status": "ok"
+    },
+    {
+      "id": "113213441",
+      "title": "OptiDrive - Relatório Jira Sprint 3",
+      "status": "ok"
+    },
+    {
+      "id": "113278977",
+      "title": "OptiDrive - Relatório Jira Sprint 4",
+      "status": "ok"
+    },
+    {
+      "id": "113115148",
+      "title": "OptiDrive - Relatório Jira Sprint 5",
+      "status": "ok"
+    },
+    {
+      "id": "113115165",
+      "title": "OptiDrive - Relatório Jira Sprint 6",
+      "status": "ok"
+    },
+    {
+      "id": "113377285",
+      "title": "OptiDrive - Relatório Jira Sprint 7",
+      "status": "ok"
+    },
+    {
+      "id": "114196481",
+      "title": "OptiDrive - Relatório Jira Sprint 8",
+      "status": "ok"
+    },
+    {
+      "id": "117833779",
+      "title": "OptiDrive - Sprint Retrospective 6 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "112852996",
+      "title": "OptiDrive - Sprint Retrospective 7 - Final",
+      "status": "ok"
+    },
+    {
+      "id": "115933196",
+      "title": "OptiDrive - Sprint Retrospective 8 - Final",
+      "status": "ok"
+    }
+  ]
+}
